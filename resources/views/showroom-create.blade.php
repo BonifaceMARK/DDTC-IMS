@@ -1,6 +1,5 @@
 @include('layouts.header')
 <body>
-    <div class="container-fluid">
         @if(session('success'))
             <script>
                 $(document).ready(function() {
@@ -18,73 +17,251 @@
                 </ul>
             </div>
         @endif
-
-        <form action="{{ route('units.store') }}" method="POST" enctype="multipart/form-data">
+        <div class="container-fluid mt-3">
+            <div class="row">
+                <!-- Adjusted Table Width -->
+                <div class="col-lg-8">
+        <form action="{{ route('units.store') }}" method="POST">
             @csrf
-            <table class="table table-bordered" style="font-size: 10px;">
+            <table class="table table-bordered mt-3" style="font-size: 10px;">
                 <tr>
+                    <th>Company
+                        <select  class="form-control" style="font-size: 10px;" id="Company" name="company" required
+                        style="font-size: 10px; 
+                               padding: 5px; 
+                               border-radius: 5px; 
+                               border: 1px solid #ced4da; 
+                               background-color: #f8f9fa; 
+                               color: #495057; 
+                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+                        <option value="" selected></option>
+                        <option value="DOSC">🏢 DOSC</option>
+                        <option value="DDTC">📊 DDTC</option>
+                        <option value="DBIC">🌐 DBIC</option>
+                    </select>
+                    </th>
                     <th>Brand
-                        <input type="text" class="form-control"  style="font-size: 10px;" id="brand" name="brand" required>
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Brand" name="brand" required>
                     </th>
                     <th>Model
-                        <input type="text" class="form-control"  style="font-size: 10px;" id="model" name="model" required>
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Model" name="model" required>
                     </th>
-                    <th>Device Type
-                        <input type="text" class="form-control"  style="font-size: 10px;" id="dev_type" name="dev_type" required>
-                    </th>
+                
                 </tr>
-            
+                <tr>
+                    <th>Device Type
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Device Type" name="dev_type" required>
+                    </th>
+                    <th>Stock Keeping Unit - SKU
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Stock Keeping Unit" name="sku" required>
+                    </th>
+                  
+                    <th>Bundle Item
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Bundle Item" name="bundle_item">
+                    </th>
+                   
+                </tr>
                 <tr>
                     <th>Description
-                        <input type="text"  style="font-size: 10px;" class="form-control" id="descript" name="descript" required></th>
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Short Description" name="desc" required>
+                    </th>
                     <th>Serial Number
-                        <input type="text" class="form-control"  style="font-size: 10px;" id="serial_no" name="serial_no" required>
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Serial Number" name="ser_no" required>
                     </th>
-                    <th>Area<input type="text" class="form-control"  style="font-size: 10px;" id="area" name="area" required></th>
-                    <th>Quantity<input type="number"  style="font-size: 10px;" class="form-control" id="qty" name="qty" required></th>
-
+                    <th>Area
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Area" name="area" required>
+                    </th>
+                   
                 </tr>
-
                 <tr>
-                    <th>Remarks<textarea class="form-control"  style="font-size: 10px;" id="remarks" name="remarks" rows="1"></textarea></th>
+                    <th>Vendor Company
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Vendor Company" name="vendor_com" required>
+                    </th>
+                    <th>Quantity
+                        <input type="number" class="form-control" style="font-size: 10px;" id="Quantity" name="qty" required>
+                    </th>
+                    <th>Allocation
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Allocation" name="allocation"></textarea>
+                    </th>
+                    
+                </tr>
+                <tr>
                     <th>Property Tag
-                        <input type="text" class="form-control"  style="font-size: 10px;" id="property_tag" name="property_tag" required>
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Property Tag" name="prop_tag" required>
                     </th>
-                    <th>Status<input type="text" class="form-control"  style="font-size: 10px;" id="status" name="status"></th>
-                    <th>Location<input type="text" class="form-control"  style="font-size: 10px;" id="location" name="location"></th>
-
+                    <th>Customer PO Reference
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Customer PO Reference" name="cust_po_ref" required>
+                    </th>
+                    <th>Category
+                        <select class="form-control" style="font-size: 10px;" id="Category" name="categ" required
+                        style="font-size: 10px; 
+                               padding: 5px; 
+                               border-radius: 5px; 
+                               border: 1px solid #ced4da; 
+                               background-color: #f8f9fa; 
+                               color: #495057; 
+                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+                        <option value="" selected></option>
+                        <option value="Audio Visual">🎵 Audio Visual</option>
+                        <option value="Computing Products">💻 Computing Products</option>
+                        <option value="Document & Data Management">📄 Document & Data Management</option>
+                        <option value="Retail Solution">🛒 Retail Solution</option>
+                    </select>
+                      </th>
                 </tr>
-              
                 <tr>
+                  
+                    <th>Sales Remarks
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Sales Remarks" name="sales_remarks">
+                    </th>
+                    <th>Input by
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Input by" name="input_by">
+                    </th>
                     <th>Unit Status
-                        <select class="form-control" id="unit_stat" name="unit_stat">
+                        <select class="form-control" style="font-size: 10px;" id="Unit Status" name="unit_stat">
                             <option value=""></option>
                             <option value="Brand New" style="background-color: #d4edda;">✨ Brand New</option>
                             <option value="Good Unit" style="background-color: #d1ecf1;">👍 Good Unit</option>
                             <option value="Demo Unit" style="background-color: #fff3cd;">🔧 Demo Unit</option>
                             <option value="Service Unit" style="background-color: #f8d7da;">🛠️ Service Unit</option>
-                          </select>
-                        </th>
-                      
-                         
-    
-                    <th>Date Added<input type="date" class="form-control"  style="font-size: 10px;" id="date_added" name="date_added"></th>
-                    <th>Date Pullout<input type="date" class="form-control"  style="font-size: 10px;" id="date_pullout" name="date_pullout"></th>
-                    <th style="font-weight: 100">"Attachment work in progress please be advised." 
-                        <input type="file"  style="font-size: 10px;" class="form-control" id="file_attach" name="file_attach"></th>
+                        </select>
+                    </th>
+                   
                 </tr>
+                <tr>
+                    <th>Vendor Type
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Vendor Type" name="vendor_type">
+                    </th>
+                    <th>Product Management Status
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Product Management Status" name="pmg_stats">
+                    </th>
+                    <th>Sales Status
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Sales Status" name="sales_stats">
+                    </th>
+                    
+                </tr>
+                 <tr>
+                   
+                    <th>Date Added
+                        <input type="date" class="form-control" style="font-size: 10px;" id="Date Added" name="date_add">
+                    </th>
+                    <th>Date Pullout
+                        <input type="date" class="form-control" style="font-size: 10px;" id="Date Pullout" name="date_pull">
+                    </th>
+                    <th>Location
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Location" name="location">
+                    </th>
+                 </tr>
             </table>
+            <a href="{{ route('import.form') }}" class="btn btn-success" style="font-size: 10px;">Import Excel</a>
 
-            <!-- Submit button -->
-            <div class="mt-3 text-center">
-                <a href="{{ route('import.form') }}" class="btn btn-success" style="font-size: 10px;">Import Excel</a>
-
-                <button type="submit" class="btn btn-primary btn-sm"  style="font-size: 10px;">Submit</button>
-                <a href="javascript:history.back();" class="btn btn-secondary" style="font-size: 10px;">Cancel</a>
-            </div>
-        </form>
+         
+    
     </div>
-    @include('layouts.footer')
-    @include('layouts.script')
+    <div class="col-lg-4">
+        <div class="card" style="border: 1px solid #ced4da; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <div class="card-body" style="background-color: #f8f9fa; padding: 20px;">
+                
+    
+                <div class="row">
+                    <!-- First Table -->
+                    <div class="col-lg-6" style="padding-right: 10px;">
+                        <div style="background-color: #ffffff; border: 1px solid #dee2e6; border-radius: 8px; padding: 10px;">
+                           
+                            <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                                <tbody id="preview-part1" style="background-color: #fff; font-size: 10px;">
+                                    <!-- First half of the values will dynamically appear here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+    
+                    <!-- Second Table -->
+                    <div class="col-lg-6" style="padding-left: 10px;">
+                        <div style="background-color: #ffffff; border: 1px solid #dee2e6; border-radius: 8px; padding: 10px;">
+                           
+                            <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                                <tbody id="preview-part2" style="background-color: #fff; font-size: 10px;">
+                                    <!-- Second half of the values will dynamically appear here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Submit Button -->
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-primary btn-sm" style="font-size: 12px; padding: 8px 20px;">Submit</button>
+            <a href="javascript:history.back();" class="btn btn-secondary btn-sm" style="font-size: 12px; padding: 8px 20px;">Cancel</a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputs = document.querySelectorAll("form input, form select");
+            const previewPart1 = document.getElementById("preview-part1");
+            const previewPart2 = document.getElementById("preview-part2");
+        
+            inputs.forEach((input, index) => {
+                input.addEventListener("input", function() {
+                    const rowId = `preview-${input.id}`;
+                    const existingRow = document.getElementById(rowId);
+        
+                    const value = input.value.trim(); // Remove any unnecessary whitespace
+        
+                    if (value) { // Only proceed if the value is non-empty
+                        if (!existingRow) {
+                            // Create a new row
+                            const newRow = document.createElement("tr");
+                            newRow.id = rowId;
+        
+                            const cell = document.createElement("td");
+                            cell.style.border = "1px solid #dee2e6";
+                            cell.style.padding = "8px";
+                            cell.style.color = "#495057";
+        
+                            // Add the label (field name) above the value
+                            const label = document.createElement("div");
+                            label.style.fontSize = "10px"; // Smaller font size for the label
+                            label.style.color = "#6c757d"; // Muted text color
+                            label.style.marginBottom = "4px";
+                            label.textContent = input.id || input.id; // Use 'name' or 'id' as label
+        
+                            const valueDiv = document.createElement("div");
+                            valueDiv.style.fontSize = "12px"; // Standard font size for the value
+                            valueDiv.textContent = value;
+        
+                            cell.appendChild(label);
+                            cell.appendChild(valueDiv);
+        
+                            newRow.appendChild(cell);
+        
+                            // Assign rows to Part 1 or Part 2 tables based on index
+                            if (index < 12) {
+                                previewPart1.appendChild(newRow); // First half
+                            } else {
+                                previewPart2.appendChild(newRow); // Second half
+                            }
+                        } else {
+                            // Update the existing row's value
+                            const cell = existingRow.children[0];
+                            cell.children[1].textContent = value; // Update the value
+                        }
+                    } else if (existingRow) {
+                        // Remove the row if the value becomes empty
+                        existingRow.remove();
+                    }
+                });
+            });
+        });
+        </script>
+        
+        
+            
+@include('layouts.footer')
+@include('layouts.script')
+
+
 </body>
 </html>

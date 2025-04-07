@@ -30,52 +30,65 @@ class ShowroomController extends Controller
      * Store a newly created unit in the database.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'brand' => 'nullable|string|max:255',
-            'model' => 'nullable|string|max:255',
-            'dev_type' => 'nullable|string|max:50',
-            'descript' => 'nullable|string|max:255',
-            'ser_no' => 'nullable|string|max:255',
-            'area' => 'nullable|string|max:255',
-            'qty' => 'nullable|int|max:10',
-            'remarks' => 'nullable|string',
-            'prop_tag' => 'nullable|string|max:255',
-            'stats' => 'nullable|string',
-            'location' => 'nullable|string',
-            'unit_stat' => 'nullable|string',
-            'date_add' => 'nullable|date',
-            'date_pull' => 'nullable|date',
-            'file_att' => 'nullable|file|mimes:jpg,png,pdf|max:2048'
-        ]);
-    
-        // Handle file attachment upload if provided
-        $filePath = null;
-        if ($request->hasFile('file_attach')) {
-            $filePath = $request->file('file_attach')->store('attachments', 'public');
-        }
-    
-        // Create a new unit record
-        Unit::create([
-            'brand' => $request->input('brand'),
-            'model' => $request->input('model'),
-            'dev_type' => $request->input('dev_type'),
-            'descript' => $request->input('descript'),
-            'ser_no' => $request->input('serial_no'),
-            'area' => $request->input('area'),
-            'qty' => $request->input('qty'),
-            'remarks' => $request->input('remarks'),
-            'prop_tag' => $request->input('property_tag'),
-            'stats' => $request->input('status'),
-            'location' => $request->input('location'),
-            'unit_stat' => $request->input('unit_stat'),
-            'date_add' => $request->input('date_added'),
-            'date_pull' => $request->input('date_pullout'),
-            'file_att' => $filePath, 
-            'audit_hist' => [] 
-        ]);
-        return redirect()->back()->with('success', 'Unit added successfully!');
-    }
+{
+    $request->validate([
+        'company' => 'nullable|string|max:255',
+        'brand' => 'nullable|string|max:255',
+        'model' => 'nullable|string|max:255',
+        'dev_type' => 'nullable|string|max:50',
+        'sku' => 'nullable|string|max:50',
+        'categ' => 'nullable|string|max:50',
+        'desc' => 'nullable|string|max:255',
+        'ser_no' => 'nullable|string|max:255',
+        'area' => 'nullable|string|max:255',
+        'vendor_com' => 'nullable|string|max:255',
+        'allocation' => 'nullable|string|max:255',
+        'qty' => 'nullable|integer|max:10',
+        'bundle_item' => 'nullable|string|max:10',
+        'prop_tag' => 'nullable|string|max:255',
+        'cust_po_ref' => 'nullable|string|max:255',
+        'stats' => 'nullable|string',
+        'location' => 'nullable|string',
+        'input_by' => 'nullable|string',
+        'unit_stat' => 'nullable|string',
+        'pmg_stats' => 'nullable|string',
+        'vendor_type' => 'nullable|string',
+        'sales_stats' => 'nullable|string',
+        'sales_remarks' => 'nullable|string',
+        'date_add' => 'nullable|date',
+        'date_pull' => 'nullable|date',
+    ]);
+    // Create a new unit record with JSON-encoded audit_hist
+    Unit::create([
+        'company' => $request->input('company'),
+        'brand' => $request->input('brand'),
+        'model' => $request->input('model'),
+        'dev_type' => $request->input('dev_type'),
+        'sku' => $request->input('sku'),
+        'categ' => $request->input('categ'),
+        'desc' => $request->input('desc'),
+        'ser_no' => $request->input('ser_no'),
+        'area' => $request->input('area'),
+        'vendor_com' => $request->input('vendor_com'),
+        'allocation' => $request->input('allocation'),
+        'qty' => $request->input('qty'),
+        'bundle_item' => $request->input('bundle_item'),
+        'prop_tag' => $request->input('prop_tag'),
+        'cust_po_ref' => $request->input('cust_po_ref'),
+        'stats' => $request->input('stats'),
+        'location' => $request->input('location'),
+        'input_by' => $request->input('input_by'),
+        'unit_stat' => $request->input('unit_stat'),
+        'pmg_stats' => $request->input('pmg_stats'),
+        'vendor_type' => $request->input('vendor_type'),
+        'sales_stats' => $request->input('sales_stats'),
+        'sales_remarks' => $request->input('sales_remarks'),
+        'date_add' => $request->input('date_add'),
+        'date_pull' => $request->input('date_pull'),
+    ]);
+
+    return redirect()->route('view.whitehouse')->with('success', 'Unit added successfully!');
+}
     
     public function update(Request $request, $id)
 {
