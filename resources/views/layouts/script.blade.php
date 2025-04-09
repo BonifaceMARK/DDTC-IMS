@@ -58,9 +58,9 @@
 
      {{-- FOR EDITING --}}
     <script>
-        function redirectToEditPage(id) {
-            let route = `{{ route('edit.whitehouse', ':id') }}`;
-            route = route.replace(':id', id); 
+        function redirectToEditPage(rec_id) {
+            let route = `{{ route('edit.whitehouse', ':rec_id') }}`;
+            route = route.replace(':rec_id', rec_id); 
             window.location.href = route;
         }
     </script>

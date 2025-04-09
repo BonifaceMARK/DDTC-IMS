@@ -179,7 +179,7 @@
         </thead>
         <tbody>
             @foreach($units as $unit)
-            <tr data-id="{{ $unit->id }}"> <!-- Add data-id for identification -->
+            <tr data-rec-id="{{ $unit->rec_id }}"> <!-- Add data-id for identification -->
                 <td>
                     <select 
                         style="font-size: 10px; 
@@ -375,7 +375,7 @@
                 
                 <td contenteditable="true">{{ $unit->sales_remarks }}</td>
                 <td 
-                onclick="redirectToEditPage({{ $unit->id }})" 
+                onclick="redirectToEditPage({{ $unit->rec_id }})" 
                 style="
                     cursor: pointer; 
                     color: #333; 
@@ -403,58 +403,87 @@
 </div>
  
 <script>
-  document.getElementById('saveChanges').addEventListener('click', function () {
-    let editedRows = [];
-    
-    // Loop through all rows
-    document.querySelectorAll('#excelTable tbody tr').forEach(row => {
-        let rowData = { id: row.getAttribute('data-id') }; // Get the unique ID for the row
+  document.addEventListener('DOMContentLoaded', function () {
+    const table = document.querySelector('#excelTable tbody');
 
-        // Loop through all cells in the row
-        row.querySelectorAll('td').forEach((cell, index) => {
-            // Map the data by column names
-            const columnNames = [
-                'company',  'categ','sku', 'desc', 'vendor_com', 'allocation', 
-                'bundle_item', 'ser_no', 'prop_tag',  'input_by', 'unit_stat',
-                'vendor_type','pmg_stats', 'cust_po_ref', 'sales_stats', 'sales_remarks'
-            ];
-            
-            // Skip the "View" button column (index 16)
-            if (index === 16) return;
+    // Detect changes in any cell and mark the row as changed
+    table.addEventListener('input', function (event) {
+        const row = event.target.closest('tr');
+        if (row) {
+            row.setAttribute('data-changed', 'true'); // Mark the row as changed
+        }
+    });
 
-            // Check if the cell contains a dropdown
-            if (cell.querySelector('select')) {
-                rowData[columnNames[index]] = cell.querySelector('select').value; // Get selected value
-            } else {
-                rowData[columnNames[index]] = cell.textContent.trim(); // Get cell content
+    document.getElementById('saveChanges').addEventListener('click', function () {
+        let editedRows = [];
+        const columnNames = [
+            'company', 'categ', 'sku', 'desc', 'vendor_com', 'allocation',
+            'bundle_item', 'ser_no', 'prop_tag', 'input_by', 'unit_stat',
+            'vendor_type', 'pmg_stats', 'cust_po_ref', 'sales_stats', 'sales_remarks'
+        ];
+
+        // Helper function to chunk the data into smaller arrays
+        const chunkArray = (arr, size) => {
+            const chunks = [];
+            for (let i = 0; i < arr.length; i += size) {
+                chunks.push(arr.slice(i, i + size));
             }
+            return chunks;
+        };
+
+        // Loop through all rows and collect only edited rows
+        document.querySelectorAll('#excelTable tbody tr[data-changed="true"]').forEach(row => {
+            let rowData = { rec_id: row.getAttribute('data-rec-id') }; // Get the unique rec_id for the row
+
+            if (!rowData.rec_id) {
+                console.error('Missing rec_id for row:', row); // Log missing rec_id
+                return;
+            }
+
+            // Map the data by column names
+            row.querySelectorAll('td').forEach((cell, index) => {
+                if (index === 16) return; // Skip the "View" button column
+                rowData[columnNames[index]] = cell.querySelector('select') 
+                    ? cell.querySelector('select').value 
+                    : cell.textContent.trim();
+            });
+
+            editedRows.push(rowData);
         });
 
-        editedRows.push(rowData); // Add the row's data to the array
-    });
+        console.log('Edited Rows:', editedRows); // Debugging: Log the array
 
-    // Send data to the backend using AJAX
-    fetch('/update-units', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({ units: editedRows }) // Send the edited rows as JSON
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            toastr.success('Changes saved successfully!', 'Success'); // Toastr success notification
-        } else {
-            toastr.error('Failed to save changes. Please try again.', 'Error'); // Toastr error notification
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        toastr.error('An error occurred while saving changes.', 'Error'); // Toastr error notification
+        // Split the data into chunks of 100 rows each
+        const chunks = chunkArray(editedRows, 100);
+
+        // Process each chunk sequentially
+        chunks.forEach((chunk, index) => {
+            fetch('/update-units', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ units: chunk }) // Send the chunk as JSON
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log(`Batch ${index + 1} updated successfully.`);
+                    toastr.success(`Batch ${index + 1} updated successfully.`, 'Success');
+                } else {
+                    console.error(`Batch ${index + 1} failed.`, data);
+                    toastr.error(`Batch ${index + 1} failed.`, 'Error');
+                }
+            })
+            .catch(error => {
+                console.error(`Error updating Batch ${index + 1}:`, error);
+                toastr.error(`Batch ${index + 1} failed due to an error.`, 'Error');
+            });
+        });
     });
 });
+
 
 </script>
 

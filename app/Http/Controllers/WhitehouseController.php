@@ -14,31 +14,63 @@ class WhitehouseController extends Controller
     public function updateUnits(Request $request)
     {
         try {
-            $units = $request->input('units'); // Get the submitted data
+            // Retrieve the submitted data
+            $units = $request->input('units');
+    
+            // Validate the incoming units array
+            if (!is_array($units) || empty($units)) {
+                Log::error('Invalid or empty units data received.');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid or empty units data received.'
+                ], 400); // Bad Request
+            }
+    
+            $updatedUnits = [];
+            $skippedUnits = [];
     
             foreach ($units as $unitData) {
-                $unit = Unit::find($unitData['id']); // Find the unit by ID
+                // Ensure `rec_id` is provided
+                if (empty($unitData['rec_id'])) {
+                    Log::warning('Missing "rec_id" in unit data.', ['unitData' => $unitData]);
+                    $skippedUnits[] = $unitData; // Track skipped units
+                    continue; // Skip processing if rec_id is missing
+                }
+    
+                // Find the unit by `rec_id`
+                $unit = Unit::where('rec_id', $unitData['rec_id'])->first();
+    
                 if ($unit) {
-                    $unit->update($unitData); // Update the unit with the new data
+                    // Filter the data to update only fillable attributes
+                    $fillableData = array_intersect_key($unitData, array_flip($unit->getFillable()));
+    
+                    // Update the unit
+                    $unit->update($fillableData);
+                    Log::info("Updated unit with rec_id {$unitData['rec_id']}.", ['data' => $fillableData]);
+                    $updatedUnits[] = $unitData; // Track successfully updated units
                 } else {
-                    Log::error("Unit with ID {$unitData['id']} not found.");
-                    return response()->json([
-                        'success' => false, 
-                        'message' => "Unit with ID {$unitData['id']} not found."
-                    ], 404);
+                    Log::warning("Unit with rec_id {$unitData['rec_id']} not found.", ['unitData' => $unitData]);
+                    $skippedUnits[] = $unitData; // Track skipped units
                 }
             }
     
-            return response()->json(['success' => true]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Units updated successfully.',
+                'updated' => $updatedUnits,
+                'skipped' => $skippedUnits,
+            ]);
     
         } catch (\Exception $e) {
-            Log::error("Error in updating units: " . $e->getMessage());
+            Log::error("Error in updating units: " . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+    
             return response()->json([
                 'success' => false,
                 'message' => "An error occurred while updating units: " . $e->getMessage()
             ], 500); // Internal server error response
         }
-    } 
+    }
+
     public function view(Request $request)
     {
         $limit = $request->input('limit', 10); // Default limit is 10
@@ -83,7 +115,7 @@ class WhitehouseController extends Controller
 
     
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $rec_id)
     {
         // Validate incoming data
         $request->validate([
@@ -117,7 +149,7 @@ class WhitehouseController extends Controller
         \Log::info('Incoming request data:', $request->all()); // Log all request data
     
         // Find the unit by ID
-        $unit = Unit::findOrFail($id);
+        $unit = Unit::findOrFail($rec_id);
     
         // Debug: Check if unit exists
         \Log::info('Unit found:', $unit->toArray());
@@ -156,14 +188,14 @@ class WhitehouseController extends Controller
     
         return redirect()->route('view.whitehouse', ['limit' => 10])->with('success', 'Unit updated successfully!');
     }
-    public function storeFileAttachment(Request $request, $id)
+    public function storeFileAttachment(Request $request, $rec_id)
     {
         $request->validate([
             'file_attach' => 'required|file|mimes:jpg,png,pdf|max:2048',
         ]);
     
         // Find the unit by ID
-        $unit = Unit::findOrFail($id);
+        $unit = Unit::findOrFail($rec_id);
     
         // Handle file upload
         $filePath = $request->file('file_attach')->store('attachments', 'public');
@@ -178,9 +210,9 @@ class WhitehouseController extends Controller
             'file_path' => $filePath
         ]);
     }
-    public function edit($id)
+    public function edit($rec_id)
     {
-        $unit = Unit::findOrFail($id);
+        $unit = Unit::findOrFail($rec_id);
         return view('whitehouse-edit', compact('unit'));
      
     }

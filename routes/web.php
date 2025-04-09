@@ -30,22 +30,22 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/units/showroom', [ShowroomController::class, 'index'])->name('units.showroom');
 Route::get('/units/create', [ShowroomController::class, 'create'])->name('units.create');
 Route::post('/units/store', [ShowroomController::class, 'store'])->name('units.store');
-Route::get('/showroom/edit/{id}', [ShowroomController::class, 'edit'])->name('edit-unit');
+Route::get('/showroom/edit/{rec_id}', [ShowroomController::class, 'edit'])->name('edit-unit');
 Route::get('/showroom/view',[ShowroomController::class,'view'])->name('view-units');
-Route::put('/showroom/update/{id}', [ShowroomController::class, 'update'])->name('update-unit');
+Route::put('/showroom/update/{rec_id}', [ShowroomController::class, 'update'])->name('update-unit');
 Route::get('/units/showroom', [ShowroomController::class, 'index'])->name('units.showroom');
 Route::get('/analytics', [ShowroomController::class, 'analytics'])->name('units.analytics');
 // USER MANAGEMENT ROUTES
 Route::resource('users', UserController::class);
-Route::get('/users/{id}', [UserController::class, 'show'])->middleware('auth')->name('users.show');
-Route::post('/users/{id}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
+Route::get('/users/{rec_id}', [UserController::class, 'show'])->middleware('auth')->name('users.show');
+Route::post('/users/{rec_id}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 // WHITEHOUSE ROUTES
 Route::get('/whitehouse/dashboard', [WhitehouseController::class, 'index'])->name('whitehouse-dash');
 Route::get('/whitehouse/view', [WhitehouseController::class, 'view'])->name('view.whitehouse');
-Route::put('/whitehouse/edit/{id}', [WhitehouseController::class, 'update'])->name('update.whitehouse');
-Route::get('/whitehouse/edit/{id}', [WhitehouseController::class, 'edit'])->name('edit.whitehouse');
+Route::put('/whitehouse/edit/{rec_id}', [WhitehouseController::class, 'update'])->name('update.whitehouse');
+Route::get('/whitehouse/edit/{rec_id}', [WhitehouseController::class, 'edit'])->name('edit.whitehouse');
 Route::post('/update-units', [WhitehouseController::class, 'updateUnits']);
-Route::post('/file-attachments/store/{id}', [WhiteController::class, 'storeFileAttachment'])->name('file-attachments.store');
+Route::post('/file-attachments/store/{rec_id}', [WhiteController::class, 'storeFileAttachment'])->name('file-attachments.store');
 
 // UNIT IMPORT ROUTES
 Route::get('/units/import', [UnitImportController::class,'showUploadForm'])->name('import.form');

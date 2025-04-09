@@ -2,33 +2,33 @@
 
 <body class="starter-page-page">
   
-  <!-- Header -->
-  <header id="header" class="header d-flex align-items-center sticky-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-      <a href="{{ url('/units-showroom') }}" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename"><span><i class="bi bi-house-door-fill"></i> Stock</span>Inventory</h1>
-      </a>
+<!-- Header -->
+<header id="header" class="header d-flex align-items-center sticky-top" style="padding: 10px 0; font-size: 14px;">
+  <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+    <a href="{{ url('/units-showroom') }}" class="logo d-flex align-items-center">
+      <!-- Uncomment the line below if you wish to use an image logo -->
+      <!-- <img src="assets/img/logo.png" alt=""> -->
+      <h1 class="sitename" style="font-size: 15px; margin: 0;"><span><i class="bi bi-house-door-fill"></i> Stock</span>Inventory</h1>
+    </a>
 
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="{{ url('/') }}">Home</a></li>
-          @if(Auth::check())
-          <li class="nav-item">
-            <a href="#" class="nav-link">Welcome, {{ Auth::user()->fullname }}</a>
-          </li>
-          @endif
-          {{-- <li><a href="{{ url('/about') }}">About</a></li> --}}
-          <li>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Sign out</a>
+    <nav id="navmenu" class="navmenu">
+      <ul style="margin: 0; padding: 0;">
+        <li><a style="font-size: 10px;" href="{{ url('/') }}">Home</a></li>
+        @if(Auth::check())
+        <li class="nav-item">
+          <a href="#" class="nav-link" style="font-size: 10px;">Welcome, {{ Auth::user()->fullname }}</a>
         </li>
-        
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
-    </div>
-  </header>
+        @endif
+        {{-- <li><a href="{{ url('/about') }}">About</a></li> --}}
+        <li>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" style="font-size: 10px;">Sign out</a>
+        </li>
+      </ul>
+      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
+  </div>
+</header>
+
   <!-- Logout Confirmation Modal -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -50,7 +50,7 @@
 
 
   <!-- Main Content -->
-  <main class="main">
+  <main class="main container-fluid" >
     {{-- <div class="page-title" data-aos="fade">
       <nav class="breadcrumbs">
         <div class="container">

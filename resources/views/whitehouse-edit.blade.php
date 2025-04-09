@@ -13,7 +13,7 @@
     @endif
     
         <!-- Form to edit a unit -->
-        <form action="{{ route('update.whitehouse', ['id' => $unit->id]) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('update.whitehouse', ['rec_id' => $unit->rec_id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -240,7 +240,7 @@
                 <i class="bi bi-upload"></i> Upload File Attachment
             </div>
             <div class="card-body">
-                <form id="fileUploadForm" action="{{ route('file-attachments.store', ['id' => $unit->id]) }}" method="POST" enctype="multipart/form-data">
+                <form id="fileUploadForm" action="{{ route('file-attachments.store', ['rec_id' => $unit->rec_id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="file" class="form-control" id="file_attach" name="file_attach" accept=".jpg,.png,.pdf" style="font-size: 10px;" required>
                     <small class="text-muted" style="font-size: 9px;">Supported formats: JPG, PNG, PDF.</small>
