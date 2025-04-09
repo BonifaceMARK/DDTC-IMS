@@ -3,7 +3,7 @@
 <body class="starter-page-page">
   
 <!-- Header -->
-<header id="header" class="header d-flex align-items-center sticky-top" style="padding: 10px 0; font-size: 14px;">
+<header id="header" class="header d-flex align-items-center sticky-top" style="padding: 0 0; font-size: 14px;">
   <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
     <a href="{{ url('/units-showroom') }}" class="logo d-flex align-items-center">
       <!-- Uncomment the line below if you wish to use an image logo -->
@@ -62,14 +62,14 @@
       </nav>
     </div> --}}
 
-    <section id="starter-section" style="height: 700px;">
+    <section id="starter-section" style="height: 700px; margin: 0; padding: 0; width: 100%;">
       <div class="container-fluid section-title" style="padding: 0; height: 100%;" data-aos="fade-up">
         <!-- Panel with iFrame -->
-        <div class="iframe-panel border rounded" style="height: 100%; background-color: transparent; padding: 2px;">
+        <div class="iframe-panel border rounded" style="height: 100%; background-color: transparent; padding: 0;">
           <iframe 
             id="iframeContent" 
             src="{{ route('view.whitehouse') }}" 
-            style="width: 100%; height: 100%; border: none; scrolling:no;">
+            style="width: 100%; height: 100%; border: none;">
           </iframe>
         </div>
       </div>
@@ -80,27 +80,25 @@
   </main>
  
  
-
-  <!-- Footer Navbar -->
-<footer class="footer bg-dark text-white py-3" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;">
-    <div class="container d-flex justify-content-between">
-        <nav class="nav">
-             {{-- <a onclick="loadIframe('{{ route('units.analytics') }}')" class="btn mx-2 animated-link"><i class="bi bi-graph-up"></i> Analytics</a>  --}}
-            @auth
-            @if (in_array(auth()->user()->role, [1, 2]))
-                <a onclick="loadIframe('{{ route('view.whitehouse') }}')" class="btn mx-2 animated-link"><i class="bi bi-house-door-fill"></i> Stock Inventory</a>
-            @endif
-        @endauth
-        
-            {{-- @auth
-            @if (auth()->user()->role == 1)
-                <a onclick="loadIframe('{{ url('users') }}')" class="btn mx-2 animated-link">
-                    <i class="bi bi-person-circle"></i> UserManagement
-                </a>
-            @endif
-        @endauth  --}}
-        </nav>
-    </div>
+<!-- Footer Navbar -->
+<footer class="footer text-white py-2" style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: white; z-index: 1000; border-top: 1px solid #ddd;">
+  <div class="container d-flex justify-content-between">
+    <nav class="nav">
+      @auth
+      @if (in_array(auth()->user()->role, [1, 2]))
+        <a 
+          onclick="loadIframe('{{ route('view.whitehouse') }}')" 
+          class="btn mx-2 animated-link" 
+          style="font-size: 12px; color: black; text-decoration: none; padding: 5px 10px; transition: color 0.3s, background-color 0.3s;"
+          onmouseover="this.style.color='white'; this.style.backgroundColor='green';"
+          onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
+        >
+          <i class="bi bi-house-door-fill"></i> Stock Inventory
+        </a>
+      @endif
+      @endauth
+    </nav>
+  </div>
 </footer>
 
  

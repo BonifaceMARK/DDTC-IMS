@@ -94,23 +94,26 @@
                 </ul>
             </div>
 
-            <!-- Add Button -->
-            <a 
-                href="{{ route('units.create') }}" 
-                class="btn btn-primary ms-2" 
-                style="font-size: 10px;"
-            >
-                <i class="bi bi-plus-square-fill"></i> Add
-            </a>
-
-            <!-- Save Button -->
-            <button 
-                class="btn btn-success ms-2" 
-                id="saveChanges" 
-                style="font-size: 10px;"
-            >
-                <i class="bi bi-floppy"></i> Save
-            </button>
+            <div style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 999;" class="d-flex flex-row align-items-center">
+                <!-- Add Button -->
+                <a 
+                  href="{{ route('units.create') }}" 
+                  class="btn btn-primary btn-sm p-2 d-flex justify-content-center align-items-center me-2" 
+                  style="width: 40px; height: 40px; border-radius: 50%;"
+                >
+                  <i class="bi bi-plus-square-fill"></i>
+                </a>
+              
+                <!-- Save Button -->
+                <button 
+                  class="btn btn-success btn-sm p-2 d-flex justify-content-center align-items-center" 
+                  id="saveChanges" 
+                  style="width: 40px; height: 40px; border-radius: 50%;"
+                >
+                  <i class="bi bi-floppy"></i>
+                </button>
+              </div>
+              
         </div>
     </div>
 </div>
@@ -215,7 +218,14 @@
                     </select>
                 </td>
                 <td contenteditable="true">{{ $unit->sku }}</td>
-                <td contenteditable="true">{{ $unit->desc }}</td>
+                <td contenteditable="true" 
+                style="max-width: 150px; 
+                       word-wrap: break-word; 
+                       white-space: normal; 
+                       overflow: hidden;">
+                {{ $unit->desc }}
+            </td>
+            
                 <td contenteditable="true">{{ $unit->vendor_com }}</td>
                 <td>
                     <select 
@@ -258,7 +268,11 @@
                     </select>
                 </td>
                 
-                <td contenteditable="true">{{ $unit->bundle_item }}</td>
+                <td contenteditable="true"
+                style="max-width: 150px; 
+                       word-wrap: break-word; 
+                       white-space: normal; 
+                       overflow: hidden;">{{ $unit->bundle_item }}</td>
                 <td contenteditable="true">{{ $unit->ser_no }}</td>
                 <td contenteditable="true">{{ $unit->prop_tag }}</td>
                 <td>
