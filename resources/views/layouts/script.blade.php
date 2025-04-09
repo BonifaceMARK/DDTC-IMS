@@ -168,21 +168,21 @@
 
 
 <script>
-  function filterByLocation() {
-      const location = document.getElementById('locationDropdown').value;
-      const url = new URL(window.location.href);
-
-      // Update the 'location' parameter
-      if (location) {
-          url.searchParams.set('location', location);
-      } else {
-          url.searchParams.delete('location');
-      }
-
-      // Redirect to the updated URL
-      window.location.href = url.toString();
-  }
-</script>
+    function filterByLocation() {
+        const location = document.getElementById('locationDropdown').value;
+        const url = new URL(window.location.href);
+  
+        // Update the 'location' parameter
+        if (location && location !== "all_locations") {
+            url.searchParams.set('location', location);
+        } else {
+            url.searchParams.delete('location'); // Clear the filter if "All Locations" is selected
+        }
+  
+        // Redirect to the updated URL
+        window.location.href = url.toString();
+    }
+  </script>
 <script>
   // Wait for the DOM content to fully load
   document.addEventListener("DOMContentLoaded", function () {

@@ -161,54 +161,54 @@ class ShowroomController extends Controller
     return redirect()->route('view-units', ['limit' => 10])->with('success', 'Unit updated successfully!');
 }
 
-public function analytics()
-{
-    // Total units count
-    $totalUnits = Unit::count();
+// public function analytics()
+// {
+//     // Total units count
+//     $totalUnits = Unit::count();
 
-    // Recent additions within the last 7 days (or customize the time range)
-    $recentAdditions = Unit::whereDate('date_add', '>=', now()->subDays(7))->count();
+//     // Recent additions within the last 7 days (or customize the time range)
+//     $recentAdditions = Unit::whereDate('date_add', '>=', now()->subDays(7))->count();
 
-    // Pulled units (non-empty 'date_pull' field)
-    $pulledUnits = Unit::whereNotNull('date_pull')->count();
+//     // Pulled units (non-empty 'date_pull' field)
+//     $pulledUnits = Unit::whereNotNull('date_pull')->count();
 
-    // Critical issues (placeholder logic - adjust as per your requirements)
-    $criticalIssues = Unit::where('stats', 'Critical')->count();
+//     // Critical issues (placeholder logic - adjust as per your requirements)
+//     $criticalIssues = Unit::where('stats', 'Critical')->count();
 
-    // Fetch 10 most recent units for the table
-    $recentUnits = Unit::orderBy('date_add', 'desc')->take(10)->get();
+//     // Fetch 10 most recent units for the table
+//     $recentUnits = Unit::orderBy('date_add', 'desc')->take(10)->get();
 
-    // Group units by location for the bar chart
-    $unitStatistics = Unit::selectRaw('location, COUNT(*) as total_units')
-                          ->groupBy('location')
-                          ->get();
+//     // Group units by location for the bar chart
+//     $unitStatistics = Unit::selectRaw('location, COUNT(*) as total_units')
+//                           ->groupBy('location')
+//                           ->get();
 
-    // Group units by category for the cards
-    $categoryTotals = Unit::selectRaw('dev_type, COUNT(*) as total_units')
-                          ->groupBy('dev_type')
-                          ->pluck('total_units', 'dev_type');
+//     // Group units by category for the cards
+//     $categoryTotals = Unit::selectRaw('dev_type, COUNT(*) as total_units')
+//                           ->groupBy('dev_type')
+//                           ->pluck('total_units', 'dev_type');
 
-    // Prepare data for the pie chart (units distribution by brand)
-    $chartData = [
-        'labels' => Unit::select('brand')->distinct()->pluck('brand')->toArray(),
-        'series' => Unit::selectRaw('brand, COUNT(*) as total_units')
-                        ->groupBy('brand')
-                        ->pluck('total_units')
-                        ->toArray(),
-    ];
+//     // Prepare data for the pie chart (units distribution by brand)
+//     $chartData = [
+//         'labels' => Unit::select('brand')->distinct()->pluck('brand')->toArray(),
+//         'series' => Unit::selectRaw('brand, COUNT(*) as total_units')
+//                         ->groupBy('brand')
+//                         ->pluck('total_units')
+//                         ->toArray(),
+//     ];
 
-    // Pass all data to the Blade template
-    return view('analytics', compact(
-        'totalUnits',
-        'recentAdditions',
-        'pulledUnits',
-        'criticalIssues',
-        'recentUnits',
-        'unitStatistics',
-        'categoryTotals',
-        'chartData'
-    ));
-}
+//     // Pass all data to the Blade template
+//     return view('analytics', compact(
+//         'totalUnits',
+//         'recentAdditions',
+//         'pulledUnits',
+//         'criticalIssues',
+//         'recentUnits',
+//         'unitStatistics',
+//         'categoryTotals',
+//         'chartData'
+//     ));
+// }
 
 
     /**

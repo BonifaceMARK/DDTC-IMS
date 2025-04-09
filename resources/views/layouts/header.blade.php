@@ -13,7 +13,8 @@
   <!-- Favicons -->
   <link href="{{ asset('assets/img/ddtc_logo.png') }}" rel="icon">
   <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
-
+  <link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css" />
+  <script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
   {{-- <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>

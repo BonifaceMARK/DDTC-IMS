@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShowroomController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\WhitehouseController;
 use App\Http\Controllers\UnitImportController;
 /*
@@ -34,7 +35,6 @@ Route::get('/showroom/edit/{rec_id}', [ShowroomController::class, 'edit'])->name
 Route::get('/showroom/view',[ShowroomController::class,'view'])->name('view-units');
 Route::put('/showroom/update/{rec_id}', [ShowroomController::class, 'update'])->name('update-unit');
 Route::get('/units/showroom', [ShowroomController::class, 'index'])->name('units.showroom');
-Route::get('/analytics', [ShowroomController::class, 'analytics'])->name('units.analytics');
 // USER MANAGEMENT ROUTES
 Route::resource('users', UserController::class);
 Route::get('/users/{rec_id}', [UserController::class, 'show'])->middleware('auth')->name('users.show');
@@ -46,6 +46,13 @@ Route::put('/whitehouse/edit/{rec_id}', [WhitehouseController::class, 'update'])
 Route::get('/whitehouse/edit/{rec_id}', [WhitehouseController::class, 'edit'])->name('edit.whitehouse');
 Route::post('/update-units', [WhitehouseController::class, 'updateUnits']);
 Route::post('/file-attachments/store/{rec_id}', [WhiteController::class, 'storeFileAttachment'])->name('file-attachments.store');
+
+
+// DASHBOARD
+Route::get('/getChartData', [AnalyticsController::class, 'getChartData']);
+Route::get('/dashboard', [AnalyticsController::class, 'dashboard'])->name('dashboard.analytics');
+
+
 
 // UNIT IMPORT ROUTES
 Route::get('/units/import', [UnitImportController::class,'showUploadForm'])->name('import.form');

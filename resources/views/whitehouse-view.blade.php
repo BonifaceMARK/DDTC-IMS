@@ -38,23 +38,23 @@
                 </ul>
             </div>
 
-            <!-- Location Dropdown -->
-            <select 
-                id="locationDropdown" 
-                style="font-size: 10px; 
-                       padding: 8px; 
-                       border-radius: 5px; 
-                       border: 1px solid #ced4da; 
-                       background: linear-gradient(to right, #ffffff, #f7f7f7); 
-                       color: #333; 
-                       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);" 
-                onchange="filterByLocation()"
-            >
-                <option value="" selected>🌍 All Locations</option>
-                @foreach ($locations as $loc)
-                    <option value="{{ $loc->location }}" {{ request('location') == $loc->location ? 'selected' : '' }}>📍 {{ $loc->location }}</option>
-                @endforeach
-            </select>
+     <!-- Location Dropdown -->
+<select 
+id="locationDropdown" 
+style="font-size: 10px; 
+       padding: 8px; 
+       border-radius: 5px; 
+       border: 1px solid #ced4da; 
+       background: linear-gradient(to right, #ffffff, #f7f7f7); 
+       color: #333; 
+       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);" 
+onchange="filterByLocation()"
+>
+<option value="all_locations" selected>🌍 All Locations</option>
+@foreach ($locations as $loc)
+    <option value="{{ $loc->location }}" {{ request('location') == $loc->location ? 'selected' : '' }}>📍 {{ $loc->location }}</option>
+@endforeach
+</select>
 
             <!-- Month Selector -->
             <div class="dropdown ms-2 me-2">
