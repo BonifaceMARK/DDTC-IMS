@@ -62,7 +62,7 @@
       </nav>
     </div> --}}
 
-    <section id="starter-section" style="height: 700px; margin: 0; padding: 0; width: 100%;">
+    <section id="starter-section" style="height: 480px; margin: 0; padding: 0; width: 100%;">
       <div class="container-fluid section-title" style="padding: 0; height: 100%;" data-aos="fade-up">
         <!-- Panel with iFrame -->
         <div class="iframe-panel border rounded" style="height: 100%; background-color: transparent; padding: 0;">
@@ -95,7 +95,21 @@
         >
           <i class="bi bi-house-door-fill"></i> Stock Inventory
         </a>
+ 
       @endif
+      @endauth
+      @auth
+      @if (in_array(auth()->user()->role, [1, 2]))
+      <a 
+      onclick="loadIframe('{{ url('users') }}')" 
+      class="btn mx-2 animated-link" 
+      style="font-size: 12px; color: black; text-decoration: none; padding: 5px 10px; transition: color 0.3s, background-color 0.3s;"
+      onmouseover="this.style.color='white'; this.style.backgroundColor='green';"
+      onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
+    >
+    <i class="bi bi-people"></i> User Management
+    </a>
+    @endif
       @endauth
       {{-- <a 
       onclick="loadIframe('{{ route('dashboard.analytics') }}')" 

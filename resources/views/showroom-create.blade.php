@@ -20,7 +20,7 @@
         <div class="container-fluid mt-3">
             <div class="row">
                 <!-- Adjusted Table Width -->
-                <div class="col-lg-8">
+                <div class="col-lg-6">
         <form action="{{ route('units.store') }}" method="POST">
             @csrf
             <table class="table table-bordered mt-3" style="font-size: 10px;">
@@ -158,7 +158,7 @@
          
     
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-6">
         <div class="card" style="border: 1px solid #ced4da; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
             <div class="card-body" style="background-color: #f8f9fa; padding: 20px;">
                 

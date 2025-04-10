@@ -1,7 +1,6 @@
 @include('layouts.header')
 
 <div class="container" style="font-size: 12px;">
-    <h2>Create New User</h2>
     @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -41,7 +40,7 @@
                 <tr>
                     <td>
                         <label for="role">Role</label>
-                        <select class="form-control" id="role" name="role" required>
+                        <select class="form-control" id="role" name="role">
                             <option value="1">Admin</option>
                             <option value="2">Manager</option>
                             <option value="3">User</option>
@@ -52,8 +51,8 @@
                         <input type="password" class="form-control" id="password" name="password" required>
                     </td>
                     <td>
-                            <label for="status">Status</label>
-                            <select class="form-control" id="status" name="status" required>
+                            <label for="stats">Status</label>
+                            <select class="form-control" id="stats" name="stats" required>
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
                             </select>

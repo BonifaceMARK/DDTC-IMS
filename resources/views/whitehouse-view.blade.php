@@ -93,27 +93,33 @@ onchange="filterByLocation()"
                     @endfor
                 </ul>
             </div>
-
+            @auth
+            @if (in_array(auth()->user()->role, [1, 2]))
             <div style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 999;" class="d-flex flex-row align-items-center">
                 <!-- Add Button -->
                 <a 
                   href="{{ route('units.create') }}" 
-                  class="btn btn-primary btn-sm p-2 d-flex justify-content-center align-items-center me-2" 
-                  style="width: 40px; height: 40px; border-radius: 50%;"
+                  class="btn mx-2 animated-link btn-sm p-2 d-flex justify-content-center align-items-center me-2" 
+                  style="font-size: 12px; color: black;width: 40px; height: 40px; border-radius: 50%; text-decoration: none; transition: color 0.3s, background-color 0.3s;"
+                  onmouseover="this.style.color='white'; this.style.backgroundColor='green';"
+          onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
                 >
                   <i class="bi bi-plus-square-fill"></i>
                 </a>
               
                 <!-- Save Button -->
                 <button 
-                  class="btn btn-success btn-sm p-2 d-flex justify-content-center align-items-center" 
+                  class="btn mx-2 animated-link btn-sm p-2 d-flex justify-content-center align-items-center" 
                   id="saveChanges" 
-                  style="width: 40px; height: 40px; border-radius: 50%;"
+                       style="font-size: 12px; color: black;width: 40px; height: 40px; border-radius: 50%; text-decoration: none; transition: color 0.3s, background-color 0.3s;"
+                  onmouseover="this.style.color='white'; this.style.backgroundColor='green';"
+          onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
                 >
                   <i class="bi bi-floppy"></i>
                 </button>
               </div>
-              
+              @endif
+              @endauth
         </div>
     </div>
 </div>
@@ -122,7 +128,7 @@ onchange="filterByLocation()"
  <!-- Responsive Table with Resizable Columns -->
 <div class="table-wrapper" style="width: auto; height: auto; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow-x: auto;">
     <table class="table table-bordered" id="excelTable" 
-           style="font-size: 10px; border-collapse: collapse; width: 100%; text-align: center;">
+           style="font-size: 9px; border-collapse: collapse; width: 100%; text-align: center;">
            <thead style="position: sticky; top: 0; background-color: #004080; color: #fff; z-index: 1;">
             <tr style="border-bottom: 3px solid #ccc;">
                 <th style="width: 150px; position: relative;">
@@ -175,9 +181,13 @@ onchange="filterByLocation()"
                 <th style="width: 150px; position: relative;">
                     <i class="bi bi-chat-text-fill"></i> Sales Remarks
                 </th>
+                @auth
+                @if (in_array(auth()->user()->role, [1, 2]))
                 <th style="width: 150px; position: relative;">
                     <i class="bi bi-eye"></i> Unit Information
                 </th>
+                @endif
+                @endauth
             </tr>
         </thead>
         <tbody>
@@ -388,6 +398,8 @@ onchange="filterByLocation()"
                 
                 
                 <td contenteditable="true">{{ $unit->sales_remarks }}</td>
+                @auth
+                @if (in_array(auth()->user()->role, [1, 2]))
                 <td 
                 onclick="redirectToEditPage({{ $unit->rec_id }})" 
                 style="
@@ -408,7 +420,8 @@ onchange="filterByLocation()"
                     style="margin-right: 5px; color: #05580a; font-size: 10px;"
                 ></i> View Unit
             </td>
-            
+            @endif
+            @endauth
             
             </tr>
         @endforeach
@@ -440,4 +453,5 @@ onchange="filterByLocation()"
 
     @include('layouts.footer')
     @include('layouts.script')
+    @include('layouts.scriptStock')
 </body>

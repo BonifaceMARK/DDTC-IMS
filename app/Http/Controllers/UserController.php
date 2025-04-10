@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Unit;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -63,26 +64,39 @@ class UserController extends Controller
         return view('user-create'); // Return the form for creating a user
     }
     
+
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'fullname' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users',
             'email' => 'nullable|email|max:255|unique:users',
             'role' => 'required|in:1,2,3',
             'password' => 'required|string|min:8',
-            'status' => 'required|integer|in:0,1',  
+            'stats' => 'required|integer|in:0,1',  
         ]);
     
-        User::create([
-            'fullname' => $request->fullname,
-            'username' => $request->username,
-            'email' => $request->email,
-            'role' => $request->role,
-            'password' => bcrypt($request->password),
-            'status' => $request->status,
-            'isactive' => $request->has('isactive'),
-        ]);
+        // Log the validated data
+        Log::info('Validated Data:', $validatedData);
+    
+        try {
+            User::create([
+                'fullname' => $request->fullname,
+                'username' => $request->username,
+                'email' => $request->email,
+                'role' => $request->role,
+                'password' => bcrypt($request->password),
+                'stats' => $request->stats,
+                'isactive' => $request->has('isactive'),
+            ]);
+    
+            // Log success
+            Log::info('User successfully created.');
+        } catch (\Exception $e) {
+            // Log errors
+            Log::error('Error creating user:', ['message' => $e->getMessage()]);
+            return back()->with('error', 'Failed to create user.');
+        }
     
         return redirect('users')->with('success', 'User created successfully!');
     }

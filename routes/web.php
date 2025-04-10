@@ -37,15 +37,15 @@ Route::put('/showroom/update/{rec_id}', [ShowroomController::class, 'update'])->
 Route::get('/units/showroom', [ShowroomController::class, 'index'])->name('units.showroom');
 // USER MANAGEMENT ROUTES
 Route::resource('users', UserController::class);
-Route::get('/users/{rec_id}', [UserController::class, 'show'])->middleware('auth')->name('users.show');
-Route::post('/users/{rec_id}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
+Route::get('/users/{id}', [UserController::class, 'show'])->middleware('auth')->name('users.show');
+Route::post('/users/{id}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 // WHITEHOUSE ROUTES
 Route::get('/whitehouse/dashboard', [WhitehouseController::class, 'index'])->name('whitehouse-dash');
 Route::get('/whitehouse/view', [WhitehouseController::class, 'view'])->name('view.whitehouse');
 Route::put('/whitehouse/edit/{rec_id}', [WhitehouseController::class, 'update'])->name('update.whitehouse');
 Route::get('/whitehouse/edit/{rec_id}', [WhitehouseController::class, 'edit'])->name('edit.whitehouse');
 Route::post('/update-units', [WhitehouseController::class, 'updateUnits']);
-Route::post('/file-attachments/store/{rec_id}', [WhiteController::class, 'storeFileAttachment'])->name('file-attachments.store');
+Route::post('/file-attachments/store/{rec_id}', [WhitehouseController::class, 'storeFileAttachment'])->name('file-attachments.store');
 
 
 // DASHBOARD
@@ -64,8 +64,8 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
 });
 
 // User (View Role) Routes
-Route::middleware(['view'])->prefix('user')->group(function () {
-    Route::get('/index', function () {
-        return view('user.index');
-    })->name('user.index');
-});
+// Route::middleware(['view'])->prefix('user')->group(function () {
+//     Route::get('/index', function () {
+//         return view('user.index');
+//     })->name('user.index');
+// });

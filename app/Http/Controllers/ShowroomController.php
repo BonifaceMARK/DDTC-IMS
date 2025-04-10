@@ -90,76 +90,76 @@ class ShowroomController extends Controller
     return redirect()->route('view.whitehouse')->with('success', 'Unit added successfully!');
 }
     
-    public function update(Request $request, $id)
-{
-    // Validate incoming data
-    $request->validate([
-        'brand' => 'nullable|string|max:255',
-        'model' => 'nullable|string|max:255',
-        'dev_type' => 'nullable|string|max:255',
-        'serial_no' => 'nullable|string|max:255',
-        'area' => 'nullable|string|max:255',
-        'qty' => 'nullable|int|max:255',
-        'property_tag' => 'nullable|string|max:255',
-        'status' => 'nullable|string|max:255',
-        'location' => 'nullable|string|max:255',
-        'unit_stat' => 'nullable|string|max:255',
-        'descript' => 'nullable|string|max:255',
-        'date_added' => 'nullable|date',
-        'date_pullout' => 'nullable|date',
-        'remarks' => 'nullable|string',
-        'file_attach' => 'nullable|file|mimes:jpg,png,pdf'
-    ]);
+//     public function update(Request $request, $id)
+// {
+//     // Validate incoming data
+//     $request->validate([
+//         'brand' => 'nullable|string|max:255',
+//         'model' => 'nullable|string|max:255',
+//         'dev_type' => 'nullable|string|max:255',
+//         'serial_no' => 'nullable|string|max:255',
+//         'area' => 'nullable|string|max:255',
+//         'qty' => 'nullable|int|max:255',
+//         'property_tag' => 'nullable|string|max:255',
+//         'status' => 'nullable|string|max:255',
+//         'location' => 'nullable|string|max:255',
+//         'unit_stat' => 'nullable|string|max:255',
+//         'descript' => 'nullable|string|max:255',
+//         'date_added' => 'nullable|date',
+//         'date_pullout' => 'nullable|date',
+//         'remarks' => 'nullable|string',
+//         'file_attach' => 'nullable|file|mimes:jpg,png,pdf'
+//     ]);
 
-    // Debug the request input
-    \Log::info('Incoming request data:', $request->all()); // Log all request data
+//     // Debug the request input
+//     \Log::info('Incoming request data:', $request->all()); // Log all request data
 
-    // Find the unit by ID
-    $unit = Unit::findOrFail($id);
+//     // Find the unit by ID
+//     $unit = Unit::findOrFail($id);
 
-    // Debug: Check if unit exists
-    \Log::info('Unit found:', $unit->toArray());
+//     // Debug: Check if unit exists
+//     \Log::info('Unit found:', $unit->toArray());
 
-    // Handle file attachment if uploaded
-    if ($request->hasFile('file_attach')) {
-        \Log::info('File detected:', [
-            'original_name' => $request->file('file_attach')->getClientOriginalName(),
-            'file_size' => $request->file('file_attach')->getSize()
-        ]);
+//     // Handle file attachment if uploaded
+//     if ($request->hasFile('file_attach')) {
+//         \Log::info('File detected:', [
+//             'original_name' => $request->file('file_attach')->getClientOriginalName(),
+//             'file_size' => $request->file('file_attach')->getSize()
+//         ]);
 
-        $filePath = $request->file('file_attach')->store('attachments', 'public');
+//         $filePath = $request->file('file_attach')->store('attachments', 'public');
 
-        \Log::info('File uploaded successfully:', ['file_path' => $filePath]);
+//         \Log::info('File uploaded successfully:', ['file_path' => $filePath]);
 
-        $unit->file_attach = $filePath; // Update file attachment path
-    } else {
-        \Log::info('No file attachment detected.');
-    }
+//         $unit->file_attach = $filePath; // Update file attachment path
+//     } else {
+//         \Log::info('No file attachment detected.');
+//     }
 
-    // Update the unit with form data
-    $unit->update([
-        'brand' => $request->input('brand'),
-        'model' => $request->input('model'),
-        'dev_type' => $request->input('dev_type'),
-        'serial_no' => $request->input('serial_no'),
-        'area' => $request->input('area'),
-        'qty' => $request->input('qty'),
-        'property_tag' => $request->input('property_tag'),
-        'status' => $request->input('status'),
-        'location' => $request->input('location'),
-        'unit_stat' => $request->input('unit_stat'),
-        'descript' => $request->input('descript'),
-        'date_added' => $request->input('date_added'),
-        'date_pullout' => $request->input('pullout'),
-        'date_added' => $request->input('date_added'),
-        'remarks' => $request->input('remarks')
-    ]);
+//     // Update the unit with form data
+//     $unit->update([
+//         'brand' => $request->input('brand'),
+//         'model' => $request->input('model'),
+//         'dev_type' => $request->input('dev_type'),
+//         'serial_no' => $request->input('serial_no'),
+//         'area' => $request->input('area'),
+//         'qty' => $request->input('qty'),
+//         'property_tag' => $request->input('property_tag'),
+//         'status' => $request->input('status'),
+//         'location' => $request->input('location'),
+//         'unit_stat' => $request->input('unit_stat'),
+//         'descript' => $request->input('descript'),
+//         'date_added' => $request->input('date_added'),
+//         'date_pullout' => $request->input('pullout'),
+//         'date_added' => $request->input('date_added'),
+//         'remarks' => $request->input('remarks')
+//     ]);
 
-    // Debug: Check final updated unit
-    \Log::info('Unit updated successfully:', $unit->toArray());
+//     // Debug: Check final updated unit
+//     \Log::info('Unit updated successfully:', $unit->toArray());
 
-    return redirect()->route('view-units', ['limit' => 10])->with('success', 'Unit updated successfully!');
-}
+//     return redirect()->route('view-units', ['limit' => 10])->with('success', 'Unit updated successfully!');
+// }
 
 // public function analytics()
 // {
@@ -227,20 +227,20 @@ class ShowroomController extends Controller
     /**
      * Show the view page.
      */
-    public function view(Request $request)
-{
-    $limit = $request->input('limit', '10');  
-    session(['selected_limit' => $limit]);
+//     public function view(Request $request)
+// {
+//     $limit = $request->input('limit', '10');  
+//     session(['selected_limit' => $limit]);
     
-    if ($limit === 'All') {
-        // Fetch only units where the location is 'dcc'
-        $units = Unit::where('location', 'dcc')->get();  
-    } else {
-        // Fetch and paginate only units where the location is 'dcc'
-        $units = Unit::where('location', 'dcc')->paginate((int) $limit);
-    }
+//     if ($limit === 'All') {
+//         // Fetch only units where the location is 'dcc'
+//         $units = Unit::where('location', 'dcc')->get();  
+//     } else {
+//         // Fetch and paginate only units where the location is 'dcc'
+//         $units = Unit::where('location', 'dcc')->paginate((int) $limit);
+//     }
     
-    return view('showroom-view', compact('units'));
-}
+//     return view('showroom-view', compact('units'));
+// }
 
 }

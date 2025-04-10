@@ -186,24 +186,27 @@ class WhitehouseController extends Controller
         // Debug: Check final updated unit
         \Log::info('Unit updated successfully:', $unit->toArray());
     
-        return redirect()->route('view.whitehouse', ['limit' => 10])->with('success', 'Unit updated successfully!');
+        return response()->json([
+            'success' => false,
+            'message' => "An error occurred while updating units: " . $e->getMessage()
+        ], 500); 
     }
     public function storeFileAttachment(Request $request, $rec_id)
     {
         $request->validate([
-            'file_attach' => 'required|file|mimes:jpg,png,pdf|max:2048',
+            'file_att' => 'required|file',
         ]);
     
         // Find the unit by ID
         $unit = Unit::findOrFail($rec_id);
     
         // Handle file upload
-        $filePath = $request->file('file_attach')->store('attachments', 'public');
+        $filePath = $request->file('file_att')->store('attachments', 'public');
     
         // Update the unit record with the file path
         $unit->file_att = $filePath;
         $unit->save();
-    
+        \Log::info('Incoming request data:', $request->all());
         return response()->json([
             'success' => true,
             'message' => 'File uploaded and attached successfully!',

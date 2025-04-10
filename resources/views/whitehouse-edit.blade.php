@@ -242,7 +242,7 @@
             <div class="card-body">
                 <form id="fileUploadForm" action="{{ route('file-attachments.store', ['rec_id' => $unit->rec_id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <input type="file" class="form-control" id="file_attach" name="file_attach" accept=".jpg,.png,.pdf" style="font-size: 10px;" required>
+                    <input type="file" class="form-control" id="file_att" name="file_att" style="font-size: 10px;" required>
                     <small class="text-muted" style="font-size: 9px;">Supported formats: JPG, PNG, PDF.</small>
                     <button type="submit" class="btn btn-primary btn-sm mt-2" style="font-size: 10px;">Upload</button>
                 </form>
