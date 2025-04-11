@@ -1,4 +1,6 @@
 @include('layouts.header')
+<body>
+    
 <div class="container mt-5">
     <h2>User Details</h2>
 
@@ -10,7 +12,6 @@
 
     <div class="card">
         <div class="card-body">
-            <p><strong>ID:</strong> {{ $user->id }}</p>
             <p><strong>Full Name:</strong> {{ $user->fullname }}</p>
             <p><strong>Username:</strong> {{ $user->username }}</p>
             <p><strong>Email:</strong> {{ $user->email }}</p>
@@ -26,9 +27,7 @@
             <p><strong>Status:</strong> {{ $user->isactive ? 'Active' : 'Inactive' }}</p>
         </div>
     </div>
-
-    <!-- Role Update Form -->
-    <div class="mt-4">
+    <div class="mt-3">
         <form action="{{ route('users.updateRole', $user->id) }}" method="POST">
             @csrf
             <div class="form-group">
@@ -40,12 +39,22 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary mt-2">Update Role</button>
+        <button class="btn btn-info mt-2" onclick="alert('User logs feature coming soon!');">User Logs</button>
+         
         </form>
     </div>
-
-    <!-- Additional Actions -->
-    <div class="mt-4">
-        <button class="btn btn-info" onclick="alert('User logs feature coming soon!');">User Logs</button>
+    <!-- Role Update Form -->
+    <div class="mt-4 text-center" style="position: fixed; top: 10px; right: 10px; z-index: 999;">
+        <a 
+        href="javascript:history.back();" 
+        class="btn btn-secondary btn-sm p-2 d-flex justify-content-center align-items-center mt-2" 
+        style="width: 40px; height: 40px; border-radius: 50%; padding: 0;"
+      >
+        <i class="bi bi-arrow-left-circle-fill" style="font-size: 18px;"></i>
+      </a>  
     </div>
+
 </div>
 @include('layouts.script')
+</body>
+</html>

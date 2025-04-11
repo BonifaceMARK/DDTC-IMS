@@ -131,10 +131,9 @@ onchange="filterByLocation()"
            style="font-size: 9px; border-collapse: collapse; width: 100%; text-align: center;">
            <thead style="position: sticky; top: 0; background-color: #004080; color: #fff; z-index: 1;">
             <tr style="border-bottom: 3px solid #ccc;">
-                <th style="width: 150px; position: relative;">
+                {{-- <th style="width: 150px; position: relative;">
                     <i class="bi bi-building"></i> Company
-                </th>
-                
+                </th> --}}
                 <th style="width: 150px; position: relative;">
                     <i class="bi bi-tags"></i> Category
                 </th>
@@ -144,25 +143,25 @@ onchange="filterByLocation()"
                 <th style="width: 150px; position: relative;">
                     <i class="bi bi-card-text"></i> Short Item Description
                 </th>
-                <th style="width: 150px; position: relative;">
+                {{-- <th style="width: 150px; position: relative;">
                     <i class="bi bi-truck"></i> Vendor Company
-                </th>
+                </th> --}}
                 <th style="width: 150px; position: relative;">
                     <i class="bi bi-clipboard-check"></i> Allocation
                 </th>
-                <th style="width: 150px; position: relative;">
+                {{-- <th style="width: 150px; position: relative;">
                     <i class="bi bi-box-seam"></i> Bundled Item
-                </th>
-                <th style="width: 150px; position: relative;">
+                </th> --}}
+                {{-- <th style="width: 150px; position: relative;">
                     <i class="bi bi-upc-scan"></i> Serial Number
-                </th>
-                <th style="width: 150px; position: relative;">
-                    <i class="bi bi-patch-check"></i> Property Tag
-                </th>
+                </th> --}}
+                    {{-- <th style="width: 150px; position: relative;">
+                        <i class="bi bi-patch-check"></i> Property Tag
+                    </th> --}}
                
-                <th style="width: 150px; position: relative;">
+                {{-- <th style="width: 150px; position: relative;">
                     <i class="bi bi-person-fill"></i> Input by
-                </th>
+                </th> --}}
                 <th style="width: 150px; position: relative;">
                     <i class="bi bi-shield-check"></i> Unit Status
                 </th>
@@ -172,9 +171,9 @@ onchange="filterByLocation()"
                 <th style="width: 150px; position: relative;">
                     <i class="bi bi-gear"></i> Product Management Status
                 </th>
-                <th style="width: 150px; position: relative;">
+                {{-- <th style="width: 150px; position: relative;">
                     <i class="bi bi-receipt"></i> Customer PO Reference
-                </th>
+                </th> --}}
                 <th style="width: 150px; position: relative;">
                     <i class="bi bi-graph-up-arrow"></i> Sales Status
                 </th>
@@ -193,7 +192,7 @@ onchange="filterByLocation()"
         <tbody>
             @foreach($units as $unit)
             <tr data-rec-id="{{ $unit->rec_id }}"> <!-- Add data-id for identification -->
-                <td>
+                {{-- <td>
                     <select 
                         style="font-size: 10px; 
                                padding: 5px; 
@@ -207,7 +206,7 @@ onchange="filterByLocation()"
                         <option value="DDTC" {{ $unit->company == 'DDTC' ? 'selected' : '' }}>📊 DDTC</option>
                         <option value="DBIC" {{ $unit->company == 'DBIC' ? 'selected' : '' }}>🌐 DBIC</option>
                     </select>
-                </td>
+                </td> --}}
                 
                 
                 
@@ -219,7 +218,11 @@ onchange="filterByLocation()"
                                border: 1px solid #ced4da; 
                                background-color: #f8f9fa; 
                                color: #495057; 
-                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+                               max-width: 130px; 
+                               word-wrap: break-word; 
+                               white-space: normal; 
+                               overflow: hidden;">
                         <option value="" selected></option>
                         <option value="Audio Visual" {{ $unit->categ == 'Audio Visual' ? 'selected' : '' }}>🎵 Audio Visual</option>
                         <option value="Computing Products" {{ $unit->categ == 'Computing Products' ? 'selected' : '' }}>💻 Computing Products</option>
@@ -236,7 +239,7 @@ onchange="filterByLocation()"
                 {{ $unit->desc }}
             </td>
             
-                <td contenteditable="true">{{ $unit->vendor_com }}</td>
+                {{-- <td contenteditable="true">{{ $unit->vendor_com }}</td> --}}
                 <td>
                     <select 
                         style="font-size: 10px; 
@@ -245,7 +248,11 @@ onchange="filterByLocation()"
                                border: 1px solid #ced4da; 
                                background-color: #f8f9fa; 
                                color: #495057; 
-                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);" 
+                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+                               max-width: 130px; 
+                               word-wrap: break-word; 
+                               white-space: normal; 
+                               overflow: hidden;" 
                     >
                         <option value="" selected></option>
                         <option value="Louwie Espiritu" {{ $unit->allocation == 'Louwie Espiritu' ? 'selected' : '' }}>Louwie Espiritu</option>
@@ -278,14 +285,14 @@ onchange="filterByLocation()"
                     </select>
                 </td>
                 
-                <td contenteditable="true"
+                {{-- <td contenteditable="true"
                 style="max-width: 150px; 
                        word-wrap: break-word; 
                        white-space: normal; 
-                       overflow: hidden;">{{ $unit->bundle_item }}</td>
-                <td contenteditable="true">{{ $unit->ser_no }}</td>
-                <td contenteditable="true">{{ $unit->prop_tag }}</td>
-                <td>
+                       overflow: hidden;">{{ $unit->bundle_item }}</td> --}}
+                {{-- <td contenteditable="true">{{ $unit->ser_no }}</td> --}}
+                {{-- <td contenteditable="true">{{ $unit->prop_tag }}</td> --}}
+                {{-- <td>
                     <select 
                         style="font-size: 10px; 
                                padding: 5px; 
@@ -303,7 +310,7 @@ onchange="filterByLocation()"
                         <option value="Marlon Alfonso" {{ $unit->input_by == 'Marlon Alfonso' ? 'selected' : '' }}>Marlon Alfonso</option>
                         <option value="Renz Garcia" {{ $unit->input_by == 'Rhenz' ? 'selected' : '' }}>Renz Garcia</option>
                     </select>
-                </td>
+                </td> --}}
                 
                 <td>
                     <select 
@@ -332,7 +339,12 @@ onchange="filterByLocation()"
                                border: 1px solid #ced4da; 
                                background-color: {{ getPmgStatsStyles($unit->pmg_stats)['color'] }}; 
                                color: #495057; 
-                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);"
+                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+                               max-width: 130px; 
+                               word-wrap: break-word; 
+                               white-space: normal; 
+                               overflow: hidden;
+                               "
                         onchange="updateBackgroundColor(this)"
                     >
                         <option value="" selected style="color: #6c757d;"></option>
@@ -359,7 +371,7 @@ onchange="filterByLocation()"
                     </select>
                 </td>
                 
-                <td contenteditable="true">{{ $unit->cust_po_ref }}</td>
+                {{-- <td contenteditable="true">{{ $unit->cust_po_ref }}</td> --}}
 
                 <td>
                     <select 
@@ -369,7 +381,11 @@ onchange="filterByLocation()"
                                border: 1px solid #ced4da; 
                                background-color: {{ getSalesStatsStyles($unit->sales_stats)['color'] }}; 
                                color: #495057; 
-                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);"
+                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+                               max-width: 130px; 
+                               word-wrap: break-word; 
+                               white-space: normal; 
+                               overflow: hidden;"
                         onchange="updateBackgroundColor(this)"
                     >
                         <option value="" selected style="color: #6c757d;"></option>
@@ -418,7 +434,7 @@ onchange="filterByLocation()"
                 <i 
                     class="bi bi-view-list" 
                     style="margin-right: 5px; color: #05580a; font-size: 10px;"
-                ></i> View Unit
+                ></i> View
             </td>
             @endif
             @endauth

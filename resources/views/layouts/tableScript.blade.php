@@ -14,9 +14,9 @@
     document.getElementById('saveChanges').addEventListener('click', function () {
         let editedRows = [];
         const columnNames = [
-            'company', 'categ', 'sku', 'desc', 'vendor_com', 'allocation',
-            'bundle_item', 'ser_no', 'prop_tag', 'input_by', 'unit_stat',
-            'vendor_type', 'pmg_stats', 'cust_po_ref', 'sales_stats', 'sales_remarks'
+         'categ', 'sku', 'desc', 'allocation',
+             'prop_tag', 'unit_stat',
+            'vendor_type', 'pmg_stats',  'sales_stats', 'sales_remarks'
         ];
 
         // Helper function to chunk the data into smaller arrays

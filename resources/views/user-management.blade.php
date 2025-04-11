@@ -1,7 +1,7 @@
 @include("layouts.header")
 <body>
     <div class="container-fluid mt-5">
-        @if (session('success'))
+        {{-- @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
@@ -17,7 +17,7 @@
     <div class="alert alert-danger">
         {{ session('error') }}
     </div>
-@endif
+@endif --}}
 
              <!-- Search Bar -->
              <div class="mb-4">
@@ -25,9 +25,6 @@
             </div>
         
     <a href="{{ url('/users/create') }}" class="btn btn-success" style="font-size: 12px;">Create New User</a>
-    @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
     <table class="table table-striped table-hover mt-3" style="font-size: 12px;" id="usersTable">
         <thead class="table-primary">
             <tr>

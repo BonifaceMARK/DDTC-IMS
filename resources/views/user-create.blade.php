@@ -1,3 +1,5 @@
+<body>
+
 @include('layouts.header')
 
 <div class="container" style="font-size: 12px;">
@@ -51,22 +53,31 @@
                         <input type="password" class="form-control" id="password" name="password" required>
                     </td>
                     <td>
-                            <label for="stats">Status</label>
-                            <select class="form-control" id="stats" name="stats" required>
+                            <label for="status">Status</label>
+                            <select class="form-control" id="status" name="status" required>
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
                             </select>
-                        
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="mt-3">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a href="{{ url('users') }}" class="btn btn-secondary" style="font-size: 12px;">Cancel</a>
+        <div class="mt-3"> <button type="submit" class="btn btn-primary">Save</button></div>
+        <div class="mt-4 text-center" style="position: fixed; top: 10px; right: 10px; z-index: 999;">
+           
+            <a 
+            href="javascript:history.back();" 
+            class="btn btn-secondary btn-sm p-2 d-flex justify-content-center align-items-center mt-2" 
+            style="width: 40px; height: 40px; border-radius: 50%; padding: 0;"
+          >
+            <i class="bi bi-arrow-left-circle-fill" style="font-size: 18px;"></i>
+          </a>
         </div>
     </form>
 </div>
 
 @include('layouts.script')
+
+</body>
+</html>

@@ -72,8 +72,8 @@ class UserController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'email' => 'nullable|email|max:255|unique:users',
             'role' => 'required|in:1,2,3',
-            'password' => 'required|string|min:8',
-            'stats' => 'required|integer|in:0,1',  
+            'password' => 'required|string',
+            'status' => 'required|integer|in:0,1',  
         ]);
     
         // Log the validated data
@@ -86,7 +86,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'role' => $request->role,
                 'password' => bcrypt($request->password),
-                'stats' => $request->stats,
+                'status' => $request->status,
                 'isactive' => $request->has('isactive'),
             ]);
     

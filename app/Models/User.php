@@ -22,7 +22,7 @@ class User extends Authenticatable
         'role',
         'password',
         'isactive',
-        'stats',
+        'status',
         'user_logs',
         'profile_pic',
     ];
