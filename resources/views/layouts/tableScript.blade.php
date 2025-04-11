@@ -14,8 +14,7 @@
     document.getElementById('saveChanges').addEventListener('click', function () {
         let editedRows = [];
         const columnNames = [
-         'categ', 'sku', 'desc', 'allocation',
-             'prop_tag', 'unit_stat',
+         'categ', 'sku', 'desc', 'allocation', 'unit_stat',
             'vendor_type', 'pmg_stats',  'sales_stats', 'sales_remarks'
         ];
 
@@ -39,7 +38,7 @@
 
             // Map the data by column names
             row.querySelectorAll('td').forEach((cell, index) => {
-                if (index === 16) return; // Skip the "View" button column
+                if (index === 9) return; // Skip the "View" button column
                 rowData[columnNames[index]] = cell.querySelector('select') 
                     ? cell.querySelector('select').value 
                     : cell.textContent.trim();

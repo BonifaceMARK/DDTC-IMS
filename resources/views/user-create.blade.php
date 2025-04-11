@@ -23,26 +23,26 @@
 
     <form action="{{ route('users.store') }}" method="POST">
         @csrf
-        <table class="table">
+        <table class="table mt-3" style="font-size:10px;">
             <tbody>
                 <tr>
                     <td>
                         <label for="fullname">Full Name</label>
-                        <input type="text" class="form-control" id="fullname" name="fullname" required>
+                        <input style="font-size:10px;" type="text" class="form-control" id="fullname" name="fullname" required>
                     </td>
                     <td>
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                        <input style="font-size:10px;" type="text" class="form-control" id="username" name="username" required>
                     </td>
                     <td>
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email">
+                        <input style="font-size:10px;" type="email" class="form-control" id="email" name="email">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label for="role">Role</label>
-                        <select class="form-control" id="role" name="role">
+                        <select style="font-size:10px;" class="form-control" id="role" name="role">
                             <option value="1">Admin</option>
                             <option value="2">Manager</option>
                             <option value="3">User</option>
@@ -50,11 +50,11 @@
                     </td>
                     <td>
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        <input style="font-size:10px;" type="password" class="form-control" id="password" name="password" required>
                     </td>
                     <td>
                             <label for="status">Status</label>
-                            <select class="form-control" id="status" name="status" required>
+                            <select style="font-size:10px;" class="form-control" id="status" name="status" required>
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
                             </select>
@@ -63,8 +63,8 @@
             </tbody>
         </table>
 
-        <div class="mt-3"> <button type="submit" class="btn btn-primary">Save</button></div>
-        <div class="mt-4 text-center" style="position: fixed; top: 10px; right: 10px; z-index: 999;">
+        <div class="mt-3" style="font-size:10px;"> <button style="font-size:10px;" type="submit" class="btn btn-primary">Save</button></div>
+        <div class="mt-4 text-center" style="font-size:10px;position: fixed; top: 10px; right: 10px; z-index: 999;">
            
             <a 
             href="javascript:history.back();" 
@@ -78,6 +78,6 @@
 </div>
 
 @include('layouts.script')
-
+@include('layouts.footer')
 </body>
 </html>

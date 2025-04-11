@@ -14,21 +14,21 @@ class UserController extends Controller
         $users = User::all();
         return view('user-management',compact('users'));
     }
-    public function updateRole(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
+    // public function updateRole(Request $request, $id)
+    // {
+    //     $user = User::findOrFail($id);
     
-        // Validate the role input
-        $request->validate([
-            'role' => 'required|in:1,2,3', // Ensure role is 1, 2, or 3
-        ]);
+    //     // Validate the role input
+    //     $request->validate([
+    //         'role' => 'required|in:1,2,3', // Ensure role is 1, 2, or 3
+    //     ]);
     
-        // Update the user's role
-        $user->role = $request->role;
-        $user->save();
+    //     // Update the user's role
+    //     $user->role = $request->role;
+    //     $user->save();
     
-        return redirect()->back()->with('success', 'User role updated successfully!');
-    }
+    //     return redirect()->back()->with('success', 'User role updated successfully!');
+    // }
     
     
     public function show($id)
@@ -107,23 +107,46 @@ class UserController extends Controller
         $users = User::all();
         return view('user-edit',compact('users'));
     }
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'fullname' => 'required|string',
-            'username' => 'required|string|unique:users,username,' . $user->id,
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'role' => 'required|string',
-        ]);
-
-        $user->update([
-            'fullname' => $request->fullname,
-            'username' => $request->username,
-            'email' => $request->email,
-            'role' => $request->role,
-            'isactive' => $request->has('isactive'),
-        ]);
-
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        $user = User::findOrFail($id);
+        $authUser = auth()->user();
+    
+        // If no authenticated user, redirect to the login page
+        if (!$authUser) {
+            return redirect('/')->with('error', 'You need to log in to access this page.');
+        }
+    
+        // Check if the logged-in user's role is not Admin (role != 1)
+        if ($authUser->role != 1) {
+            return redirect('/users')->with('warning', 'You do not have admin privileges.');
+        }
+    
+        if ($request->isMethod('get')) {
+            // Handle GET request to display the user data
+            return view('user-auth', compact('user'));
+        } elseif ($request->isMethod('post') || $request->isMethod('put')) {
+            // Handle POST/PUT request to update the user data
+            $request->validate([
+                'fullname' => 'required|string',
+                'username' => 'required|string|unique:users,username,' . $user->id,
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'role' => 'required|string',
+            ]);
+    
+            $user->update([
+                'fullname' => $request->fullname,
+                'username' => $request->username,
+                'email' => $request->email,
+                'role' => $request->role,
+                'isactive' => $request->has('isactive'),
+            ]);
+    
+            return redirect()->route('users.index')->with('success', 'User updated successfully');
+        }
+    
+        // Fallback in case of an invalid request method
+        return redirect()->route('users.index')->with('error', 'Invalid request.');
     }
+    
 }

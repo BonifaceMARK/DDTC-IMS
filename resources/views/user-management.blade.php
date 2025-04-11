@@ -24,9 +24,10 @@
                 <input type="text" id="searchInput" class="form-control" style="font-size: 12px;" placeholder="Search...">
             </div>
         
-    <a href="{{ url('/users/create') }}" class="btn btn-success" style="font-size: 12px;">Create New User</a>
-    <table class="table table-striped table-hover mt-3" style="font-size: 12px;" id="usersTable">
-        <thead class="table-primary">
+    <a href="{{ url('/users/create') }}" class="btn btn-success mb-2" style="font-size: 10px;">Create New User</a>
+    <div class="table-wrapper" style="width: auto; height: auto; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow-x: auto;">
+        <table class="table table-bordered" id="excelTable" 
+               style="font-size: 9px; border-collapse: collapse; width: 100%; text-align: center;">
             <tr>
                 <th>ID</th>
                 <th>Full Name</th>
@@ -63,8 +64,7 @@
             @endforeach
         </tbody>
     </table>
-    
-    @include('layouts.footer')
+    </DIV>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -121,6 +121,7 @@
     });
 </script>
 @include('layouts.script')
+@include('layouts.footer')
 
     
 </body>

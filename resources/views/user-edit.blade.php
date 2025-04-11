@@ -13,80 +13,81 @@
     </div>
 @endif
 
-    <!-- Form to edit a unit -->
-    <form action="{{ route('update-unit', ['id' => $unit->id]) }}" method="POST" enctype="multipart/form-data">
+<div class="container mt-5">
+    <h3>Edit User</h3>
+    <form action="{{ route('users.update', $user->id) }}" method="POST" class="border rounded p-3">
         @csrf
         @method('PUT')
 
-        <!-- Table for organized input fields -->
-        <table class="table table-bordered" style="font-size: 12px;">
-            <tr>
-                <th>Brand 
-                    <input type="text" class="form-control" id="brand" name="brand" value="{{ $unit->brand }}">
-
-                </th>
-                <th>Model
-                    <input type="text" class="form-control" id="model" name="model" value="{{ $unit->model }}">
-
-                </th>
-                <th>Device Type
-                    <input type="text" class="form-control" id="dev_type" name="dev_type" value="{{ $unit->dev_type }}">
-
-                </th>
-            </tr>
-            <tr>
-                <th>Serial Number
-                    <input type="text" class="form-control" id="serial_no" name="serial_no" value="{{ $unit->serial_no }}">
-
-                </th>
-                <th>Area
-                    <input type="text" class="form-control" id="area" name="area" value="{{ $unit->area }}">
-
-                </th>
-                <th>Property Tag
-                    <input type="text" class="form-control" id="property_tag" name="property_tag" value="{{ $unit->property_tag }}">
-
-                </th>
-            </tr>
-          
-            <tr>
-                <th>Status
-                    <input type="text" class="form-control" id="status" name="status" value="{{ $unit->status }}">
-
-                </th>
-                <th>Description
-                    <input type="text" class="form-control" id="descript" name="descript" value="{{ $unit->descript }}">
-
-                </th>
-                <th>Date Added
-                    <input type="date" class="form-control" id="date_added" name="date_added" value="{{ $unit->date_added }}">
-
-                </th>
-                
-            </tr>
-            <tr>
-                <th>File Attachment
-                    @if($unit->file_attach)
-                    <small class="text-muted">Current file: {{ $unit->file_attach }}</small>
-                @endif
-                </th>
-                <td>
-                    <input type="file" class="form-control" id="file_attach" name="file_attach">
-                  
-                </td>
-                <th>Remarks
-                    <textarea type="text" class="form-control" id="remarks" name="remarks" rows="1" value="{{ $unit->remarks }}"></textarea>
-
-                </th>
-            </tr>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Full Name</th>
+                    <td>
+                        <input 
+                            type="text" 
+                            name="fullname" 
+                            class="form-control" 
+                            value="{{ old('fullname', $user->fullname) }}" 
+                            required
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <td>
+                        <input 
+                            type="text" 
+                            name="username" 
+                            class="form-control" 
+                            value="{{ old('username', $user->username) }}" 
+                            required
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            class="form-control" 
+                            value="{{ old('email', $user->email) }}" 
+                            required
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <th>Role</th>
+                    <td>
+                        <select name="role" class="form-select" required>
+                            <option value="Admin" {{ old('role', $user->role) == 'Admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="User" {{ old('role', $user->role) == 'User' ? 'selected' : '' }}>User</option>
+                            <option value="Manager" {{ old('role', $user->role) == 'Manager' ? 'selected' : '' }}>Manager</option>
+                            <!-- Add more roles as needed -->
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Is Active</th>
+                    <td>
+                        <input 
+                            type="checkbox" 
+                            name="isactive" 
+                            {{ old('isactive', $user->isactive) ? 'checked' : '' }}
+                        > Active
+                    </td>
+                </tr>
+            </tbody>
         </table>
 
-        <!-- Action buttons -->
-        <div class="mt-3">
-            <button type="submit" class="btn btn-success" style="font-size: 12px;">Update Unit</button>
-            <a href="{{ route('view-units', ['limit' => 10]) }}" class="btn btn-secondary" style="font-size: 12px;">Cancel</a>
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{{ route('users.index') }}" class="btn btn-secondary ms-3">Cancel</a>
         </div>
     </form>
+</div>
+
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {

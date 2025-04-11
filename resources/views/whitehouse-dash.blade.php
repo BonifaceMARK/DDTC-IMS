@@ -107,7 +107,7 @@
       onmouseover="this.style.color='white'; this.style.backgroundColor='green';"
       onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
     >
-    <i class="bi bi-people"></i> User Management
+    <i class="bi bi-person-standing"></i> User Management
     </a>
     @endif
       @endauth

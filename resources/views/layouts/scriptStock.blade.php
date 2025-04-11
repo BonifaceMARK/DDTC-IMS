@@ -141,7 +141,6 @@
       const table = document.getElementById("unitTable"); // ID of your table
       const rows = table.querySelectorAll("tbody tr"); // All table rows in the table body
 
-      // Function to filter rows by the selected company
       window.filterByCompany = function (selectedCompany) {
           rows.forEach(row => {
               const companyCell = row.querySelector("td:first-child"); // Target the first cell (Company column)

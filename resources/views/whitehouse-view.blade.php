@@ -330,7 +330,24 @@ onchange="filterByLocation()"
                         <option value="Service Unit" {{ $unit->unit_stat == 'Service Unit' ? 'selected' : '' }} style="background-color: #f8d7da;">🛠️ Service Unit</option>
                     </select>
                 </td>
-                <td contenteditable="true">{{ $unit->vendor_type }}</td>
+                <td>
+                    <select 
+                    style="font-size: 10px; 
+                           padding: 5px; 
+                           border-radius: 5px; 
+                           border: 1px solid #ced4da; 
+                           background-color: #f8f9fa; 
+                           color: #495057; 
+                           box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+                           max-width: 130px; 
+                           word-wrap: break-word; 
+                           white-space: normal; 
+                           overflow: hidden;">
+                    <option value="" selected></option>
+                    <option value="Principal" {{ $unit->vendor_type == 'Principal' ? 'selected' : '' }}> Principal</option>
+                    <option value="Distributor" {{ $unit->vendor_type == 'Distributor' ? 'selected' : '' }}> Distributor</option>
+                </select>
+                </td>
                 <td>
                     <select 
                         style="font-size: 10px; 
