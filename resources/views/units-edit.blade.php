@@ -207,48 +207,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="container-fluid mt-3">
-                                                    <!-- Remarks Section Header -->
-                                                    <div class="row bg-primary text-white py-2">
-                                                        <div class="col text-center">
-                                                            <i class="bi bi-highlighter"></i> Remarks Section
-                                                        </div>
-                                                    </div>
-                                                
-                                                    <!-- Remarks Content -->
-                                                    <div class="row mt-2">
-                                                        <div class="col">
-                                                            <div class="border rounded p-2 shadow-sm" 
-                                                                 style="background-color: #f9f9f9; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
-                                                                <iframe 
-                                                                    src="{{ route('units.remarks', $unit->rec_id) }}" 
-                                                                    width="100%" 
-                                                                    height="300px" 
-                                                                    style="border: none;">
-                                                                </iframe>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                
-                                            </div>
-                                            
-              
-            <div>
-                <button type="submit" class="btn btn-success" style="font-size: 12px;"><i class="bi bi-floppy2"></i> Update</button>
-                <a href="javascript:history.back();" class="btn btn-secondary" style="font-size: 12px;">Cancel</a>
-            </div>
-        </form>
-    </div>
-    <div class="container mt-3">
-        <div class="row">
-       
-    
-           
-          
-        </div>
-         <!-- Upload File Attachment Card -->
+                                           <!-- Upload File Attachment Card -->
          <div class="card mb-3">
             <div class="card-header" style="font-size: 12px;">
                 <i class="bi bi-upload"></i> Upload File Attachment
@@ -262,6 +221,47 @@
                 </form>
             </div>
         </div>
+                                                
+                                            </div>
+                                            
+              
+            <div>
+                <button type="submit" class="btn btn-success" style="font-size: 12px;"><i class="bi bi-floppy2"></i> Update</button>
+                <a href="javascript:history.back();" class="btn btn-secondary" style="font-size: 12px;">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <div class="container mt-3">
+        <div class="row">
+       
+            <div class="container-fluid mt-3">
+                <!-- Remarks Section Header -->
+                <div class="row bg-success text-white py-2">
+                    <div class="col text-center">
+                        <i class="bi bi-highlighter"></i> Remarks Section
+                    </div>
+                </div>
+            
+                <!-- Remarks Content -->
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="border rounded p-2 shadow-sm" 
+                             style="background-color: #f9f9f9; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+                            <iframe 
+                                src="{{ route('units.remarks', $unit->rec_id) }}" 
+                                width="100%" 
+                                height="300px" 
+                                style="border: none;">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+           
+          
+        </div>
+      
 
     </div>
     
