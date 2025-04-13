@@ -1,56 +1,65 @@
 @include('layouts.header')
-<body>
+<body style="font-family: Arial, sans-serif; background-color: #eef2f5; padding: 20px;">
 
-    <div class="container-fluid mt-3">
+    <div style="max-width: 800px; margin: auto;">
         
-    
         <!-- Remarks List -->
-        <div class="row mt-2">
-            <div class="col-12">
-                <div class="remarks-container border rounded p-2" 
-                     style="max-height: 200px; overflow-y: auto; background-color: #f9f9f9;">
-                    <ul id="remarks-list" class="list-group list-group-flush" style="margin: 0;">
-                        <!-- Dynamic content will be inserted here -->
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <!-- Readonly Input -->
-                            <input 
-                                type="text" 
-                                value="Sample remark with responsive and modern design." 
-                                class="form-control form-control-sm flex-grow-1" 
-                                readonly>
-                            
-                            <!-- Edit and Delete Buttons -->
-                            <div class="ms-2">
-                                <button class="btn btn-outline-primary btn-sm me-1 edit-btn">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <button class="btn btn-outline-danger btn-sm delete-btn">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+        <div>
+            <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; background-color: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <ul id="remarks-list" style="list-style: none; padding: 0; margin: 0;">
+                    <!-- Dynamic content will be inserted here -->
+                    <li style="display: flex; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px;">
+                        <!-- Readonly Input -->
+                        <input 
+                            type="text" 
+                            value=""
+                            rows="3" 
+                            style="flex-grow: 1; border: none; padding: 9px; font-size: 9px; background-color: #f9f9f9; border-radius: 4px;" 
+                            readonly>
+                        
+                        <!-- Edit and Delete Buttons -->
+                        <div style="margin-left: 9px; display: flex; gap: 5px;">
+                            <button style="border: none; background-color: #007bff; color: #fff; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                                Edit
+                            </button>
+                            <button style="border: none; background-color: #dc3545; color: #fff; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                                Delete
+                            </button>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     
         <!-- Add New Remark Section -->
-        <div class="row mt-3">
-            <div class="col-8">
-                <textarea 
-                    id="new-remark" 
-                    class="form-control form-control-sm" 
-                    rows="2" 
-                    placeholder="Write your remark here..." 
-                    style="resize: none;">
-                </textarea>
-            </div>
-            <div class="col-4 text-end">
-                <button id="add-remark-btn" class="btn btn-success btn-sm w-100">Add Remark</button>
-            </div>
+        <div style="display: flex; gap: 9px;">
+            <textarea 
+                id="new-remark" 
+                style="flex: 2; resize: none; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;" 
+                rows="3" 
+                placeholder="Write your remark here...">
+            </textarea>
+            <button id="add-remark-btn" style="flex: 1;font-size:9px; background-color: #28a745; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
+                Add Remark
+            </button>
         </div>
     </div>
-    
+    <script>
+        function openEditModal(remark) {
+            document.getElementById('edit-modal').style.display = 'block';
+            document.getElementById('edit-remark-input').value = remark;
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').style.display = 'none';
+        }
+
+        function saveEditedRemark() {
+            const newRemark = document.getElementById('edit-remark-input').value;
+            alert(`Saved remark: ${newRemark}`); // Replace with actual save logic
+            closeEditModal();
+        }
+    </script>
     <script>
         const remarksList = document.getElementById('remarks-list');
         const addRemarkBtn = document.getElementById('add-remark-btn');
