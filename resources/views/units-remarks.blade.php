@@ -10,13 +10,13 @@
                     <!-- Dynamic content will be inserted here -->
                     <li style="display: flex; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px;">
                         <!-- Readonly Input -->
-                        <input 
+                        <textarea 
                             type="text" 
                             value=""
                             rows="3" 
                             style="flex-grow: 1; border: none; padding: 9px; font-size: 9px; background-color: #f9f9f9; border-radius: 4px;" 
                             readonly>
-                        
+                    </textarea>
                         <!-- Edit and Delete Buttons -->
                         <div style="margin-left: 9px; display: flex; gap: 5px;">
                             <button style="border: none; background-color: #007bff; color: #fff; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
