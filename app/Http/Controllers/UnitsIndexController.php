@@ -112,83 +112,89 @@ class UnitsIndexController extends Controller
         return view('units-view', compact('units', 'locations'));
     }
     
-
     public function update(Request $request, $rec_id)
     {
-        // Validate incoming data
-        $request->validate([
-            
-            'company' => 'nullable|string|max:255',
-            'brand' => 'nullable|string|max:255',
-            'model' => 'nullable|string|max:255',
-            'dev_type' => 'nullable|string|max:255',
-            'sku' => 'nullable|string|max:255',
-            'categ' => 'nullable|string|max:255',
-            'ser_no' => 'nullable|string|max:255',
-            'area' => 'nullable|string|max:255',
-            'vendor_com' => 'nullable|string|max:255',
-            'allocation' => 'nullable|string|max:255',
-            'qty' => 'nullable|int|max:255',
-            'bundle_item' => 'nullable|string|max:255',
-            'prop_tag' => 'nullable|string|max:255',
-            'cust_po_ref' => 'nullable|string|max:255',
-            'location' => 'nullable|string|max:255',
-            'input_by' => 'nullable|string|max:255',
-            'vendor_type' => 'nullable|string|max:255',
-            'pmg_stats' => 'nullable|string|max:255',
-            'sales_stats' => 'nullable|string|max:255',
-            'unit_stat' => 'nullable|string|max:255',
-            'desc' => 'nullable|string|max:255',
-            'date_add' => 'nullable|date',
-            'date_pull' => 'nullable|date',
-        ]);
+        try {
+            // Validate incoming data
+            $request->validate([
+                'company' => 'nullable|string|max:255',
+                'brand' => 'nullable|string|max:255',
+                'model' => 'nullable|string|max:255',
+                'dev_type' => 'nullable|string|max:255',
+                'sku' => 'nullable|string|max:255',
+                'categ' => 'nullable|string|max:255',
+                'ser_no' => 'nullable|string|max:255',
+                'area' => 'nullable|string|max:255',
+                'vendor_com' => 'nullable|string|max:255',
+                'allocation' => 'nullable|string|max:255',
+                'qty' => 'nullable|int|max:255',
+                'bundle_item' => 'nullable|string|max:255',
+                'prop_tag' => 'nullable|string|max:255',
+                'cust_po_ref' => 'nullable|string|max:255',
+                'location' => 'nullable|string|max:255',
+                'input_by' => 'nullable|string|max:255',
+                'vendor_type' => 'nullable|string|max:255',
+                'pmg_stats' => 'nullable|string|max:255',
+                'sales_stats' => 'nullable|string|max:255',
+                'unit_stat' => 'nullable|string|max:255',
+                'desc' => 'nullable|string|max:255',
+                'date_add' => 'nullable|date',
+                'date_pull' => 'nullable|date',
+            ]);
     
-        // Debug the request input
-        \Log::info('Incoming request data:', $request->all()); // Log all request data
+            // Debug the request input
+            \Log::info('Incoming request data:', $request->all()); // Log all request data
     
-        // Find the unit by ID
-        $unit = Unit::findOrFail($rec_id);
+            // Find the unit by ID
+            $unit = Unit::findOrFail($rec_id);
     
-        // Debug: Check if unit exists
-        \Log::info('Unit found:', $unit->toArray());
+            // Debug: Check if unit exists
+            \Log::info('Unit found:', $unit->toArray());
     
-       
+            // Update the unit
+            $unit->update([
+                'company' => $request->input('company'),
+                'brand' => $request->input('brand'),
+                'model' => $request->input('model'),
+                'dev_type' => $request->input('dev_type'),
+                'sku' => $request->input('sku'),
+                'categ' => $request->input('categ'),
+                'ser_no' => $request->input('ser_no'),
+                'area' => $request->input('area'),
+                'vendor_com' => $request->input('vendor_com'),
+                'allocation' => $request->input('allocation'),
+                'qty' => $request->input('qty'),
+                'bundle_item' => $request->input('bundle_item'),
+                'prop_tag' => $request->input('prop_tag'),
+                'cust_po_ref' => $request->input('cust_po_ref'),
+                'location' => $request->input('location'),
+                'input_by' => $request->input('input_by'),
+                'vendor_type' => $request->input('vendor_type'),
+                'pmg_stats' => $request->input('pmg_stats'),
+                'sales_stats' => $request->input('sales_stats'),
+                'sales_remarks' => $request->input('sales_remarks'),
+                'unit_stat' => $request->input('unit_stat'),
+                'desc' => $request->input('desc'),
+                'date_add' => $request->input('date_add'),
+                'date_pull' => $request->input('date_pull'),
+            ]);
     
-        $unit->update([
-            'company' => $request->input('company'),
-            'brand' => $request->input('brand'),
-            'model' => $request->input('model'),
-            'dev_type' => $request->input('dev_type'),
-            'sku' => $request->input('sku'),
-            'categ' => $request->input('categ'),
-            'ser_no' => $request->input('ser_no'),
-            'area' => $request->input('area'),
-            'vendor_com' => $request->input('vendor_com'),
-            'allocation' => $request->input('allocation'),
-            'qty' => $request->input('qty'),
-            'bundle_item' => $request->input('bundle_item'),
-            'prop_tag' => $request->input('prop_tag'),
-            'cust_po_ref' => $request->input('cust_po_ref'),
-            'location' => $request->input('location'),
-            'input_by' => $request->input('input_by'),
-            'vendor_type' => $request->input('vendor_type'),
-            'pmg_stats' => $request->input('pmg_stats'),
-            'sales_stats' => $request->input('sales_stats'),
-            'sales_remarks' => $request->input('sales_remarks'),
-            'unit_stat' => $request->input('unit_stat'),
-            'desc' => $request->input('desc'),
-            'date_add' => $request->input('date_add'),
-            'date_pull' => $request->input('date_pull'),
-        ]);
+            // Debug: Check final updated unit
+            \Log::info('Unit updated successfully:', $unit->toArray());
     
-        // Debug: Check final updated unit
-        \Log::info('Unit updated successfully:', $unit->toArray());
-    
-        return response()->json([
-            'success' => false,
-            'message' => "An error occurred while updating units: " . $e->getMessage()
-        ], 500); 
+            return response()->json([
+                'success' => true,
+                'message' => 'Unit updated successfully',
+            ], 200);
+        } catch (\Exception $e) {
+            \Log::error('Error updating unit:', ['error' => $e->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'message' => "An error occurred while updating units: " . $e->getMessage()
+            ], 500);
+        }
     }
+    
     public function storeFileAttachment(Request $request, $rec_id)
     {
         $request->validate([

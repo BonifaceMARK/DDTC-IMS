@@ -207,17 +207,27 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="card mb-3 shadow">
-                                                    <div class="card-header bg-primary text-white">
-                                                        <i class="bi bi-highlighter"></i> Remarks Section
+                                                <div class="container-fluid mt-3">
+                                                    <!-- Remarks Section Header -->
+                                                    <div class="row bg-primary text-white py-2">
+                                                        <div class="col text-center">
+                                                            <i class="bi bi-highlighter"></i> Remarks Section
+                                                        </div>
                                                     </div>
-                                                    <div class="card-body p-3">
-                                                        <iframe 
-                                                            src="{{ route('units.remarks', $unit->rec_id) }}" 
-                                                            width="100%" 
-                                                            height="300px" 
-                                                            style="border: none; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
-                                                        </iframe>
+                                                
+                                                    <!-- Remarks Content -->
+                                                    <div class="row mt-2">
+                                                        <div class="col">
+                                                            <div class="border rounded p-2 shadow-sm" 
+                                                                 style="background-color: #f9f9f9; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+                                                                <iframe 
+                                                                    src="{{ route('units.remarks', $unit->rec_id) }}" 
+                                                                    width="100%" 
+                                                                    height="300px" 
+                                                                    style="border: none;">
+                                                                </iframe>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 

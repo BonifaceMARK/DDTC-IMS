@@ -1,63 +1,54 @@
 @include('layouts.header')
 <body>
 
-    <div>
-        <table class="table table-bordered table-sm" style="width: 100%; margin: 0;">
-            <thead class="bg-primary text-white">
-                <tr>
-                    <th colspan="2" class="text-center">
-                        <i class="bi bi-highlighter"></i> Add Remark
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Remarks List -->
-                <tr>
-                    <td colspan="2" style="padding: 0;">
-                        <div class="remarks-container" 
-                             style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; border-radius: 5px; 
-                                    padding: 5px; background-color: #f9f9f9; scrollbar-width: thin; scrollbar-color: #888 #f9f9f9;">
-                            <ul id="remarks-list" style="list-style: none; padding: 0; margin: 0;">
-                                <!-- Dynamic content will be inserted here -->
-                                <li style="display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 5px;">
-                                    <input 
-                                        type="text" 
-                                        value="This is a very long remark that will automatically wrap into a new row if it does not fit within the current row." 
-                                        class="form-control form-control-sm" 
-                                        style="flex: 1 1 auto; margin-right: 10px; min-width: 200px;" 
-                                        readonly>
-                                    <button class="btn btn-outline-primary btn-sm me-1 edit-btn" style="white-space: nowrap;">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </button>
-                                    <button class="btn btn-outline-danger btn-sm delete-btn" style="white-space: nowrap;">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </li>
-                                
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                
-                
+    <div class="container-fluid mt-3">
+        
     
-                <!-- Add New Remark Section -->
-                <tr>
-                    <td style="width: 70%; padding-right: 10px;">
-                        <textarea 
-                            id="new-remark" 
-                            class="form-control form-control-sm" 
-                            rows="2" 
-                            placeholder="Write your remark here..." 
-                            style="resize: none; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
-                        </textarea>
-                    </td>
-                    <td style="width: 30%; text-align: center;">
-                        <button id="add-remark-btn" class="btn btn-success btn-sm w-100">Add Remark</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Remarks List -->
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="remarks-container border rounded p-2" 
+                     style="max-height: 200px; overflow-y: auto; background-color: #f9f9f9;">
+                    <ul id="remarks-list" class="list-group list-group-flush" style="margin: 0;">
+                        <!-- Dynamic content will be inserted here -->
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <!-- Readonly Input -->
+                            <input 
+                                type="text" 
+                                value="Sample remark with responsive and modern design." 
+                                class="form-control form-control-sm flex-grow-1" 
+                                readonly>
+                            
+                            <!-- Edit and Delete Buttons -->
+                            <div class="ms-2">
+                                <button class="btn btn-outline-primary btn-sm me-1 edit-btn">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm delete-btn">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Add New Remark Section -->
+        <div class="row mt-3">
+            <div class="col-8">
+                <textarea 
+                    id="new-remark" 
+                    class="form-control form-control-sm" 
+                    rows="2" 
+                    placeholder="Write your remark here..." 
+                    style="resize: none;">
+                </textarea>
+            </div>
+            <div class="col-4 text-end">
+                <button id="add-remark-btn" class="btn btn-success btn-sm w-100">Add Remark</button>
+            </div>
+        </div>
     </div>
     
     <script>
