@@ -73,4 +73,9 @@ class Unit extends Model
         }
         return 'N/A'; // Default value if date_add is null
     }
+    public function remarks()
+{
+    return $this->hasMany(Remark::class);
+}
+
 }

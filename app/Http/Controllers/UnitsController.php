@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\UnitRemark;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Unit;
 use App\Models\User;
 use Carbon\Carbon;
 
-class ShowroomController extends Controller
+class UnitsController extends Controller
 {
     /**
      * Display the index page.
@@ -23,7 +24,7 @@ class ShowroomController extends Controller
      */
     public function create()
     {
-        return view('showroom-create');
+        return view('units-create');
     }
 
     /**
@@ -211,18 +212,97 @@ class ShowroomController extends Controller
 // }
 
 
-    /**
-     * Show the edit page.
-     */
-    public function edit($id)
-    {
-        // Retrieve the unit by ID
-        $unit = Unit::findOrFail($id);
+//     /**
+//      * Show the edit page.
+//      */
+//     public function edit($id)
+//     {
+//         // Retrieve the unit by ID
+//         $unit = Unit::findOrFail($id);
     
-        // Pass the unit data to the edit view
-        return view('showroom-edit', compact('unit'));
+//         // Pass the unit data to the edit view
+//         return view('showroom-edit', compact('unit'));
+//     }
+
+
+public function addRemark(Request $request, $rec_id)
+{
+    try {
+        // Log::info('AddRemark Route Hit', [
+        //     'rec_id' => $rec_id,
+        //     'request_method' => $request->method(),
+        //     'request_data' => $request->all(),
+        // ]);
+
+        $request->validate([
+            'remark' => 'required|max:500', // Limit remark length
+        ]);
+
+        UnitRemark::create([
+            'unit_id' => $rec_id,
+            'remark' => $request->input('remark'),
+            'user_id' => auth()->id(), // Attach the logged-in user
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Remark added successfully']);
+    } catch (\Exception $e) {
+        Log::error('Error in AddRemark', [
+            'error_message' => $e->getMessage(),
+            'rec_id' => $rec_id,
+        ]);
+        return response()->json(['success' => false, 'message' => 'An error occurred. Please try again.'], 500);
+    }
+}
+    
+public function fetchRemarks($rec_id)
+{
+    // Log::info('FetchRemarks Route Hit', [
+    //     'rec_id' => $rec_id,
+    // ]);
+
+    $remarks = UnitRemark::where('unit_id', $rec_id)
+        ->with('user') // Eager load user details
+        ->orderBy('created_at', 'desc')
+        ->get();
+    return response()->json($remarks);
+}
+
+    
+    public function remarks($rec_id)
+    {
+        $unit = Unit::where('rec_id', $rec_id)->firstOrFail(); // Find the unit by rec_id
+        return view('units-remarks', compact('unit'));
     }
     
+    public function updateRemarks(Request $request, $rec_id)
+    {
+        $unit = Unit::where('rec_id', $rec_id)->firstOrFail(); // Find by rec_id
+        $unit->remarks = $request->input('remarks');
+        $unit->save();
+    
+        return redirect()->route('units.remarks', $unit->rec_id)->with('success', 'Remarks updated successfully!');
+    }
+    public function editRemark(Request $request, $remark_id)
+{
+    $request->validate([
+        'remark' => 'required|max:500', // Validate updated remark
+    ]);
+
+    $remark = UnitRemark::findOrFail($remark_id); // Find the remark by ID
+    $remark->remark = $request->input('remark'); // Update the remark content
+    $remark->save(); // Save changes
+
+    return response()->json(['success' => true, 'message' => 'Remark updated successfully']);
+}
+
+public function deleteRemark($remark_id)
+{
+    $remark = UnitRemark::findOrFail($remark_id); // Find the remark by ID
+    $remark->delete(); // Delete the remark
+
+    return response()->json(['success' => true, 'message' => 'Remark deleted successfully']);
+}
+
 
     /**
      * Show the view page.

@@ -1,7 +1,7 @@
 @include('layouts.header')
 <body>
  
-    <div class="container-fluid mt-3">
+    <div class="container-fluid mb-3 mt-3">
 
   <!-- Search Bar and Filters -->
 <div class="mb-4">
@@ -38,7 +38,7 @@
                 </ul>
             </div>
 
-     <!-- Location Dropdown -->
+<!-- Location Dropdown -->
 <select 
 id="locationDropdown" 
 style="font-size: 10px; 
@@ -50,14 +50,18 @@ style="font-size: 10px;
        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);" 
 onchange="filterByLocation()"
 >
-<option value="all_locations" selected>🌍 All Locations</option>
-@foreach ($locations as $loc)
-    <option value="{{ $loc->location }}" {{ request('location') == $loc->location ? 'selected' : '' }}>📍 {{ $loc->location }}</option>
-@endforeach
+    <option value="all_locations" selected>🌍 All Locations</option>
+    @foreach ($locations as $loc)
+        <option value="{{ $loc->location }}" {{ request('location') == $loc->location ? 'selected' : '' }}>📍 {{ $loc->location }}</option>
+    @endforeach
 </select>
+
+
+
 
             <!-- Month Selector -->
             <div class="dropdown ms-2 me-2">
+                
                 <button 
                     class="btn btn-light dropdown-toggle" 
                     type="button" 
@@ -92,6 +96,22 @@ onchange="filterByLocation()"
                         <li><a class="dropdown-item" href="{{ route('view.whitehouse', ['year' => $year, 'month' => request('month'), 'limit' => session('selected_limit') ?? 10]) }}">{{ $year }}</a></li>
                     @endfor
                 </ul>
+                
+<!-- Specific Date Input -->
+<input 
+style="font-size: 10px; 
+       padding: 8px; 
+       border-radius: 5px; 
+       border: 1px solid #ced4da; 
+       background: linear-gradient(to right, #ffffff, #f7f7f7); 
+       color: #333; 
+       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);" 
+type="date" 
+id="specific_date" 
+name="specific_date" 
+value="{{ request('specific_date') }}" 
+onchange="filterByDate(this.value);" 
+>
             </div>
             @auth
             @if (in_array(auth()->user()->role, [1, 2]))
@@ -104,7 +124,7 @@ onchange="filterByLocation()"
                   onmouseover="this.style.color='white'; this.style.backgroundColor='green';"
           onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
                 >
-                  <i class="bi bi-plus-square-fill"></i>
+                <i class="bi bi-plus-lg"></i>
                 </a>
               
                 <!-- Save Button -->
@@ -126,9 +146,9 @@ onchange="filterByLocation()"
 
 
  <!-- Responsive Table with Resizable Columns -->
-<div class="table-wrapper" style="width: auto; height: auto; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow-x: auto;">
+<div class="table-wrapper" style="width: auto; height: auto; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
     <table class="table table-bordered" id="excelTable" 
-           style="font-size: 9px; border-collapse: collapse; width: 100%; text-align: center;">
+           style="font-size: 9px; border-collapse: collapse; width: 100%; text-align: center;overflow-x:inherit;">
            <thead style="position: sticky; top: 0; background-color: #004080; color: #fff; z-index: 1;">
             <tr style="border-bottom: 3px solid #ccc;">
                 {{-- <th style="width: 150px; position: relative;">
@@ -344,9 +364,10 @@ onchange="filterByLocation()"
                            white-space: normal; 
                            overflow: hidden;">
                     <option value="" selected></option>
-                    <option value="Principal" {{ $unit->vendor_type == 'Principal' ? 'selected' : '' }}> Principal</option>
-                    <option value="Distributor" {{ $unit->vendor_type == 'Distributor' ? 'selected' : '' }}> Distributor</option>
+                    <option value="Principal" {{ $unit->vendor_type == 'Principal' ? 'selected' : '' }}>⭐ Principal</option>
+                    <option value="Distributor" {{ $unit->vendor_type == 'Distributor' ? 'selected' : '' }}>✔️ Distributor</option>
                 </select>
+                
                 </td>
                 <td>
                     <select 

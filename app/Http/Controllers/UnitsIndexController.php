@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 use App\Models\Unit;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log; // For logging
-class WhitehouseController extends Controller
+use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\DB;
+class UnitsIndexController extends Controller
 {
     public function index(){
         
-        return view('whitehouse-dash');
+        return view('stock-dash');
     }
     public function updateUnits(Request $request)
     {
@@ -76,43 +77,40 @@ class WhitehouseController extends Controller
         $limit = $request->input('limit', 10); // Default limit is 10
         $month = $request->input('month'); // Get month from the request
         $year = $request->input('year'); // Get year from the request
+        $specificDate = $request->input('specific_date'); // Get specific date from the request
         $location = $request->input('location'); // Get location from the request
     
         session(['selected_limit' => $limit]);
     
-        // Build the query dynamically
         $query = Unit::query();
     
-        // Apply location filter if provided
-        if ($location) {
+        if ($location && $location !== 'No Location') {
             $query->where('location', $location);
+        } else if ($location === 'No Location') {
+            $query->whereNull('location')->orWhere('location', ''); // Include null or empty locations explicitly
         }
     
-        // Apply month and year filters if provided
-        if ($month && $year) {
+        if ($specificDate) {
+            $query->whereDate('date_add', $specificDate);
+        } else if ($month && $year) {
             $query->whereMonth('date_add', $month)
                   ->whereYear('date_add', $year);
         }
     
-        // Order by most recent
         $query->orderBy('created_at', 'desc');
     
-        // Conditionally fetch data based on the limit
         if ($limit === 'All') {
             $units = $query->get(); // Fetch all units
         } else {
             $units = $query->paginate((int) $limit); // Paginate with the specified limit
         }
     
-        // Fetch distinct locations for the dropdown
-        $locations = Unit::select('location')->distinct()->get();
+        $locations = Unit::select(DB::raw("COALESCE(location, 'No Location') AS location"))
+                         ->distinct()
+                         ->get();
     
-        
-        return view('whitehouse-view', compact('units', 'locations'));
+        return view('units-view', compact('units', 'locations'));
     }
-    
-    
-
     
 
     public function update(Request $request, $rec_id)
@@ -216,7 +214,7 @@ class WhitehouseController extends Controller
     public function edit($rec_id)
     {
         $unit = Unit::findOrFail($rec_id);
-        return view('whitehouse-edit', compact('unit'));
+        return view('units-edit', compact('unit'));
      
     }
     

@@ -202,22 +202,26 @@
                                                             </div>
                                                             <div class="card-body">
                                                                 <input type="text" style="font-size: 10px;" class="form-control" id="status" name="status" 
-                                                                       value="Archive{{ $unit->stats }}" readonly>
+                                                                       value="Archive {{ $unit->stats }}" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- Remarks -->
-                                                <div class="card mb-3">
-                                                    <div class="card-header">
-                                                        <i class="bi bi-highlighter"></i> Remarks
+                                                <div class="card mb-3 shadow">
+                                                    <div class="card-header bg-primary text-white">
+                                                        <i class="bi bi-highlighter"></i> Remarks Section
                                                     </div>
-                                                    <div class="card-body">
-                                                        <textarea type="text" style="font-size: 10px;" class="form-control" id="remarks" name="remarks" rows="1">
-                                                            {{ $unit->remarks }}
-                                                        </textarea>
+                                                    <div class="card-body p-3">
+                                                        <iframe 
+                                                            src="{{ route('units.remarks', $unit->rec_id) }}" 
+                                                            width="100%" 
+                                                            height="300px" 
+                                                            style="border: none; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+                                                        </iframe>
                                                     </div>
                                                 </div>
+                                                
+                                                
                                             </div>
                                             
               

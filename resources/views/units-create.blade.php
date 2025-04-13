@@ -23,7 +23,7 @@
                 <div class="col-lg-6">
         <form action="{{ route('units.store') }}" method="POST">
             @csrf
-            <table class="table table-bordered mt-3" style="font-size: 10px;">
+            <table class="table table-bordered mt-3" style="font-size: 9px;">
                 <tr>
                     <th>Company
                         <select  class="form-control" style="font-size: 10px;" id="Company" name="company" required

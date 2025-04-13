@@ -62,14 +62,14 @@
       </nav>
     </div> --}}
 
-    <section id="starter-section" style="height: 480px; margin: 0; padding: 0; width: 100%;">
-      <div class="container-fluid section-title" style="padding: 0; height: 100%;" data-aos="fade-up">
+    <section id="starter-section" style="height: 480px; margin: 0; padding: 0; width: 100%; margin-bottom:100px; ">
+      <div class="container-fluid section-title" style="padding: 0; height: 100%; " data-aos="fade-up">
         <!-- Panel with iFrame -->
-        <div class="iframe-panel border rounded" style="height: 100%; background-color: transparent; padding: 0;">
+        <div class="iframe-panel border rounded " style="height: 100%; background-color: transparent; padding: 0; margin-bottom:150px;">
           <iframe 
             id="iframeContent" 
             src="{{ route('view.whitehouse') }}" 
-            style="width: 100%; height: 100%; border: none;">
+            style="width: 100%; height: 100%; border: none; ">
           </iframe>
         </div>
       </div>

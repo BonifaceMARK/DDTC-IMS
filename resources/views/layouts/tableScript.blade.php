@@ -97,4 +97,56 @@
   
   
   </script>
-  
+      {{-- FOR TABLE SELECTOR --}}
+    
+      <script>
+        document.addEventListener('keydown', function (event) {
+            const activeCell = document.activeElement;
+
+            if (!activeCell || activeCell.tagName !== 'TD') return;
+
+            const table = document.getElementById('excelTable');
+            const rows = Array.from(table.getElementsByTagName('tr'));
+            const cells = Array.from(activeCell.parentElement.children);
+            const currentRowIndex = rows.indexOf(activeCell.parentElement);
+            const currentCellIndex = cells.indexOf(activeCell);
+
+            switch (event.key) {
+                case 'ArrowUp': // Move up
+                    if (currentRowIndex > 0) {
+                        const targetCell = rows[currentRowIndex - 1].children[currentCellIndex];
+                        targetCell.focus();
+                    }
+                    break;
+                case 'ArrowDown': // Move down
+                    if (currentRowIndex < rows.length - 1) {
+                        const targetCell = rows[currentRowIndex + 1].children[currentCellIndex];
+                        targetCell.focus();
+                    }
+                    break;
+                case 'ArrowLeft': // Move left
+                    if (currentCellIndex > 0) {
+                        const targetCell = cells[currentCellIndex - 1];
+                        targetCell.focus();
+                    }
+                    break;
+                case 'ArrowRight': // Move right
+                    if (currentCellIndex < cells.length - 1) {
+                        const targetCell = cells[currentCellIndex + 1];
+                        targetCell.focus();
+                    }
+                    break;
+            }
+        });
+
+        document.addEventListener('focusin', function (event) {
+            const activeCell = event.target;
+            if (activeCell && activeCell.tagName === 'TD') {
+                const range = document.createRange();
+                const selection = window.getSelection();
+                range.selectNodeContents(activeCell);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        });
+    </script>
