@@ -504,8 +504,7 @@ onchange="filterByDate(this.value);"
 </style>
 
 
-@include('layouts.filterscript')
-
+    @include('layouts.filterscript')
     @include('layouts.script')
     @include('layouts.scriptStock')
 </body>
