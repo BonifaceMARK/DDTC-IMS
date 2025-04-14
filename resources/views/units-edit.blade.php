@@ -2,7 +2,7 @@
 
 <body>
     <div class="container-fluid mt-2" style="font-size: 10px;">
-        @if ($errors->any())
+        {{-- @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -10,7 +10,7 @@
                 @endforeach
             </ul>
         </div>
-    @endif
+    @endif --}}
     
         <!-- Form to edit a unit -->
         <form action="{{ route('update.whitehouse', ['rec_id' => $unit->rec_id]) }}" method="POST" enctype="multipart/form-data">
@@ -207,30 +207,32 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                           <!-- Upload File Attachment Card -->
-         <div class="card mb-3">
-            <div class="card-header" style="font-size: 12px;">
-                <i class="bi bi-upload"></i> Upload File Attachment
-            </div>
-            <div class="card-body">
-                <form id="fileUploadForm" action="{{ route('file-attachments.store', ['rec_id' => $unit->rec_id]) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="file" class="form-control" id="file_att" name="file_att" style="font-size: 10px;" required>
-                    <small class="text-muted" style="font-size: 9px;">Supported formats: JPG, PNG, PDF.</small>
-                    <button type="submit" class="btn btn-primary btn-sm mt-2" style="font-size: 10px;">Upload</button>
-                </form>
-            </div>
-        </div>
-                                                
-                                            </div>
+                                                <div>
+                                                    <button type="submit" class="btn btn-success" style="font-size: 12px;"><i class="bi bi-floppy2"></i> Update</button>
+                                                    <a href="javascript:history.back();" class="btn btn-secondary" style="font-size: 12px;">Cancel</a>
+                                                </div>
+                                            </form>
+                                    </div>
                                             
               
-            <div>
-                <button type="submit" class="btn btn-success" style="font-size: 12px;"><i class="bi bi-floppy2"></i> Update</button>
-                <a href="javascript:history.back();" class="btn btn-secondary" style="font-size: 12px;">Cancel</a>
-            </div>
-        </form>
+         
     </div>
+                                   <!-- Upload File Attachment Card -->
+                                   <div class="card mb-3">
+                                    <div class="card-header" style="font-size: 12px;">
+                                        <i class="bi bi-upload"></i> Upload File Attachment
+                                    </div>
+                                    <div class="card-body">
+                                        <form id="fileUploadForm" action="{{ route('file-attachments.store', ['rec_id' => $unit->rec_id]) }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="file" class="form-control" id="file_att" name="file_att" style="font-size: 10px;" required>
+                                            <small class="text-muted" style="font-size: 9px;">Supported formats: JPG, PNG, PDF.</small>
+                                            <button type="submit" class="btn btn-primary btn-sm mt-2" style="font-size: 10px;">Upload</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                                                        
+                                                    
     <div class="container mt-3">
         <div class="row">
        
@@ -266,6 +268,15 @@
     </div>
     
     <script>
+         document.addEventListener("DOMContentLoaded", function() {
+            @if(session('success'))
+                toastr.success("{{ session('success') }}");
+            @endif
+    
+            @if(session('error'))
+                toastr.error("{{ session('error') }}");
+            @endif
+        });
         $('#fileUploadForm').on('submit', function(e) {
     e.preventDefault();
 
@@ -281,24 +292,13 @@
             toastr.success(response.message, 'Success');
         },
         error: function(xhr) {
-            // Display error message using Toastr
-            toastr.error('File upload failed: ' + xhr.responseJSON.message, 'Error');
-        }
+    console.log(xhr); // Log the error response to the console
+    toastr.error('File upload failed', 'Error');
+}
     });
 });
 
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            @if(session('success'))
-                toastr.success("{{ session('success') }}");
-            @endif
-    
-            @if(session('error'))
-                toastr.error("{{ session('error') }}");
-            @endif
-        });
-    </script>
-      @include('layouts.footer')
+   
 @include('layouts.script')
 </body>

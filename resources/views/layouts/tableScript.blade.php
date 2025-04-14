@@ -3,7 +3,6 @@
   document.addEventListener('DOMContentLoaded', function () {
     const table = document.querySelector('#excelTable tbody');
 
-    // Detect changes in any cell and mark the row as changed
     table.addEventListener('input', function (event) {
         const row = event.target.closest('tr');
         if (row) {
@@ -14,11 +13,10 @@
     document.getElementById('saveChanges').addEventListener('click', function () {
         let editedRows = [];
         const columnNames = [
-         'categ', 'sku', 'desc', 'allocation', 'unit_stat',
-            'vendor_type', 'pmg_stats',  'sales_stats', 'sales_remarks'
+         'categ', 'model', 'sku', 'desc','ser_no','location','vendor_com',null,
+         'allocation', 'unit_stat', 'vendor_type', 'pmg_stats',  'sales_stats', 'sales_remarks','cust_po_ref'
         ];
 
-        // Helper function to chunk the data into smaller arrays
         const chunkArray = (arr, size) => {
             const chunks = [];
             for (let i = 0; i < arr.length; i += size) {
@@ -27,7 +25,6 @@
             return chunks;
         };
 
-        // Loop through all rows and collect only edited rows
         document.querySelectorAll('#excelTable tbody tr[data-changed="true"]').forEach(row => {
             let rowData = { rec_id: row.getAttribute('data-rec-id') }; // Get the unique rec_id for the row
 
@@ -36,9 +33,8 @@
                 return;
             }
 
-            // Map the data by column names
             row.querySelectorAll('td').forEach((cell, index) => {
-                if (index === 9) return; // Skip the "View" button column
+                if (index === 16) return; // Skip the "View" button column
                 rowData[columnNames[index]] = cell.querySelector('select') 
                     ? cell.querySelector('select').value 
                     : cell.textContent.trim();

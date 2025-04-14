@@ -1,5 +1,24 @@
 @include('layouts.header')
+<style>
+    /* Ensure a clean design */
+    th {
+        position: relative;
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+
+    th > div {
+        position: absolute;
+        height: 100%;
+    }
+
+    tbody td {
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+
+    
+</style>
 <body>
+
  
     <div class="container-fluid mb-3 mt-3">
 
@@ -146,7 +165,6 @@ onchange="filterByDate(this.value);"
 
 
  <!-- Responsive Table with Resizable Columns -->
-<div class="table-wrapper" style="width: auto; height: auto; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
     <table class="table table-bordered" id="excelTable" 
            style="font-size: 9px; border-collapse: collapse; width: 100%; text-align: center;overflow-x:inherit;">
            <thead style="position: sticky; top: 0; background-color: #004080; color: #fff; z-index: 1;">
@@ -158,14 +176,26 @@ onchange="filterByDate(this.value);"
                     <i class="bi bi-tags"></i> Category
                 </th>
                 <th style="width: 150px; position: relative;">
+                    <i class="bi bi-tags"></i> Model
+                </th>
+                <th style="width: 150px; position: relative;">
                     <i class="bi bi-upc-scan"></i> SKU
                 </th>
                 <th style="width: 150px; position: relative;">
                     <i class="bi bi-card-text"></i> Short Item Description
                 </th>
-                {{-- <th style="width: 150px; position: relative;">
-                    <i class="bi bi-truck"></i> Vendor Company
-                </th> --}}
+                <th style="width: 150px; position: relative;">
+                    <i class="bi bi-card-text"></i> Serial Number
+                </th>
+                <th style="width: 150px; position: relative;">
+                    <i class="bi bi-card-text"></i> Warehouse
+                </th>
+                <th style="width: 150px; position: relative;">
+                    <i class="bi bi-truck"></i> Vendor / Supplier
+                </th>
+                <th style="width: 150px; position: relative;">
+                    <i class="bi bi-truck"></i> Vendor PO Attachment
+                </th>
                 <th style="width: 150px; position: relative;">
                     <i class="bi bi-clipboard-check"></i> Allocation
                 </th>
@@ -198,7 +228,10 @@ onchange="filterByDate(this.value);"
                     <i class="bi bi-graph-up-arrow"></i> Sales Status
                 </th>
                 <th style="width: 150px; position: relative;">
-                    <i class="bi bi-chat-text-fill"></i> Sales Remarks
+                    <i class="bi bi-graph-up-arrow"></i> Sales Remarks
+                </th>
+                <th style="width: 150px; position: relative;">
+                    <i class="bi bi-chat-text-fill"></i> Customer PO Reference
                 </th>
                 @auth
                 @if (in_array(auth()->user()->role, [1, 2]))
@@ -250,7 +283,9 @@ onchange="filterByDate(this.value);"
                         <option value="Retail Solution" {{ $unit->categ == 'Retail Solution' ? 'selected' : '' }}>🛒 Retail Solution</option>
                     </select>
                 </td>
+                <td contenteditable="true">{{ $unit->model }}</td>
                 <td contenteditable="true">{{ $unit->sku }}</td>
+                
                 <td contenteditable="true" 
                 style="max-width: 150px; 
                        word-wrap: break-word; 
@@ -258,8 +293,11 @@ onchange="filterByDate(this.value);"
                        overflow: hidden;">
                 {{ $unit->desc }}
             </td>
-            
-                {{-- <td contenteditable="true">{{ $unit->vendor_com }}</td> --}}
+            <td contenteditable="true">{{ $unit->ser_no }}</td>
+            <td contenteditable="true">{{$unit->location}}</td>
+
+                <td contenteditable="true">{{ $unit->vendor_com }}</td>
+                <td contenteditable="true">FILE ATTACHMENT</td>
                 <td>
                     <select 
                         style="font-size: 10px; 
@@ -452,6 +490,7 @@ onchange="filterByDate(this.value);"
                 
                 
                 <td contenteditable="true">{{ $unit->sales_remarks }}</td>
+                <td contenteditable="true">{{$unit->cust_po_ref}}</td>
                 @auth
                 @if (in_array(auth()->user()->role, [1, 2]))
                 <td 
@@ -481,30 +520,9 @@ onchange="filterByDate(this.value);"
         @endforeach
         </tbody>
     </table>
-</div>
  
 @include('layouts.tableScript')
-<style>
-    /* Ensure a clean design */
-    th {
-        position: relative;
-        white-space: nowrap; /* Prevent text from wrapping */
-    }
-
-    th > div {
-        position: absolute;
-        height: 100%;
-    }
-
-    tbody td {
-        white-space: nowrap; /* Prevent text from wrapping */
-    }
-
-    
-</style>
-
-
-    @include('layouts.filterscript')
-    @include('layouts.script')
-    @include('layouts.scriptStock')
+@include('layouts.filterscript')
+@include('layouts.script')
+@include('layouts.scriptStock')
 </body>

@@ -45,7 +45,7 @@ class UnitsController extends Controller
         'vendor_com' => 'nullable|string|max:255',
         'allocation' => 'nullable|string|max:255',
         'qty' => 'nullable|integer|max:10',
-        'bundle_item' => 'nullable|string|max:10',
+        'bundle_item' => 'nullable|string',
         'prop_tag' => 'nullable|string|max:255',
         'cust_po_ref' => 'nullable|string|max:255',
         'stats' => 'nullable|string',
@@ -59,7 +59,6 @@ class UnitsController extends Controller
         'date_add' => 'nullable|date',
         'date_pull' => 'nullable|date',
     ]);
-    // Create a new unit record with JSON-encoded audit_hist
     Unit::create([
         'company' => $request->input('company'),
         'brand' => $request->input('brand'),

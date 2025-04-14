@@ -182,10 +182,8 @@ class UnitsIndexController extends Controller
             // Debug: Check final updated unit
             \Log::info('Unit updated successfully:', $unit->toArray());
     
-            return response()->json([
-                'success' => true,
-                'message' => 'Unit updated successfully',
-            ], 200);
+            return redirect()->back()->with('success', 'Unit updated successfully.');
+
         } catch (\Exception $e) {
             \Log::error('Error updating unit:', ['error' => $e->getMessage()]);
             return response()->json([
@@ -198,19 +196,22 @@ class UnitsIndexController extends Controller
     public function storeFileAttachment(Request $request, $rec_id)
     {
         $request->validate([
-            'file_att' => 'required|file',
+            'file_att' => 'required|mimes:jpg,png,pdf|max:2048', // 2MB file size limit
         ]);
+        
     
         // Find the unit by ID
         $unit = Unit::findOrFail($rec_id);
     
         // Handle file upload
         $filePath = $request->file('file_att')->store('attachments', 'public');
-    
+        \Log::info('File stored at:', ['path' => $filePath]);
+        
         // Update the unit record with the file path
         $unit->file_att = $filePath;
+        dd($filePath);
         $unit->save();
-        \Log::info('Incoming request data:', $request->all());
+        \Log::info('Unit updated:', $unit->toArray());
         return response()->json([
             'success' => true,
             'message' => 'File uploaded and attached successfully!',
