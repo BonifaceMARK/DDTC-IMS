@@ -10,4 +10,7 @@
 
 <!-- Main JS File -->
 <script src="{{ asset('assets/js/main.js') }}"></script>
-
+{{-- 
+<script>
+    document.body.style.zoom = "95%"; /* Sets the zoom level to 80% */
+</script> --}}

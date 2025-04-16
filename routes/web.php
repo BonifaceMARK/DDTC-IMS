@@ -42,7 +42,7 @@ Route::post('/users/{id}/update-role', [UserController::class, 'updateRole'])->n
 Route::get('/whitehouse/dashboard', [UnitsIndexController::class, 'index'])->name('whitehouse-dash');
 Route::get('/whitehouse/view', [UnitsIndexController::class, 'view'])->name('view.whitehouse');
 Route::put('/whitehouse/edit/{rec_id}', [UnitsIndexController::class, 'update'])->name('update.whitehouse');
-Route::get('/whitehouse/edit/{rec_id}', [UnitsIndexController::class, 'edit'])->name('edit.whitehouse');
+Route::get('/whitehouse/edit/{rec_id}', [UnitsIndexController::class, 'edit'])->name('edit.units');
 Route::post('/update-units', [UnitsIndexController::class, 'updateUnits']);
 Route::post('/file-attachments/store/{rec_id}', [UnitsIndexController::class, 'storeFileAttachment'])->name('file-attachments.store');
 
@@ -58,6 +58,15 @@ Route::post('/remarks/{remark_id}/delete', [UnitsController::class, 'deleteRemar
 
 Route::post('/units/{rec_id}/add-remark', [UnitsController::class, 'addRemark'])->name('units.addRemark');
 Route::get('/units/{rec_id}/fetch-remarks', [UnitsController::class, 'fetchRemarks'])->name('units.fetchRemarks');
+
+// ATTACHMENT
+Route::get('units/{rec_id}/attachments', [UnitsController::class, 'attachment'])->name('unit-attach');
+Route::post('/attach/{attach_id}/edit', [UnitsController::class, 'updateAttach'])->name('attach.edit');
+
+Route::post('/units/{rec_id}/add-attachment', [UnitsController::class, 'addAttach'])->name('attachments.add');
+Route::get('/units/{rec_id}/fetch-attachments', [UnitsController::class, 'fetchAttach'])->name('attachments.fetch');
+Route::get('/attachments/{rec_id}/download', [UnitsController::class, 'downloadAttachment'])->name('attachments.download');
+Route::delete('/attachments/{attach_id}/delete', [UnitsController::class, 'deleteAttach'])->name('attachments.delete');
 
 
 // UNIT IMPORT ROUTES

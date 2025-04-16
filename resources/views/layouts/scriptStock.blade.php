@@ -1,13 +1,13 @@
 
 
      {{-- FOR EDITING --}}
-    <script>
+    {{-- <script>
         function redirectToEditPage(rec_id) {
             let route = `{{ route('edit.whitehouse', ':rec_id') }}`;
             route = route.replace(':rec_id', rec_id); 
             window.location.href = route;
         }
-    </script>
+    </script> --}}
 
     
 

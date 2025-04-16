@@ -191,24 +191,24 @@
             </div>
         </div>
         <!-- Submit Button -->
-        <div class="mt-4 text-center" style="position: fixed; top: 10px; right: 10px; z-index: 999;">
+        <div class="mt-4 text-center" style="position: fixed; bottom: 10px; right: 10px; z-index: 999;">
             <!-- Submit Button -->
             <button 
               type="submit" 
               class="btn btn-primary btn-sm p-2 d-flex justify-content-center align-items-center" 
               style="width: 40px; height: 40px; border-radius: 50%; padding: 0;"
             >
-              <i class="bi bi-send-fill" style="font-size: 18px;"></i>
+            <i class="bi bi-floppy-fill"></i>
             </button>
           
             <!-- Back Button -->
-            <a 
+            {{-- <a 
               href="javascript:history.back();" 
               class="btn btn-secondary btn-sm p-2 d-flex justify-content-center align-items-center mt-2" 
               style="width: 40px; height: 40px; border-radius: 50%; padding: 0;"
             >
               <i class="bi bi-arrow-left-circle-fill" style="font-size: 18px;"></i>
-            </a>
+            </a> --}}
           </div>
           
           
@@ -276,7 +276,6 @@
         
         
             
-@include('layouts.footer')
 @include('layouts.script')
 
 

@@ -1,7 +1,7 @@
 @include('layouts.header')
 <body>
     
-<table style="font-size:9px;width: 100%; border: 1px solid black; border-collapse: collapse;">
+<table style="font-size:9px; width: 100%; border: 1px solid black; border-collapse: collapse;">
     <tr>
       <th style="padding: 10px; border: 1px solid rgb(24, 145, 60); background-color: #f0f0f0;">User</th>
       <th style="padding: 10px; border: 1px solid rgb(16, 145, 85); background-color: #f0f0f0;">Remarks</th>
@@ -37,19 +37,15 @@
           remarksList.innerHTML = '';
           remarks.forEach(remark => {
             const tr = document.createElement('tr');
-            
-            // Username column
             const usernameTd = document.createElement('td');
             usernameTd.style.padding = '10px';
             usernameTd.style.border = '1px solid black';
             usernameTd.textContent = remark.user.username;
             tr.appendChild(usernameTd);
-  
-            // Editable remark column
             const remarkTd = document.createElement('td');
             remarkTd.style.padding = '10px';
             remarkTd.style.border = '1px solid black';
-            const remarkInput = document.createElement('input');
+            const remarkInput = document.createElement('textarea');
             remarkInput.type = 'text';
             remarkInput.value = remark.remark;
             remarkInput.className = 'form-control form-control-sm';

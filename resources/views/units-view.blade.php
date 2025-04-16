@@ -137,11 +137,11 @@ onchange="filterByDate(this.value);"
             <div style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 999;" class="d-flex flex-row align-items-center">
                 <!-- Add Button -->
                 <a 
-                  href="{{ route('units.create') }}" 
+                  onclick="openCreateModal()"
                   class="btn mx-2 animated-link btn-sm p-2 d-flex justify-content-center align-items-center me-2" 
                   style="font-size: 12px; color: black;width: 40px; height: 40px; border-radius: 50%; text-decoration: none; transition: color 0.3s, background-color 0.3s;"
                   onmouseover="this.style.color='white'; this.style.backgroundColor='green';"
-          onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
+                 onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
                 >
                 <i class="bi bi-plus-lg"></i>
                 </a>
@@ -493,26 +493,27 @@ onchange="filterByDate(this.value);"
                 <td contenteditable="true">{{$unit->cust_po_ref}}</td>
                 @auth
                 @if (in_array(auth()->user()->role, [1, 2]))
-                <td 
-                onclick="redirectToEditPage({{ $unit->rec_id }})" 
-                style="
-                    cursor: pointer; 
-                    color: #333; 
-                    background: linear-gradient(to right, #ffffff, #ffffff); 
-                    padding: 10px; 
-                    font-size: 10px; 
-                    font-family: Arial, sans-serif; 
-                    border-radius: 5px; 
-                    box-shadow: 0 2px 5px rgba(246, 2, 2, 0.1); 
-                    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;"
-                onmouseover="this.style.backgroundColor='green'; this.style.boxShadow='0 4px 10px rgba(0, 128, 0, 0.3)'; this.style.transform='scale(1.05)';"
-                onmouseout="this.style.backgroundColor=''; this.style.boxShadow='0 2px 5px rgba(0, 0, 0, 0.1)'; this.style.transform='';"
-            >
-                <i 
-                    class="bi bi-view-list" 
-                    style="margin-right: 5px; color: #05580a; font-size: 10px;"
-                ></i> View
-            </td>
+              <!-- Modal Button -->
+<td 
+onclick="openModal({{ $unit->rec_id }})"
+style="
+    cursor: pointer; 
+    color: #333; 
+    background: linear-gradient(to right, #ffffff, #ffffff); 
+    padding: 10px; 
+    font-size: 10px; 
+    font-family: Arial, sans-serif; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(246, 2, 2, 0.1); 
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;"
+onmouseover="this.style.backgroundColor='green'; this.style.boxShadow='0 4px 10px rgba(0, 128, 0, 0.3)'; this.style.transform='scale(1.05)';"
+onmouseout="this.style.backgroundColor=''; this.style.boxShadow='0 2px 5px rgba(0, 0, 0, 0.1)'; this.style.transform='';"
+>
+<i 
+    class="bi bi-view-list" 
+    style="margin-right: 5px; color: #05580a; font-size: 10px;"
+></i> View
+</td>
             @endif
             @endauth
             
@@ -521,6 +522,86 @@ onchange="filterByDate(this.value);"
         </tbody>
     </table>
  
+<!-- Updated Modal HTML -->
+<div id="createUnitModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+    <div  style="background: #fff; margin: 110px 30px; padding: 20px; width: 95%; border-radius: 10px; position: relative;">
+        <!-- Close Button -->
+        <button 
+            onclick="closeCreateModal()" 
+            style="
+                position: absolute; 
+                top: 10px; 
+                right: 10px; 
+                padding: 5px 10px; 
+                background-color: red; 
+                color: white; 
+                border: none; 
+                border-radius: 5px; 
+                cursor: pointer;
+            ">
+            <i class="bi bi-box-arrow-right"></i>
+        </button>
+
+        <!-- Iframe Content -->
+        <iframe 
+            id="createIframe" 
+            src="" 
+            style="width: 100%; height: 500px; border: none;">
+        </iframe>
+    </div>
+</div>
+
+<script>
+    function openCreateModal(recId) {
+        const iframe = document.getElementById('createIframe');
+        iframe.src = `/units/create`;
+        document.getElementById('createUnitModal').style.display = 'block';
+    }
+
+    function closeCreateModal() {
+        document.getElementById('createUnitModal').style.display = 'none';
+    }
+</script>
+<!-- Updated Modal HTML -->
+<div id="editUnitModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+    <div  style="background: #fff; margin: 110px 30px; padding: 20px; width: 95%; border-radius: 10px; position: relative;">
+        <!-- Close Button -->
+        <button 
+            onclick="closeModal()" 
+            style="
+                position: absolute; 
+                top: 10px; 
+                right: 10px; 
+                padding: 5px 10px; 
+                background-color: red; 
+                color: white; 
+                border: none; 
+                border-radius: 5px; 
+                cursor: pointer;
+            ">
+            <i class="bi bi-box-arrow-right"></i>
+        </button>
+
+        <!-- Iframe Content -->
+        <iframe 
+            id="modalIframe" 
+            src="" 
+            style="width: 100%; height: 500px; border: none;">
+        </iframe>
+    </div>
+</div>
+
+<script>
+    function openModal(recId) {
+        const iframe = document.getElementById('modalIframe');
+        iframe.src = `/whitehouse/edit/${recId}`;
+        document.getElementById('editUnitModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('editUnitModal').style.display = 'none';
+    }
+</script>
 @include('layouts.tableScript')
 @include('layouts.filterscript')
 @include('layouts.script')
