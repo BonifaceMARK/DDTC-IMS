@@ -235,7 +235,7 @@
                         <div class="border rounded p-2 shadow-sm" 
                              style="width:100%; background-color: #f9f9f9; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
                             <iframe 
-                                src="{{ route('unit-attach', $unit->rec_id) }}" 
+                                src="{{ route('unit.attachments', $unit->rec_id) }}" 
                                 width="100%" 
                                 height="300px" 
                                 style="border: none;">

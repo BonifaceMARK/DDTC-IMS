@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnitsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UnitAttachmentController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\UnitsIndexController;
 use App\Http\Controllers\UnitImportController;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,7 +46,7 @@ Route::get('/whitehouse/view', [UnitsIndexController::class, 'view'])->name('vie
 Route::put('/whitehouse/edit/{rec_id}', [UnitsIndexController::class, 'update'])->name('update.whitehouse');
 Route::get('/whitehouse/edit/{rec_id}', [UnitsIndexController::class, 'edit'])->name('edit.units');
 Route::post('/update-units', [UnitsIndexController::class, 'updateUnits']);
-Route::post('/file-attachments/store/{rec_id}', [UnitsIndexController::class, 'storeFileAttachment'])->name('file-attachments.store');
+// Route::post('/file-attachments/store/{rec_id}', [UnitsIndexController::class, 'storeFileAttachment'])->name('file-attachments.store');
 
 
 // DASHBOARD
@@ -59,14 +61,43 @@ Route::post('/remarks/{remark_id}/delete', [UnitsController::class, 'deleteRemar
 Route::post('/units/{rec_id}/add-remark', [UnitsController::class, 'addRemark'])->name('units.addRemark');
 Route::get('/units/{rec_id}/fetch-remarks', [UnitsController::class, 'fetchRemarks'])->name('units.fetchRemarks');
 
-// ATTACHMENT
-Route::get('units/{rec_id}/attachments', [UnitsController::class, 'attachment'])->name('unit-attach');
-Route::post('/attach/{attach_id}/edit', [UnitsController::class, 'updateAttach'])->name('attach.edit');
 
-Route::post('/units/{rec_id}/add-attachment', [UnitsController::class, 'addAttach'])->name('attachments.add');
-Route::get('/units/{rec_id}/fetch-attachments', [UnitsController::class, 'fetchAttach'])->name('attachments.fetch');
-Route::get('/attachments/{rec_id}/download', [UnitsController::class, 'downloadAttachment'])->name('attachments.download');
-Route::delete('/attachments/{attach_id}/delete', [UnitsController::class, 'deleteAttach'])->name('attachments.delete');
+Route::prefix('unit_attach')->name('unit_attach.')->group(function () {
+    Route::get('/', [UnitAttachmentController::class, 'index'])->name('index');
+    Route::get('/create', [UnitAttachmentController::class, 'create'])->name('create');
+    Route::post('/', [UnitAttachmentController::class, 'store'])->name('store');
+    Route::get('/{unitAttach}/edit', [UnitAttachmentController::class, 'edit'])->name('edit');
+    Route::put('/{unitAttach}', [UnitAttachmentController::class, 'update'])->name('update');
+});
+// Route::post('/test-upload', function (Request $request) {
+//     // Check if the file exists
+//     if (!$request->hasFile('attachment')) {
+//         return back()->with('error', 'File not detected. Please try again.');
+//     }
+
+//     // Retrieve the uploaded file
+//     $file = $request->file('attachment');
+
+//     // Validate the file (2MB limit and specific MIME types)
+//     $request->validate([
+//         'attachment' => 'required|mimes:jpg,png,pdf|max:2048', // Adjust types as needed
+//     ]);
+
+//     // Store the file in 'attachments' folder under the 'public' disk
+//     $filePath = $file->store('attachments', 'public');
+
+//     // Log for debugging (optional)
+//     \Log::info('File uploaded successfully:', [
+//         'original_name' => $file->getClientOriginalName(),
+//         'file_path' => $filePath,
+//     ]);
+
+//     // Return to the same page with a success message
+//     return back()->with('success', 'File uploaded successfully to: ' . $filePath);
+// });
+
+
+
 
 
 // UNIT IMPORT ROUTES

@@ -77,5 +77,10 @@ class Unit extends Model
 {
     return $this->hasMany(Remark::class);
 }
+public function attachments()
+{
+    return $this->hasMany(UnitAttach::class);
+}
+
 
 }

@@ -226,115 +226,10 @@ class UnitsController extends Controller
 
 
         // // // // // // ATTACHMENT //////////////////
-    
-        public function attachment($rec_id)
-        {
-            $unit = Unit::where('rec_id', $rec_id)->firstOrFail();
-            $attachments = UnitAttach::where('unit_id', $rec_id)->with('user')->get(); // Fetch attachments and user details
-            return view('units-attach', compact('unit', 'attachments'));
-        }
-        
- 
-        public function addAttach(Request $request, $rec_id)
-        {
-            try {
-                Log::info('Add Attachment Route Hit', [
-                    'rec_id' => $rec_id,
-                    'request_method' => $request->method(),
-                    'request_data' => $request->all(),
-                ]);
-        
-                // Validate the uploaded file
-                $request->validate([
-                    'att_file' => 'required|mimes:jpg,png,pdf', // Validate file type and size
-                ]);
-        
-                // Store the uploaded file in the 'public/attachments' directory
-                $filePath = $request->file('att_file')->store('attachments', 'public'); // Save file and get relative path
-        dd($request);
-        dd($filePath);
-                // Save the attachment record in the database
-                UnitAttach::create([
-                    'unit_id' => $rec_id,
-                    'user_id' => auth()->id(), // Attach the logged-in user
-                    'att_type' => $request->file('att_file')->getClientOriginalExtension(), // Get file extension/type
-                    'att_file' => $filePath, // Store the file path
-                    'att_dir' => 'attachments', // Optional: Directory info
-                    'stat' => 1, // Example: Default status is active
-                    'remarks' => $request->input('remarks', null), // Optional remarks
-                ]);
-        
-                return response()->json(['success' => true, 'message' => 'Attachment added successfully!']);
-            } catch (\Exception $e) {
-                Log::error('Error in File Attachment', [
-                    'error_message' => $e->getMessage(),
-                    'rec_id' => $rec_id,
-                ]);
-                return response()->json(['success' => false, 'message' => 'An error occurred. Please try again.'], 500);
-            }
-        }
-        
-        
-        public function fetchAttach($rec_id)
-        {
-            $attachments = UnitAttach::where('unit_id', $rec_id)
-                ->with('user') // Eager load user details
-                ->orderBy('created_at', 'desc')
-                ->get();
-        
-            return response()->json($attachments);
-        }
-        public function downloadAttachment($rec_id)
-        {
-            $attachment = UnitAttach::findOrFail($rec_id);
-        
-            return response($attachment->att_file)
-                ->header('Content-Type', $this->getMimeType($attachment->att_type))
-                ->header('Content-Disposition', 'attachment; filename="attachment.' . $attachment->att_type . '"');
-        }
-        
-        private function getMimeType($extension)
-        {
-            $mimeTypes = [
-                'jpg' => 'image/jpeg',
-                'png' => 'image/png',
-                'pdf' => 'application/pdf',
-            ];
-        
-            return $mimeTypes[$extension] ?? 'application/octet-stream';
-        }
-                
+   
+  
+ // Add a new attachment
 
-
-    public function updateAttach(Request $request, $rec_id)
-    {
-        $unit = UnitAttach::where('rec_id', $rec_id)->firstOrFail(); // Find by rec_id
-        $unit->attachments = $request->input('att_file');
-        $unit->save();
-    
-        return redirect()->route('units.remarks', $unit->rec_id)->with('success', 'Attachment updated successfully!');
-    }
-    public function editAttach(Request $request, $attach_id)
-{
-    $request->validate([
-        'att_file' => 'required|mimes:jpg,png,pdf|max:2048',  // Limit remark length
-
-    ]);
-
-    $attachments = UnitAttach::findOrFail($attach_id); // Find the remark by ID
-    $attachments->attachments = $request->input('att_file'); // Update the remark content
-    $attachments->save(); // Save changes
-
-    return response()->json(['success' => true, 'message' => 'Attachment updated successfully']);
-}
-
-public function deleteAttach($attach_id)
-{
-    $attachments = UnitAttach::findOrFail($attach_id); // Find the remark by ID
-    $attachments->delete(); // Delete the remark
-
-    return response()->json(['success' => true, 'message' => 'Attachment deleted successfully']);
-}
 
         /////////////////////// REMARKS ///////////////////////////////
 
@@ -433,5 +328,7 @@ public function deleteRemark($remark_id)
     
 //     return view('showroom-view', compact('units'));
 // }
+
+
 
 }
