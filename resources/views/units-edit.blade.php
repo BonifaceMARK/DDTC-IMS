@@ -222,10 +222,14 @@
         <div class="row">
        
             <div class="container-fluid mt-3">
-                <!-- Remarks Section Header -->
-                <div class="row bg-success text-white py-2">
-                    <div class="col text-center">
-                        <i class="bi bi-paperclip"></i> Attachment Section
+                <!-- Attachment Section Header -->
+                <div class="row justify-content-center py-3">
+                    <div class="col-md-6 text-center">
+                        <div class="p-2 shadow-sm rounded bg-light border border-success">
+                            <h6 class="mb-0 text-success" style="font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+                                <i class="bi bi-paperclip me-3" style="font-size: 9px;"></i>Attachment 
+                            </h6>
+                        </div>
                     </div>
                 </div>
             
@@ -257,11 +261,16 @@
        
             <div class="container-fluid mt-3">
                 <!-- Remarks Section Header -->
-                <div class="row bg-success text-white py-2">
-                    <div class="col text-center">
-                        <i class="bi bi-highlighter"></i> Remarks Section
+                <div class="row justify-content-center py-3">
+                    <div class="col-md-6 text-center">
+                        <div class="p-2 shadow-sm rounded bg-light border border-success">
+                            <h6 class="mb-0 text-success" style="font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+                                <i class="bi bi-highlighter me-1" style="font-size: 9px;"></i>Remarks 
+                            </h6>
+                        </div>
                     </div>
                 </div>
+                
             
                 <!-- Remarks Content -->
                 <div class="row mt-2">

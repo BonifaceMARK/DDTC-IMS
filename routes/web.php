@@ -61,12 +61,20 @@ Route::post('/remarks/{remark_id}/delete', [UnitsController::class, 'deleteRemar
 Route::post('/units/{unit_id}/add-remark', [UnitsController::class, 'addRemark'])->name('units.addRemark');
 Route::get('/units/{unit_id}/fetch-remarks', [UnitsController::class, 'fetchRemarks'])->name('units.fetchRemarks');
 
+Route::get('/php-settings', function () {
+    return [
+        'upload_max_filesize' => ini_get('upload_max_filesize'),
+        'post_max_size' => ini_get('post_max_size'),
+        'max_file_uploads' => ini_get('max_file_uploads'),
+    ];
+});
 
 Route::prefix('unit.attach')->group(function () {
     Route::get('/unit/{unit_id}/attachments', [UnitsController::class, 'show'])->name('unit.attachments');
     Route::post('/unit/{unit_id}/attachments/upload', [UnitsController::class, 'upload'])->name('attachments.upload');
     Route::get('/attachments/download/{id}', [UnitsController::class, 'download'])->name('attachments.download');
-    
+    Route::delete('/attachments/{id}/delete', [UnitsController::class, 'delete'])->name('attachments.delete');
+
 });
 // Route::post('/test-upload', function (Request $request) {
 //     // Check if the file exists

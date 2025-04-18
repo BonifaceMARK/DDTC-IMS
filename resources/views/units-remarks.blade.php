@@ -12,7 +12,7 @@
       <td colspan="3" style="padding: 10px; border: 1px solid black; vertical-align: top;">
         <textarea id="new-remark" style="width: 100%; border: 1px solid black;" rows="3" placeholder="Write your remark here..."></textarea>
         <div style="text-align: right; margin-top: 5px;">
-          <button id="add-remark-btn" style="padding: 5px 10px; background-color: #28a745; color: white; border: none;">Save</button>
+          <button id="add-remark-btn" style="padding: 5px 10px; background-color: #28a745; color: white; border: none;"><i class="bi bi-floppy2-fill"></i> Save</button>
         </div>
       </td>
     </tr>
@@ -37,44 +37,68 @@
           remarksList.innerHTML = '';
           remarks.forEach(remark => {
             const tr = document.createElement('tr');
+  
+            // Username Cell
             const usernameTd = document.createElement('td');
             usernameTd.style.padding = '10px';
             usernameTd.style.border = '1px solid black';
             usernameTd.textContent = remark.user.username;
             tr.appendChild(usernameTd);
+  
+            // Remark Input Cell
             const remarkTd = document.createElement('td');
             remarkTd.style.padding = '10px';
             remarkTd.style.border = '1px solid black';
             const remarkInput = document.createElement('textarea');
-            remarkInput.type = 'text';
             remarkInput.value = remark.remark;
             remarkInput.className = 'form-control form-control-sm';
             remarkInput.style.width = '100%';
+            remarkInput.style.fontSize = '9px';
+            remarkInput.rows = 2;
             remarkTd.appendChild(remarkInput);
             tr.appendChild(remarkTd);
   
-            // Actions column (Save & Delete buttons)
+            // Actions Cell
             const actionsTd = document.createElement('td');
             actionsTd.style.padding = '10px';
             actionsTd.style.border = '1px solid black';
   
-            // Save button with icon
             const saveBtn = document.createElement('button');
             saveBtn.innerHTML = '<i class="bi bi-save"></i>';
             saveBtn.className = 'btn btn-sm btn-success mx-1';
             saveBtn.title = 'Save';
-            saveBtn.onclick = () => editRemark(remark.id, remarkInput.value);
-            actionsTd.appendChild(saveBtn);
+            saveBtn.style.display = 'none'; // Hidden initially
   
-            // Delete button with icon
+            saveBtn.onclick = () => {
+              const trimmedRemark = remarkInput.value.trim();
+              if (!trimmedRemark) {
+                toastr.error("Empty field can't be updated!");
+                return;
+              }
+              editRemark(remark.id, trimmedRemark);
+              saveBtn.style.display = 'none';
+            };
+  
             const deleteBtn = document.createElement('button');
             deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
             deleteBtn.className = 'btn btn-sm btn-danger';
             deleteBtn.title = 'Delete';
             deleteBtn.onclick = () => deleteRemark(remark.id);
-            actionsTd.appendChild(deleteBtn);
   
+            actionsTd.appendChild(saveBtn);
+            actionsTd.appendChild(deleteBtn);
             tr.appendChild(actionsTd);
+  
+            // Show save button only if edited
+            const originalValue = remark.remark;
+            remarkInput.addEventListener('input', () => {
+              if (remarkInput.value.trim() !== originalValue.trim()) {
+                saveBtn.style.display = 'inline-block';
+              } else {
+                saveBtn.style.display = 'none';
+              }
+            });
+  
             remarksList.appendChild(tr);
           });
         })
@@ -90,6 +114,7 @@
         toastr.error('Remark cannot be empty!');
         return;
       }
+  
       fetch(`/units/{{ $unit->unit_id }}/add-remark`, {
         method: 'POST',
         headers: {
@@ -161,9 +186,11 @@
         });
     }
   
+    // Initial load
     fetchRemarks();
   </script>
-      
+  
+  
 @include('layouts.script')
 
 </body>

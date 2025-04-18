@@ -11,11 +11,13 @@ class UnitAttach extends Model
 
     protected $table = 'unit_attach';
 
+    protected $primaryKey = 'attachment_id'; 
     protected $fillable = [
         'unit_id',
         'file_name',
         'file_type',
         'file_size',
+        'att_type',
         'file_remarks', 
         'uploaded_at',
     ];

@@ -236,73 +236,182 @@ class UnitsController extends Controller
             return view('units-attach', compact('unit', 'attachments'));
         }
     
+        // public function upload(Request $request, $unit_id)
+        // {
+        //     try {
+        //         // Validate the input
+        //         $request->validate([
+        //             'file' => 'nullable|file', // Validate that a file is provided
+        //             'file_remarks' => 'nullable|string', // Remarks are optional
+        //         ]);
+        
+        //         // Log the incoming request
+        //         \Log::info('File upload request received.', [
+        //             'unit_id' => $unit_id,
+        //             'file_name' => $request->file('file')->getClientOriginalName() ?? 'No file uploaded',
+        //         ]);
+        
+        //         // Handle file upload
+        //         $file = $request->file('file');
+        
+        //         // Log whether the file object exists
+        //         if (!$file) {
+        //             \Log::error('No file was uploaded.');
+        //             throw new \Exception('No file was uploaded.');
+        //         }
+        
+        //         // Check if file is valid
+        //         if (!$file->isValid()) {
+        //             \Log::error('File is invalid.', [
+        //                 'error_code' => $file->getError(),
+        //                 'mime_type' => $file->getMimeType(),
+        //                 'size' => $file->getSize(),
+        //             ]);
+        //             throw new \Exception('The uploaded file is invalid. Error code: ' . $file->getError());
+        //         }
+        
+        //         $fileName = time() . '_' . $file->getClientOriginalName();
+        //         $filePath = $file->storeAs('attachments', $fileName);
+        
+        //         // Log successful storage
+        //         \Log::info('File stored successfully.', [
+        //             'file_path' => $filePath,
+        //         ]);
+        
+        //         // Save the attachment record
+        //         UnitAttach::create([
+        //             'unit_id' => $unit_id,
+        //             'file_name' => $fileName,
+        //             'file_type' => $file->getClientMimeType(),
+        //             'file_size' => $file->getSize(),
+        //             'file_remarks' => $request->file_remarks,
+        //         ]);
+        
+        //         // Log successful database record creation
+        //         \Log::info('Attachment record created successfully.');
+        
+        //         // Redirect back with success message
+        //         return back()->with('success', 'Attachment uploaded successfully.');
+        //     } catch (\Illuminate\Validation\ValidationException $e) {
+        //         // Catch and log validation errors
+        //         \Log::error('Validation failed: ' . $e->getMessage());
+        //         return back()->with('error', 'Validation failed: ' . $e->getMessage());
+        //     } catch (\Exception $e) {
+        //         // Catch general errors during the upload process
+        //         \Log::error('File upload failed: ' . $e->getMessage());
+        //         return back()->with('error', 'An error occurred during the file upload: ' . $e->getMessage());
+        //     }
+        // }
+        
         public function upload(Request $request, $unit_id)
-        {
-            try {
-                // Validate the input
-                $request->validate([
-                    'file' => 'nullable|file', // Validate that a file is provided
-                    'file_remarks' => 'nullable|string', // Remarks are optional
-                ]);
-        
-                // Log the incoming request
-                \Log::info('File upload request received.', [
-                    'unit_id' => $unit_id,
-                    'file_name' => $request->file('file')->getClientOriginalName() ?? 'No file uploaded',
-                ]);
-        
-                // Handle file upload
-                $file = $request->file('file');
-        
-                // Log whether the file object exists
-                if (!$file) {
-                    \Log::error('No file was uploaded.');
-                    throw new \Exception('No file was uploaded.');
-                }
-        
-                // Check if file is valid
-                if (!$file->isValid()) {
-                    \Log::error('File is invalid.', [
-                        'error_code' => $file->getError(),
-                        'mime_type' => $file->getMimeType(),
-                        'size' => $file->getSize(),
-                    ]);
-                    throw new \Exception('The uploaded file is invalid. Error code: ' . $file->getError());
-                }
-        
-                $fileName = time() . '_' . $file->getClientOriginalName();
-                $filePath = $file->storeAs('attachments', $fileName);
-        
-                // Log successful storage
-                \Log::info('File stored successfully.', [
-                    'file_path' => $filePath,
-                ]);
-        
-                // Save the attachment record
-                UnitAttach::create([
-                    'unit_id' => $unit_id,
-                    'file_name' => $fileName,
-                    'file_type' => $file->getClientMimeType(),
-                    'file_size' => $file->getSize(),
-                    'file_remarks' => $request->file_remarks,
-                ]);
-        
-                // Log successful database record creation
-                \Log::info('Attachment record created successfully.');
-        
-                // Redirect back with success message
-                return back()->with('success', 'Attachment uploaded successfully.');
-            } catch (\Illuminate\Validation\ValidationException $e) {
-                // Catch and log validation errors
-                \Log::error('Validation failed: ' . $e->getMessage());
-                return back()->with('error', 'Validation failed: ' . $e->getMessage());
-            } catch (\Exception $e) {
-                // Catch general errors during the upload process
-                \Log::error('File upload failed: ' . $e->getMessage());
-                return back()->with('error', 'An error occurred during the file upload: ' . $e->getMessage());
-            }
+{
+    try {
+        \Log::info('--- FILE UPLOAD DEBUG START ---');
+        \Log::info('Request has file (hasFile): ' . ($request->hasFile('file') ? 'YES' : 'NO'));
+
+        $file = $request->file('file');
+
+        if ($file) {
+            \Log::info('Uploaded file details:', [
+                'original_name' => $file->getClientOriginalName(),
+                'is_valid' => $file->isValid(),
+                'error_code' => $file->getError(),
+                'size' => $file->getSize(),
+                'mime' => $file->getMimeType(),
+            ]);
+        } else {
+            \Log::warning('No file found in request.');
         }
-        
+
+        // Validate inputs
+        $request->validate([
+            'file' => 'nullable|file', // max 50MB
+            'file_remarks' => 'nullable|string',
+        ]);
+
+        if (!$file) {
+            \Log::error('No file was uploaded.');
+            throw new \Exception('No file was uploaded.');
+        }
+
+        if (!$file->isValid()) {
+            \Log::error('File is invalid.', [
+                'error_code' => $file->getError(),
+                'mime_type' => $file->getMimeType(),
+                'size' => $file->getSize(),
+            ]);
+            throw new \Exception('The uploaded file is invalid. Error code: ' . $file->getError());
+        }
+
+        // Store the file
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs('attachments', $fileName);
+
+        \Log::info('File stored successfully.', [
+            'file_path' => $filePath,
+        ]);
+
+        // Save to database
+        UnitAttach::create([
+            'unit_id' => $unit_id,
+            'file_name' => $fileName,
+            'file_type' => $file->getClientMimeType(),
+            'file_size' => $file->getSize(),
+            'file_remarks' => $request->file_remarks,
+        ]);
+
+        \Log::info('Attachment record created successfully.');
+
+        return back()->with('success', 'Attachment uploaded successfully.');
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        \Log::error('Validation failed: ' . $e->getMessage());
+        return back()->with('error', 'Validation failed: ' . $e->getMessage());
+    } catch (\Exception $e) {
+        \Log::error('File upload failed: ' . $e->getMessage());
+        return back()->with('error', 'An error occurred during the file upload: ' . $e->getMessage());
+    }
+}
+
+public function delete($id)
+{
+    try {
+        $attachment = UnitAttach::findOrFail($id);
+        $filePath = storage_path('app/attachments/' . $attachment->file_name);
+
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+
+        $attachment->delete();
+
+        return back()->with('success', 'Attachment deleted successfully.');
+    } catch (\Exception $e) {
+        \Log::error('Attachment deletion failed: ' . $e->getMessage());
+        return back()->with('error', 'Failed to delete attachment.');
+    }
+}
+
+
+// public function destroy($id)
+// {
+//     try {
+//         $attachment = UnitAttach::findOrFail($id);
+//         $filePath = storage_path('app/attachments/' . $attachment->file_name);
+
+//         if (file_exists($filePath)) {
+//             unlink($filePath);
+//         }
+
+//         $attachment->delete();
+
+//         return back()->with('success', 'Attachment deleted successfully.');
+//     } catch (\Exception $e) {
+//         \Log::error('Attachment deletion failed: ' . $e->getMessage());
+//         return back()->with('error', 'Failed to delete attachment.');
+//     }
+// }
+
+
         public function download($id)
         {
             $attachment = UnitAttach::findOrFail($id);
