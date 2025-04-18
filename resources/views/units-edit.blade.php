@@ -211,35 +211,30 @@
                                                     <button type="submit" class="btn btn-success" style="font-size: 12px;"><i class="bi bi-floppy2"></i> Update</button>
                                                 </div>
                                             </form>
-                                    </div>
-                                            
-              
-         
-    </div>
-                                                  
-                                                    
-    <div class="container-fluid mt-3">
+                                                                                            
+    <div class="container-fluid mt-2">
         <div class="row">
        
-            <div class="container-fluid mt-3">
-                <!-- Attachment Section Header -->
+            <div class="container-fluid">
+                {{-- <!-- Remarks Section Header -->
                 <div class="row justify-content-center py-3">
                     <div class="col-md-6 text-center">
                         <div class="p-2 shadow-sm rounded bg-light border border-success">
                             <h6 class="mb-0 text-success" style="font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
-                                <i class="bi bi-paperclip me-3" style="font-size: 9px;"></i>Attachment 
+                                <i class="bi bi-highlighter me-1" style="font-size: 9px;"></i>Remarks 
                             </h6>
                         </div>
                     </div>
-                </div>
+                </div> --}}
+                
             
-                <!-- Attachment Content -->
-                <div class="row mt-2">
+                <!-- Remarks Content -->
+                <div class="row">
                     <div class="col">
                         <div class="border rounded p-2 shadow-sm" 
                              style="width:100%; background-color: #f9f9f9; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
                             <iframe 
-                                src="{{ route('unit.attachments', $unit->unit_id) }}" 
+                                src="{{ route('units.remarks', $unit->unit_id) }}" 
                                 width="100%" 
                                 height="300px" 
                                 style="border: none;">
@@ -255,30 +250,36 @@
       
 
     </div>
+    
+                                    </div>
+                                            
+              
+         
+    </div>
+                                                  
                                                     
-    <div class="container-fluid mt-3">
+    <div class="container-fluid">
         <div class="row">
        
-            <div class="container-fluid mt-3">
-                <!-- Remarks Section Header -->
-                <div class="row justify-content-center py-3">
+            <div class="container-fluid">
+                <!-- Attachment Section Header -->
+                {{-- <div class="row justify-content-center py-3">
                     <div class="col-md-6 text-center">
                         <div class="p-2 shadow-sm rounded bg-light border border-success">
                             <h6 class="mb-0 text-success" style="font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
-                                <i class="bi bi-highlighter me-1" style="font-size: 9px;"></i>Remarks 
+                                <i class="bi bi-paperclip me-3" style="font-size: 9px;"></i>Attachment 
                             </h6>
                         </div>
                     </div>
-                </div>
-                
+                </div> --}}
             
-                <!-- Remarks Content -->
+                <!-- Attachment Content -->
                 <div class="row mt-2">
                     <div class="col">
                         <div class="border rounded p-2 shadow-sm" 
                              style="width:100%; background-color: #f9f9f9; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
                             <iframe 
-                                src="{{ route('units.remarks', $unit->unit_id) }}" 
+                                src="{{ route('unit.attachments', $unit->unit_id) }}" 
                                 width="100%" 
                                 height="300px" 
                                 style="border: none;">

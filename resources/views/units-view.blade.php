@@ -134,31 +134,37 @@ onchange="filterByDate(this.value);"
             </div>
             @auth
             @if (in_array(auth()->user()->role, [1, 2]))
-            <div style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 999;" class="d-flex flex-row align-items-center">
-                <!-- Add Button -->
-                <a 
-                  onclick="openCreateModal()"
-                  class="btn mx-2 animated-link btn-sm p-2 d-flex justify-content-center align-items-center me-2" 
-                  style="font-size: 12px; color: black;width: 40px; height: 40px; border-radius: 50%; text-decoration: none; transition: color 0.3s, background-color 0.3s;"
-                  onmouseover="this.style.color='white'; this.style.backgroundColor='green';"
-                 onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
-                >
-                <i class="bi bi-plus-lg"></i>
-                </a>
-              
-                <!-- Save Button -->
-                <button 
-                  class="btn mx-2 animated-link btn-sm p-2 d-flex justify-content-center align-items-center" 
-                  id="saveChanges" 
-                       style="font-size: 12px; color: black;width: 40px; height: 40px; border-radius: 50%; text-decoration: none; transition: color 0.3s, background-color 0.3s;"
-                  onmouseover="this.style.color='white'; this.style.backgroundColor='green';"
-          onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
-                >
-                  <i class="bi bi-floppy"></i>
-                </button>
-              </div>
-              @endif
-              @endauth
+            <div 
+              class="position-fixed top-0 start-50 translate-middle-x z-3 d-flex gap-2 align-items-center py-2"
+              style="margin-top: 10px;"
+            >
+              <!-- Add Button -->
+              <a 
+                onclick="openCreateModal()"
+                class="btn btn-sm d-flex justify-content-center align-items-center shadow-sm"
+                style="width: 42px; height: 42px; border-radius: 50%; background-color: #f0f0f0; transition: all 0.3s ease;"
+                onmouseover="this.style.backgroundColor='green'; this.style.color='white';"
+                onmouseout="this.style.backgroundColor='#f0f0f0'; this.style.color='black';"
+                title="Add New"
+              >
+                <i class="bi bi-plus-lg" style="font-size: 10px;"></i>
+              </a>
+            
+              <!-- Save Button -->
+              <button 
+                class="btn btn-sm d-flex justify-content-center align-items-center shadow-sm"
+                id="saveChanges"
+                style="width: 42px; height: 42px; border-radius: 50%; background-color: #f0f0f0; transition: all 0.3s ease;"
+                onmouseover="this.style.backgroundColor='green'; this.style.color='white';"
+                onmouseout="this.style.backgroundColor='#f0f0f0'; this.style.color='black';"
+                title="Save Changes"
+              >
+                <i class="bi bi-floppy" style="font-size: 10px;"></i>
+              </button>
+            </div>
+            @endif
+            @endauth
+            
         </div>
     </div>
 </div>

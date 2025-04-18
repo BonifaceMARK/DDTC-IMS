@@ -17,7 +17,6 @@
       </td>
     </tr>
   </table>
-  
   <script>
     toastr.options = {
       "closeButton": true,
@@ -38,27 +37,25 @@
           remarks.forEach(remark => {
             const tr = document.createElement('tr');
   
-            // Username Cell
             const usernameTd = document.createElement('td');
             usernameTd.style.padding = '10px';
             usernameTd.style.border = '1px solid black';
             usernameTd.textContent = remark.user.username;
             tr.appendChild(usernameTd);
   
-            // Remark Input Cell
             const remarkTd = document.createElement('td');
             remarkTd.style.padding = '10px';
             remarkTd.style.border = '1px solid black';
+  
             const remarkInput = document.createElement('textarea');
             remarkInput.value = remark.remark;
             remarkInput.className = 'form-control form-control-sm';
             remarkInput.style.width = '100%';
-            remarkInput.style.fontSize = '9px';
-            remarkInput.rows = 2;
+            remarkInput.rows = 3;
+  
             remarkTd.appendChild(remarkInput);
             tr.appendChild(remarkTd);
   
-            // Actions Cell
             const actionsTd = document.createElement('td');
             actionsTd.style.padding = '10px';
             actionsTd.style.border = '1px solid black';
@@ -67,39 +64,36 @@
             saveBtn.innerHTML = '<i class="bi bi-save"></i>';
             saveBtn.className = 'btn btn-sm btn-success mx-1';
             saveBtn.title = 'Save';
-            saveBtn.style.display = 'none'; // Hidden initially
-  
+            saveBtn.style.display = 'none'; // Initially hidden
             saveBtn.onclick = () => {
-              const trimmedRemark = remarkInput.value.trim();
-              if (!trimmedRemark) {
-                toastr.error("Empty field can't be updated!");
+              const updatedText = remarkInput.value.trim();
+              if (!updatedText) {
+                toastr.error('Empty field cannot be updated!');
                 return;
               }
-              editRemark(remark.id, trimmedRemark);
-              saveBtn.style.display = 'none';
+              editRemark(remark.id, updatedText);
             };
+            actionsTd.appendChild(saveBtn);
   
             const deleteBtn = document.createElement('button');
             deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
             deleteBtn.className = 'btn btn-sm btn-danger';
             deleteBtn.title = 'Delete';
-            deleteBtn.onclick = () => deleteRemark(remark.id);
-  
-            actionsTd.appendChild(saveBtn);
+            deleteBtn.onclick = () => confirmDeleteWithToastr(remark.id);
             actionsTd.appendChild(deleteBtn);
-            tr.appendChild(actionsTd);
   
-            // Show save button only if edited
-            const originalValue = remark.remark;
+            tr.appendChild(actionsTd);
+            remarksList.appendChild(tr);
+  
+            // Show save button only on changes
+            const originalText = remark.remark;
             remarkInput.addEventListener('input', () => {
-              if (remarkInput.value.trim() !== originalValue.trim()) {
+              if (remarkInput.value.trim() !== originalText.trim()) {
                 saveBtn.style.display = 'inline-block';
               } else {
                 saveBtn.style.display = 'none';
               }
             });
-  
-            remarksList.appendChild(tr);
           });
         })
         .catch(error => {
@@ -161,6 +155,40 @@
           console.error('Error editing remark:', error);
           toastr.error('An error occurred while editing the remark.');
         });
+    }
+  
+    function confirmDeleteWithToastr(remarkId) {
+      const $toast = toastr.warning(
+        `<div>
+          <div style="margin-bottom: 5px;">Are you sure you want to delete this remark?</div>
+          <button id="confirmDeleteBtn" class="btn btn-sm btn-danger me-1">Yes</button>
+          <button id="cancelDeleteBtn" class="btn btn-sm btn-secondary">Cancel</button>
+        </div>`,
+        'Confirm Deletion',
+        {
+          timeOut: 0,
+          extendedTimeOut: 0,
+          closeButton: true,
+          tapToDismiss: true,
+          allowHtml: true,
+        }
+      );
+  
+      setTimeout(() => {
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+        const cancelBtn = document.getElementById('cancelDeleteBtn');
+  
+        if (confirmBtn && cancelBtn) {
+          confirmBtn.addEventListener('click', () => {
+            toastr.clear($toast);
+            deleteRemark(remarkId);
+          });
+  
+          cancelBtn.addEventListener('click', () => {
+            toastr.clear($toast);
+          });
+        }
+      }, 100);
     }
   
     function deleteRemark(remarkId) {
