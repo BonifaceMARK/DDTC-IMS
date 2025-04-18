@@ -55,8 +55,13 @@
                     @csrf
                     <div class="form-group">
                         <label for="file">Choose File</label>
-                        <input type="file" name="file" id="file" class="form-control" required>
+                        <input type="file" name="file" id="file" class="form-control">
                     </div>
+@error('file')
+    <div class="error">{{$message}}</div>
+@enderror                        
+                        
+
                     <div class="form-group mt-3">
                         <label for="file_remarks">Remarks (Optional)</label>
                         <textarea name="file_remarks" id="file_remarks" class="form-control" rows="3"></textarea>

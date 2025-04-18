@@ -241,7 +241,7 @@ class UnitsController extends Controller
             try {
                 // Validate the input
                 $request->validate([
-                    'file' => 'required|file', // Validate that a file is provided
+                    'file' => 'nullable|file', // Validate that a file is provided
                     'file_remarks' => 'nullable|string', // Remarks are optional
                 ]);
         
