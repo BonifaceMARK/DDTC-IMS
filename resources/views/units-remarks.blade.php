@@ -31,7 +31,7 @@
     const newRemarkInput = document.getElementById('new-remark');
   
     function fetchRemarks() {
-      fetch(`/units/{{ $unit->rec_id }}/fetch-remarks`)
+      fetch(`/units/{{ $unit->unit_id }}/fetch-remarks`)
         .then(response => response.json())
         .then(remarks => {
           remarksList.innerHTML = '';
@@ -90,7 +90,7 @@
         toastr.error('Remark cannot be empty!');
         return;
       }
-      fetch(`/units/{{ $unit->rec_id }}/add-remark`, {
+      fetch(`/units/{{ $unit->unit_id }}/add-remark`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

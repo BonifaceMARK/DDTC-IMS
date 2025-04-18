@@ -2,9 +2,9 @@
 
      {{-- FOR EDITING --}}
     {{-- <script>
-        function redirectToEditPage(rec_id) {
-            let route = `{{ route('edit.whitehouse', ':rec_id') }}`;
-            route = route.replace(':rec_id', rec_id); 
+        function redirectToEditPage(unit_id) {
+            let route = `{{ route('edit.whitehouse', ':unit_id') }}`;
+            route = route.replace(':unit_id', unit_id); 
             window.location.href = route;
         }
     </script> --}}

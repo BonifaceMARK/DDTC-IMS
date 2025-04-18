@@ -228,22 +228,103 @@ class UnitsController extends Controller
         // // // // // // ATTACHMENT //////////////////
    
   
- // Add a new attachment
+        public function show($unit_id)
+        {
+            $unit = Unit::where('unit_id', $unit_id)->firstOrFail();
+            $attachments = UnitAttach::where('unit_id', $unit_id)->get();
+    
+            return view('units-attach', compact('unit', 'attachments'));
+        }
+    
+        public function upload(Request $request, $unit_id)
+        {
+            try {
+                // Validate the input
+                $request->validate([
+                    'file' => 'required|file', // Validate that a file is provided
+                    'file_remarks' => 'nullable|string', // Remarks are optional
+                ]);
+        
+                // Log the incoming request
+                \Log::info('File upload request received.', [
+                    'unit_id' => $unit_id,
+                    'file_name' => $request->file('file')->getClientOriginalName() ?? 'No file uploaded',
+                ]);
+        
+                // Handle file upload
+                $file = $request->file('file');
+        
+                // Log whether the file object exists
+                if (!$file) {
+                    \Log::error('No file was uploaded.');
+                    throw new \Exception('No file was uploaded.');
+                }
+        
+                // Check if file is valid
+                if (!$file->isValid()) {
+                    \Log::error('File is invalid.', [
+                        'error_code' => $file->getError(),
+                        'mime_type' => $file->getMimeType(),
+                        'size' => $file->getSize(),
+                    ]);
+                    throw new \Exception('The uploaded file is invalid. Error code: ' . $file->getError());
+                }
+        
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('attachments', $fileName);
+        
+                // Log successful storage
+                \Log::info('File stored successfully.', [
+                    'file_path' => $filePath,
+                ]);
+        
+                // Save the attachment record
+                UnitAttach::create([
+                    'unit_id' => $unit_id,
+                    'file_name' => $fileName,
+                    'file_type' => $file->getClientMimeType(),
+                    'file_size' => $file->getSize(),
+                    'file_remarks' => $request->file_remarks,
+                ]);
+        
+                // Log successful database record creation
+                \Log::info('Attachment record created successfully.');
+        
+                // Redirect back with success message
+                return back()->with('success', 'Attachment uploaded successfully.');
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                // Catch and log validation errors
+                \Log::error('Validation failed: ' . $e->getMessage());
+                return back()->with('error', 'Validation failed: ' . $e->getMessage());
+            } catch (\Exception $e) {
+                // Catch general errors during the upload process
+                \Log::error('File upload failed: ' . $e->getMessage());
+                return back()->with('error', 'An error occurred during the file upload: ' . $e->getMessage());
+            }
+        }
+        
+        public function download($id)
+        {
+            $attachment = UnitAttach::findOrFail($id);
+            $filePath = storage_path('app/attachments/' . $attachment->file_name);
+    
+            return response()->download($filePath);
+        }
 
 
         /////////////////////// REMARKS ///////////////////////////////
 
-    public function remarks($rec_id)
+    public function remarks($unit_id)
     {
-        $unit = Unit::where('rec_id', $rec_id)->firstOrFail(); // Find the unit by rec_id
+        $unit = Unit::where('unit_id', $unit_id)->firstOrFail(); // Find the unit by unit_id
         return view('units-remarks', compact('unit'));
     }
     
-    public function addRemark(Request $request, $rec_id)
+    public function addRemark(Request $request, $unit_id)
     {
         try {
             // Log::info('AddRemark Route Hit', [
-            //     'rec_id' => $rec_id,
+            //     'unit_id' => $unit_id,
             //     'request_method' => $request->method(),
             //     'request_data' => $request->all(),
             // ]);
@@ -253,7 +334,7 @@ class UnitsController extends Controller
             ]);
     
             UnitRemark::create([
-                'unit_id' => $rec_id,
+                'unit_id' => $unit_id,
                 'remark' => $request->input('remark'),
                 'user_id' => auth()->id(), // Attach the logged-in user
             ]);
@@ -262,31 +343,31 @@ class UnitsController extends Controller
         } catch (\Exception $e) {
             Log::error('Error in AddRemark', [
                 'error_message' => $e->getMessage(),
-                'rec_id' => $rec_id,
+                'unit_id' => $unit_id,
             ]);
             return response()->json(['success' => false, 'message' => 'An error occurred. Please try again.'], 500);
         }
     }
         
-    public function fetchRemarks($rec_id)
+    public function fetchRemarks($unit_id)
     {
         // Log::info('FetchRemarks Route Hit', [
-        //     'rec_id' => $rec_id,
+        //     'unit_id' => $unit_id,
         // ]);
     
-        $remarks = UnitRemark::where('unit_id', $rec_id)
+        $remarks = UnitRemark::where('unit_id', $unit_id)
             ->with('user') // Eager load user details
             ->orderBy('created_at', 'desc')
             ->get();
         return response()->json($remarks);
     }
-    public function updateRemarks(Request $request, $rec_id)
+    public function updateRemarks(Request $request, $unit_id)
     {
-        $unit = Unit::where('rec_id', $rec_id)->firstOrFail(); // Find by rec_id
+        $unit = Unit::where('unit_id', $unit_id)->firstOrFail(); // Find by unit_id
         $unit->remarks = $request->input('remarks');
         $unit->save();
     
-        return redirect()->route('units.remarks', $unit->rec_id)->with('success', 'Remarks updated successfully!');
+        return redirect()->route('units.remarks', $unit->unit_id)->with('success', 'Remarks updated successfully!');
     }
     public function editRemark(Request $request, $remark_id)
 {

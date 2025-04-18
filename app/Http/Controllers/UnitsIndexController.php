@@ -31,15 +31,15 @@ class UnitsIndexController extends Controller
             $skippedUnits = [];
     
             foreach ($units as $unitData) {
-                // Ensure `rec_id` is provided
-                if (empty($unitData['rec_id'])) {
-                    Log::warning('Missing "rec_id" in unit data.', ['unitData' => $unitData]);
+                // Ensure `unit_id` is provided
+                if (empty($unitData['unit_id'])) {
+                    Log::warning('Missing "unit_id" in unit data.', ['unitData' => $unitData]);
                     $skippedUnits[] = $unitData; // Track skipped units
-                    continue; // Skip processing if rec_id is missing
+                    continue; // Skip processing if unit_id is missing
                 }
     
-                // Find the unit by `rec_id`
-                $unit = Unit::where('rec_id', $unitData['rec_id'])->first();
+                // Find the unit by `unit_id`
+                $unit = Unit::where('unit_id', $unitData['unit_id'])->first();
     
                 if ($unit) {
                     // Filter the data to update only fillable attributes
@@ -47,10 +47,10 @@ class UnitsIndexController extends Controller
     
                     // Update the unit
                     $unit->update($fillableData);
-                    Log::info("Updated unit with rec_id {$unitData['rec_id']}.", ['data' => $fillableData]);
+                    Log::info("Updated unit with unit_id {$unitData['unit_id']}.", ['data' => $fillableData]);
                     $updatedUnits[] = $unitData; // Track successfully updated units
                 } else {
-                    Log::warning("Unit with rec_id {$unitData['rec_id']} not found.", ['unitData' => $unitData]);
+                    Log::warning("Unit with unit_id {$unitData['unit_id']} not found.", ['unitData' => $unitData]);
                     $skippedUnits[] = $unitData; // Track skipped units
                 }
             }
@@ -112,7 +112,7 @@ class UnitsIndexController extends Controller
         return view('units-view', compact('units', 'locations'));
     }
     
-    public function update(Request $request, $rec_id)
+    public function update(Request $request, $unit_id)
     {
         try {
             // Validate incoming data
@@ -146,7 +146,7 @@ class UnitsIndexController extends Controller
             \Log::info('Incoming request data:', $request->all()); // Log all request data
     
             // Find the unit by ID
-            $unit = Unit::findOrFail($rec_id);
+            $unit = Unit::findOrFail($unit_id);
     
             // Debug: Check if unit exists
             \Log::info('Unit found:', $unit->toArray());
@@ -193,7 +193,7 @@ class UnitsIndexController extends Controller
         }
     }
     
-    public function storeFileAttachment(Request $request, $rec_id)
+    public function storeFileAttachment(Request $request, $unit_id)
     {
         $request->validate([
             'file_att' => 'required|mimes:jpg,png,pdf|max:2048', // 2MB file size limit
@@ -201,7 +201,7 @@ class UnitsIndexController extends Controller
         
     
         // Find the unit by ID
-        $unit = Unit::findOrFail($rec_id);
+        $unit = Unit::findOrFail($unit_id);
     
         // Handle file upload
         $filePath = $request->file('file_att')->store('attachments', 'public');
@@ -218,9 +218,9 @@ class UnitsIndexController extends Controller
             'file_path' => $filePath
         ]);
     }
-    public function edit($rec_id)
+    public function edit($unit_id)
     {
-        $unit = Unit::findOrFail($rec_id);
+        $unit = Unit::findOrFail($unit_id);
         return view('units-edit', compact('unit'));
      
     }

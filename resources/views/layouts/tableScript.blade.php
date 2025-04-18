@@ -26,10 +26,10 @@
         };
 
         document.querySelectorAll('#excelTable tbody tr[data-changed="true"]').forEach(row => {
-            let rowData = { rec_id: row.getAttribute('data-rec-id') }; // Get the unique rec_id for the row
+            let rowData = { unit_id: row.getAttribute('data-rec-id') }; // Get the unique unit_id for the row
 
-            if (!rowData.rec_id) {
-                console.error('Missing rec_id for row:', row); // Log missing rec_id
+            if (!rowData.unit_id) {
+                console.error('Missing unit_id for row:', row); // Log missing unit_id
                 return;
             }
 

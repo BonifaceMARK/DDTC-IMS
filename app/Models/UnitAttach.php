@@ -8,17 +8,29 @@ use Illuminate\Database\Eloquent\Model;
 class UnitAttach extends Model
 {
     use HasFactory;
+
     protected $table = 'unit_attach';
-    protected $fillable = ['unit_id','user_id','att_type', 'att_file','att_dir','stat','remarks'];
+
+    protected $fillable = [
+        'unit_id',
+        'file_name',
+        'file_type',
+        'file_size',
+        'file_remarks', 
+        'uploaded_at',
+    ];
 
     public function unit()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id', 'unit_id');
+    }
+    protected static function boot()
 {
-    return $this->belongsTo(Unit::class);
-}
+    parent::boot();
 
-public function user()
-{
-    return $this->belongsTo(User::class); 
+    static::creating(function ($unit) {
+        $unit->unit_id = $unit->unit_id ?? 'UID-' . Str::uuid();
+    });
 }
 
 }

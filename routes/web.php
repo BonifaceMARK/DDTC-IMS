@@ -33,9 +33,9 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/units/showroom', [UnitsController::class, 'index'])->name('units.showroom');
 Route::get('/units/create', [UnitsController::class, 'create'])->name('units.create');
 Route::post('/units/store', [UnitsController::class, 'store'])->name('units.store');
-Route::get('/showroom/edit/{rec_id}', [UnitsController::class, 'edit'])->name('edit-unit');
+Route::get('/showroom/edit/{unit_id}', [UnitsController::class, 'edit'])->name('edit-unit');
 Route::get('/showroom/view',[UnitsController::class,'view'])->name('view-units');
-Route::put('/showroom/update/{rec_id}', [UnitsController::class, 'update'])->name('update-unit');
+Route::put('/showroom/update/{unit_id}', [UnitsController::class, 'update'])->name('update-unit');
 Route::get('/units/showroom', [UnitsController::class, 'index'])->name('units.showroom');
 // USER MANAGEMENT ROUTES
 Route::resource('users', UserController::class);
@@ -43,10 +43,10 @@ Route::post('/users/{id}/update-role', [UserController::class, 'updateRole'])->n
 // WHITEHOUSE ROUTES
 Route::get('/whitehouse/dashboard', [UnitsIndexController::class, 'index'])->name('whitehouse-dash');
 Route::get('/whitehouse/view', [UnitsIndexController::class, 'view'])->name('view.whitehouse');
-Route::put('/whitehouse/edit/{rec_id}', [UnitsIndexController::class, 'update'])->name('update.whitehouse');
-Route::get('/whitehouse/edit/{rec_id}', [UnitsIndexController::class, 'edit'])->name('edit.units');
+Route::put('/whitehouse/edit/{unit_id}', [UnitsIndexController::class, 'update'])->name('update.whitehouse');
+Route::get('/whitehouse/edit/{unit_id}', [UnitsIndexController::class, 'edit'])->name('edit.units');
 Route::post('/update-units', [UnitsIndexController::class, 'updateUnits']);
-// Route::post('/file-attachments/store/{rec_id}', [UnitsIndexController::class, 'storeFileAttachment'])->name('file-attachments.store');
+// Route::post('/file-attachments/store/{unit_id}', [UnitsIndexController::class, 'storeFileAttachment'])->name('file-attachments.store');
 
 
 // DASHBOARD
@@ -54,20 +54,19 @@ Route::get('/getChartData', [AnalyticsController::class, 'getChartData']);
 Route::get('/dashboard', [AnalyticsController::class, 'dashboard'])->name('dashboard.analytics');
 
 // REMARKS
-Route::get('/units/{rec_id}/remarks', [UnitsController::class, 'remarks'])->name('units.remarks');
+Route::get('/units/{unit_id}/remarks', [UnitsController::class, 'remarks'])->name('units.remarks');
 Route::post('/remarks/{remark_id}/edit', [UnitsController::class, 'editRemark'])->name('remarks.edit');
 Route::post('/remarks/{remark_id}/delete', [UnitsController::class, 'deleteRemark'])->name('remarks.delete');
 
-Route::post('/units/{rec_id}/add-remark', [UnitsController::class, 'addRemark'])->name('units.addRemark');
-Route::get('/units/{rec_id}/fetch-remarks', [UnitsController::class, 'fetchRemarks'])->name('units.fetchRemarks');
+Route::post('/units/{unit_id}/add-remark', [UnitsController::class, 'addRemark'])->name('units.addRemark');
+Route::get('/units/{unit_id}/fetch-remarks', [UnitsController::class, 'fetchRemarks'])->name('units.fetchRemarks');
 
 
-Route::prefix('unit_attach')->name('unit_attach.')->group(function () {
-    Route::get('/', [UnitAttachmentController::class, 'index'])->name('index');
-    Route::get('/create', [UnitAttachmentController::class, 'create'])->name('create');
-    Route::post('/', [UnitAttachmentController::class, 'store'])->name('store');
-    Route::get('/{unitAttach}/edit', [UnitAttachmentController::class, 'edit'])->name('edit');
-    Route::put('/{unitAttach}', [UnitAttachmentController::class, 'update'])->name('update');
+Route::prefix('unit.attach')->group(function () {
+    Route::get('/unit/{unit_id}/attachments', [UnitsController::class, 'show'])->name('unit.attachments');
+    Route::post('/unit/{unit_id}/attachments/upload', [UnitsController::class, 'upload'])->name('attachments.upload');
+    Route::get('/attachments/download/{id}', [UnitsController::class, 'download'])->name('attachments.download');
+    
 });
 // Route::post('/test-upload', function (Request $request) {
 //     // Check if the file exists

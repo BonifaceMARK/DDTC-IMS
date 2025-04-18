@@ -21,21 +21,21 @@ class Unit extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'rec_id'; // Set the primary key to 'rec_id'
+    protected $primaryKey = 'unit_id'; // Set the primary key to 'unit_id'
 
     /**
      * Indicates if the IDs are auto-incrementing.
      *
      * @var bool
      */
-    public $incrementing = true; // Set to `false` if `rec_id` is not auto-incrementing
+    public $incrementing = true; // Set to `false` if `unit_id` is not auto-incrementing
 
     /**
      * The "type" of the primary key ID.
      *
      * @var string
      */
-    protected $keyType = 'int'; // Set to 'string' if `rec_id` is a non-integer
+    protected $keyType = 'int'; // Set to 'string' if `unit_id` is a non-integer
 
     /**
      * The attributes that are mass assignable.

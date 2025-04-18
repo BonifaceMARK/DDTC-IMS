@@ -13,7 +13,7 @@
     @endif --}}
     
         <!-- Form to edit a unit -->
-        <form action="{{ route('update.whitehouse', ['rec_id' => $unit->rec_id]) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('update.whitehouse', ['unit_id' => $unit->unit_id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -229,13 +229,13 @@
                     </div>
                 </div>
             
-                <!-- Remarks Content -->
+                <!-- Attachment Content -->
                 <div class="row mt-2">
                     <div class="col">
                         <div class="border rounded p-2 shadow-sm" 
                              style="width:100%; background-color: #f9f9f9; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
                             <iframe 
-                                src="{{ route('unit.attachments', $unit->rec_id) }}" 
+                                src="{{ route('unit.attachments', $unit->unit_id) }}" 
                                 width="100%" 
                                 height="300px" 
                                 style="border: none;">
@@ -269,7 +269,7 @@
                         <div class="border rounded p-2 shadow-sm" 
                              style="width:100%; background-color: #f9f9f9; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
                             <iframe 
-                                src="{{ route('units.remarks', $unit->rec_id) }}" 
+                                src="{{ route('units.remarks', $unit->unit_id) }}" 
                                 width="100%" 
                                 height="300px" 
                                 style="border: none;">

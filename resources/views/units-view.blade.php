@@ -244,7 +244,7 @@ onchange="filterByDate(this.value);"
         </thead>
         <tbody>
             @foreach($units as $unit)
-            <tr data-rec-id="{{ $unit->rec_id }}"> <!-- Add data-id for identification -->
+            <tr data-rec-id="{{ $unit->unit_id }}"> <!-- Add data-id for identification -->
                 {{-- <td>
                     <select 
                         style="font-size: 10px; 
@@ -495,7 +495,7 @@ onchange="filterByDate(this.value);"
                 @if (in_array(auth()->user()->role, [1, 2]))
               <!-- Modal Button -->
 <td 
-onclick="openModal({{ $unit->rec_id }})"
+onclick="openModal({{ $unit->unit_id }})"
 style="
     cursor: pointer; 
     color: #333; 
