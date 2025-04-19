@@ -19,105 +19,101 @@
         @endif
         <div class="container-fluid mt-3">
             <div class="row">
+               
+                <script>
+                    document.getElementById("file_att").addEventListener("change", function (event) {
+                        const file = event.target.files[0];
+                        const reader = new FileReader();
+                
+                        reader.onload = function (e) {
+                            document.getElementById("profilePreview").src = e.target.result;
+                        };
+                
+                        if (file) {
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                </script>
+                                
                 <!-- Adjusted Table Width -->
                 <div class="col-lg-6">
         <form action="{{ route('units.store') }}" method="POST">
             @csrf
-            <table class="table table-bordered mt-3" style="font-size: 9px;">
+            <table class="table table-bordered mt-3" style="font-size: 9px; border-collapse: collapse; width: 100%;">
                 <tr>
-                    <th>Company
-                        <select  class="form-control" style="font-size: 10px;" id="Company" name="company" required
-                        style="font-size: 10px; 
-                               padding: 5px; 
-                               border-radius: 5px; 
-                               border: 1px solid #ced4da; 
-                               background-color: #f8f9fa; 
-                               color: #495057; 
-                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
-                        <option value="" selected></option>
-                        <option value="DOSC">🏢 DOSC</option>
-                        <option value="DDTC">📊 DDTC</option>
-                        <option value="DBIC">🌐 DBIC</option>
-                    </select>
+                    <th>🏢 Company
+                        <select class="form-control" style="font-size: 10px; padding: 4px; border-radius: 5px; border: 1px solid #ced4da;" id="Company" name="company" required>
+                            <option value="" selected></option>
+                            <option value="DOSC">🏢 DOSC</option>
+                            <option value="DDTC">📊 DDTC</option>
+                            <option value="DBIC">🌐 DBIC</option>
+                        </select>
                     </th>
-                    <th>Brand
+                    <th>🏷️ Brand
                         <input type="text" class="form-control" style="font-size: 10px;" id="Brand" name="brand" required>
                     </th>
-                    <th>Model
+                    <th>📱 Model
                         <input type="text" class="form-control" style="font-size: 10px;" id="Model" name="model" required>
                     </th>
-                
                 </tr>
                 <tr>
-                    <th>Device Type
+                    <th>🖥️ Device Type
                         <input type="text" class="form-control" style="font-size: 10px;" id="Device Type" name="dev_type" required>
                     </th>
-                    <th>Stock Keeping Unit - SKU
+                    <th>🔢 SKU
                         <input type="text" class="form-control" style="font-size: 10px;" id="Stock Keeping Unit" name="sku" required>
                     </th>
-                  
-                    <th>Bundle Item
+                    <th>📦 Bundle Item
                         <input type="text" class="form-control" style="font-size: 10px;" id="Bundle Item" name="bundle_item">
                     </th>
-                   
                 </tr>
                 <tr>
-                    <th>Description
-                        <input type="text" class="form-control" style="font-size: 10px;" id="Short Description" name="desc" required>
+                    <th>📝 Description
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Description" name="desc" required>
                     </th>
-                    <th>Serial Number
+                    <th>🔍 Serial Number
                         <input type="text" class="form-control" style="font-size: 10px;" id="Serial Number" name="ser_no" required>
                     </th>
-                    <th>Area
+                    <th>🌍 Area
                         <input type="text" class="form-control" style="font-size: 10px;" id="Area" name="area" required>
                     </th>
-                   
                 </tr>
                 <tr>
-                    <th>Vendor Company
+                    <th>🏬 Vendor Company
                         <input type="text" class="form-control" style="font-size: 10px;" id="Vendor Company" name="vendor_com" required>
                     </th>
-                    <th>Quantity
+                    <th>🔢 Quantity
                         <input type="number" class="form-control" style="font-size: 10px;" id="Quantity" name="qty" required>
                     </th>
-                    <th>Allocation
-                        <input type="text" class="form-control" style="font-size: 10px;" id="Allocation" name="allocation"></textarea>
+                    <th>📤 Allocation
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Allocation" name="allocation">
                     </th>
-                    
                 </tr>
                 <tr>
-                    <th>Property Tag
+                    <th>🏷️ Property Tag
                         <input type="text" class="form-control" style="font-size: 10px;" id="Property Tag" name="prop_tag" required>
                     </th>
-                    <th>Customer PO Reference
+                    <th>📄 Customer PO Ref
                         <input type="text" class="form-control" style="font-size: 10px;" id="Customer PO Reference" name="cust_po_ref" required>
                     </th>
-                    <th>Category
-                        <select class="form-control" style="font-size: 10px;" id="Category" name="categ" required
-                        style="font-size: 10px; 
-                               padding: 5px; 
-                               border-radius: 5px; 
-                               border: 1px solid #ced4da; 
-                               background-color: #f8f9fa; 
-                               color: #495057; 
-                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
-                        <option value="" selected></option>
-                        <option value="Audio Visual">🎵 Audio Visual</option>
-                        <option value="Computing Products">💻 Computing Products</option>
-                        <option value="Document & Data Management">📄 Document & Data Management</option>
-                        <option value="Retail Solution">🛒 Retail Solution</option>
-                    </select>
-                      </th>
+                    <th>📁 Category
+                        <select class="form-control" style="font-size: 10px; padding: 4px; border-radius: 5px; border: 1px solid #ced4da;" id="Category" name="categ" required>
+                            <option value="" selected></option>
+                            <option value="Audio Visual">🎵 Audio Visual</option>
+                            <option value="Computing Products">💻 Computing Products</option>
+                            <option value="Document & Data Management">📄 Document & Data Management</option>
+                            <option value="Retail Solution">🛒 Retail Solution</option>
+                        </select>
+                    </th>
                 </tr>
                 <tr>
-                  
-                    <th>Sales Remarks
+                    <th>🗨️ Sales Remarks
                         <input type="text" class="form-control" style="font-size: 10px;" id="Sales Remarks" name="sales_remarks">
                     </th>
-                    <th>Input by
-                        <input type="text" class="form-control" style="font-size: 10px;" id="Input by" name="input_by">
+                    <th>✍️ Input by
+                        <input type="text" class="form-control" style="font-size: 10px;" id="Input By" name="input_by">
                     </th>
-                    <th>Unit Status
+                    <th>📦 Unit Status
                         <select class="form-control" style="font-size: 10px;" id="Unit Status" name="unit_stat">
                             <option value=""></option>
                             <option value="Brand New" style="background-color: #d4edda;">✨ Brand New</option>
@@ -126,33 +122,32 @@
                             <option value="Service Unit" style="background-color: #f8d7da;">🛠️ Service Unit</option>
                         </select>
                     </th>
-                   
                 </tr>
                 <tr>
-                    <th>Vendor Type
+                    <th>🏢 Vendor Type
                         <input type="text" class="form-control" style="font-size: 10px;" id="Vendor Type" name="vendor_type">
                     </th>
-                    <th>Product Management Status
+                    <th>📊 PM Status
                         <input type="text" class="form-control" style="font-size: 10px;" id="Product Management Status" name="pmg_stats">
                     </th>
-                    <th>Sales Status
+                    <th>💼 Sales Status
                         <input type="text" class="form-control" style="font-size: 10px;" id="Sales Status" name="sales_stats">
                     </th>
-                    
                 </tr>
-                 <tr>
-                   
-                    <th>Date Added
+                <tr>
+                    <th>📅 Date Added
                         <input type="date" class="form-control" style="font-size: 10px;" id="Date Added" name="date_add">
                     </th>
-                    <th>Date Pullout
+                    <th>📦 Date Pullout
                         <input type="date" class="form-control" style="font-size: 10px;" id="Date Pullout" name="date_pull">
                     </th>
-                    <th>Location
+                    <th>📍 Location
                         <input type="text" class="form-control" style="font-size: 10px;" id="Location" name="location">
                     </th>
-                 </tr>
+                </tr>
             </table>
+            
+            
             {{-- <a href="{{ route('import.form') }}" class="btn btn-success" style="font-size: 10px;">Import Excel</a> --}}
 
          

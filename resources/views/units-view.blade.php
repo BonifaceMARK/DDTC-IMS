@@ -303,7 +303,71 @@ onchange="filterByDate(this.value);"
             <td contenteditable="true">{{$unit->location}}</td>
 
                 <td contenteditable="true">{{ $unit->vendor_com }}</td>
-                <td contenteditable="true">FILE ATTACHMENT</td>
+                <td 
+                style="max-width: 70px; 
+                       word-wrap: break-word; 
+                       white-space: normal; 
+                       overflow: hidden;
+                       cursor: pointer;"
+                data-bs-toggle="modal" 
+                data-bs-target="#attachmentsModal" 
+                data-unit-id="{{ $unit->unit_id }}" 
+                onmouseover="this.firstElementChild.style.transform='scale(1.2)'; this.firstElementChild.style.transition='transform 0.2s ease';" 
+                onmouseout="this.firstElementChild.style.transform='scale(1)';"
+                class="open-attachments"
+            >
+                <i class="bi bi-file-earmark-text"></i> View
+            </td>
+            
+            
+       <!-- Modal -->
+<div class="modal fade" id="attachmentsModal" tabindex="-1" aria-labelledby="attachmentsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="attachmentsModalLabel">Attachments</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="border rounded p-2 shadow-sm" 
+                     style="background-color: #f9f9f9; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+                    <iframe 
+                        id="attachmentsIframe"
+                        data-src="{{ route('unit.attachments', $unit->unit_id) }}" 
+                        width="100%" 
+                        height="500px" 
+                        style="border: none;">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const iframe = document.getElementById('attachmentsIframe');
+        const attachmentsModal = document.getElementById('attachmentsModal');
+        const routeTemplate = attachmentRouteTemplate; // e.g., "/unit/__UNIT_ID__/attachments"
+
+        document.querySelectorAll('.open-attachments').forEach(item => {
+            item.addEventListener('click', function () {
+                const unitId = this.getAttribute('data-unit-id');
+                const finalUrl = routeTemplate.replace('__UNIT_ID__', unitId);
+                iframe.setAttribute('src', finalUrl);
+            });
+        });
+
+        attachmentsModal.addEventListener('hidden.bs.modal', function () {
+            iframe.setAttribute('src', '');
+        });
+    });
+</script>
+
+<script>
+    const attachmentRouteTemplate = "{{ route('unit.attachments', ['unit_id' => '__UNIT_ID__']) }}";
+</script>
+
+
                 <td>
                     <select 
                         style="font-size: 10px; 

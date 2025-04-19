@@ -1,4 +1,4 @@
-@include('layouts.header')
+{{-- @include('layouts.header')
 <body>
     <div class="container-fluid mt-5">
         <!-- Search Bar -->
@@ -131,4 +131,4 @@
     });
 </script>
 
-</body>
+</body> --}}

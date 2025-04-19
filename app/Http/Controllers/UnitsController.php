@@ -24,9 +24,10 @@ class UnitsController extends Controller
      * Show the form for creating a new unit.
      */
     public function create()
-    {
-        return view('units-create');
-    }
+{
+    return view('units-create'); // No need to pass $unit
+}
+
 
     /**
      * Store a newly created unit in the database.
@@ -60,7 +61,9 @@ class UnitsController extends Controller
         'date_add' => 'nullable|date',
         'date_pull' => 'nullable|date',
     ]);
-    Unit::create([
+
+    // Step 3: Create the unit with the generated unit_id
+    $unit = new Unit([
         'company' => $request->input('company'),
         'brand' => $request->input('brand'),
         'model' => $request->input('model'),
@@ -88,8 +91,13 @@ class UnitsController extends Controller
         'date_pull' => $request->input('date_pull'),
     ]);
 
-    return redirect()->route('view.whitehouse')->with('success', 'Unit added successfully!');
+    // Step 4: Save the unit record
+    $unit->save();
+
+    return redirect()->route('units.create')->with('success', 'Unit added successfully!');
 }
+
+    
     
 //     public function update(Request $request, $id)
 // {
@@ -390,7 +398,28 @@ public function delete($id)
         return back()->with('error', 'Failed to delete attachment.');
     }
 }
+public function loadAttachments($unitId)
+{
+    $iframeUrl = route('unit.attachments', $unitId);
+    return view('partials.units-attach', compact('iframeUrl'));
+}
 
+
+public function uploadAttachment(Request $request, Unit $unit)
+{
+    $request->validate([
+        'file_att' => 'required|image|mimes:jpeg,png,jpg,gif',
+    ]);
+
+    // Store the image in storage/app/public/attachments
+    $path = $request->file('file_att')->store('attachments', 'public');
+
+    // Update the unit with the file path
+    $unit->file_att = $path;
+    $unit->save();
+
+    return redirect()->back()->with('success', 'Attachment uploaded successfully!');
+}
 
 // public function destroy($id)
 // {

@@ -1,4 +1,4 @@
-@include('layouts.header')
+{{-- @include('layouts.header')
 
 <body>
     <div class="container-fluid mt-2">
@@ -133,4 +133,4 @@
       @include('layouts.footer')
 @include('layouts.script')
 </body>
-
+ --}}

@@ -4,6 +4,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class Unit extends Model
 {
@@ -15,7 +17,8 @@ class Unit extends Model
      * @var string
      */
     protected $table = 'units';
-
+    public $incrementing = false; // Prevent auto-increment on primary key
+    protected $keyType = 'string'; // Unit ID is a string
     /**
      * The primary key for the model.
      *
@@ -28,14 +31,12 @@ class Unit extends Model
      *
      * @var bool
      */
-    public $incrementing = true; // Set to `false` if `unit_id` is not auto-incrementing
 
     /**
      * The "type" of the primary key ID.
      *
      * @var string
      */
-    protected $keyType = 'int'; // Set to 'string' if `unit_id` is a non-integer
 
     /**
      * The attributes that are mass assignable.
@@ -43,7 +44,7 @@ class Unit extends Model
      * @var array
      */
     protected $fillable = [
-        'company', 'brand', 'model', 'dev_type', 'sku', 'categ', 'ser_no', 
+        'unit_id','company', 'brand', 'model', 'dev_type', 'sku', 'categ', 'ser_no', 
         'area', 'age', 'vendor_com', 'allocation', 'prop_tag', 'stats', 'qty', 
         'bundle_item', 'cust_po_ref', 'location', 'input_by', 'arrival_date', 
         'unit_stat', 'vendor_type', 'pmg_stats', 'sales_stats', 'sales_remarks',
@@ -80,6 +81,14 @@ class Unit extends Model
 public function attachments()
 {
     return $this->hasMany(UnitAttach::class);
+}
+
+protected static function booted()
+{
+    static::creating(function ($unit) {
+        // Generate unit_id based on current timestamp and a random suffix
+        $unit->unit_id = 'UID25-' . md5(Carbon::now()->timestamp . rand());
+    });
 }
 
 

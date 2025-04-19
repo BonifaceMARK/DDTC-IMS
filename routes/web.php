@@ -69,13 +69,14 @@ Route::get('/php-settings', function () {
     ];
 });
 
-Route::prefix('unit.attach')->group(function () {
+Route::post('/units/upload-attachment/{unit_id}', [UnitsController::class, 'uploadAttachment'])->name('units.uploadAttachment');
+
+
     Route::get('/unit/{unit_id}/attachments', [UnitsController::class, 'show'])->name('unit.attachments');
     Route::post('/unit/{unit_id}/attachments/upload', [UnitsController::class, 'upload'])->name('attachments.upload');
     Route::get('/attachments/download/{id}', [UnitsController::class, 'download'])->name('attachments.download');
     Route::delete('/attachments/{id}/delete', [UnitsController::class, 'delete'])->name('attachments.delete');
 
-});
 // Route::post('/test-upload', function (Request $request) {
 //     // Check if the file exists
 //     if (!$request->hasFile('attachment')) {
