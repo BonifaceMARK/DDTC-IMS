@@ -30,21 +30,21 @@ Route::post('/login/post', [AuthController::class, 'Login'])->name('Login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
   
 // SHOWROOM ROUTES
-Route::get('/units/showroom', [UnitsController::class, 'index'])->name('units.showroom');
+// Route::get('/units/showroom', [UnitsController::class, 'index'])->name('units.showroom');
 Route::get('/units/create', [UnitsController::class, 'create'])->name('units.create');
 Route::post('/units/store', [UnitsController::class, 'store'])->name('units.store');
-Route::get('/showroom/edit/{unit_id}', [UnitsController::class, 'edit'])->name('edit-unit');
-Route::get('/showroom/view',[UnitsController::class,'view'])->name('view-units');
-Route::put('/showroom/update/{unit_id}', [UnitsController::class, 'update'])->name('update-unit');
-Route::get('/units/showroom', [UnitsController::class, 'index'])->name('units.showroom');
+// Route::get('/showroom/edit/{unit_id}', [UnitsController::class, 'edit'])->name('edit-unit');
+// Route::get('/showroom/view',[UnitsController::class,'view'])->name('view-units');
+// Route::put('/showroom/update/{unit_id}', [UnitsController::class, 'update'])->name('update-unit');
+// Route::get('/units/showroom', [UnitsController::class, 'index'])->name('units.showroom');
 // USER MANAGEMENT ROUTES
 Route::resource('users', UserController::class);
 Route::post('/users/{id}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 // WHITEHOUSE ROUTES
-Route::get('/whitehouse/dashboard', [UnitsIndexController::class, 'index'])->name('whitehouse-dash');
-Route::get('/whitehouse/view', [UnitsIndexController::class, 'view'])->name('view.whitehouse');
-Route::put('/whitehouse/edit/{unit_id}', [UnitsIndexController::class, 'update'])->name('update.whitehouse');
-Route::get('/whitehouse/edit/{unit_id}', [UnitsIndexController::class, 'edit'])->name('edit.units');
+Route::get('/stock/dashboard', [UnitsIndexController::class, 'index'])->name('whitehouse-dash');
+Route::get('/stock/view', [UnitsIndexController::class, 'view'])->name('view.stock');
+Route::put('/stock/edit/{unit_id}', [UnitsIndexController::class, 'update'])->name('update.whitehouse');
+Route::get('/stock/edit/{unit_id}', [UnitsIndexController::class, 'edit'])->name('edit.units');
 Route::post('/update-units', [UnitsIndexController::class, 'updateUnits']);
 // Route::post('/file-attachments/store/{unit_id}', [UnitsIndexController::class, 'storeFileAttachment'])->name('file-attachments.store');
 

@@ -68,7 +68,7 @@
         <div class="iframe-panel border rounded " style="height: 100%; background-color: transparent; padding: 0; margin-bottom:150px;">
           <iframe 
             id="iframeContent" 
-            src="{{ route('view.whitehouse') }}" 
+            src="{{ route('view.stock') }}" 
             style="width: 100%; height: 100%; border: none; ">
           </iframe>
         </div>
@@ -87,7 +87,7 @@
       @auth
       @if (in_array(auth()->user()->role, [1, 2]))
         <a 
-          onclick="loadIframe('{{ route('view.whitehouse') }}')" 
+          onclick="loadIframe('{{ route('view.stock') }}')" 
           class="btn mx-2 animated-link" 
           style="font-size: 12px; color: black; text-decoration: none; padding: 5px 10px; transition: color 0.3s, background-color 0.3s;"
           onmouseover="this.style.color='white'; this.style.backgroundColor='green';"
@@ -122,7 +122,7 @@
     </a>
     @endif
       @endauth
-      @auth
+      {{-- @auth
       @if (in_array(auth()->user()->role, [1, 2]))
       <a 
       onclick="loadIframe('{{ url('unit_attach') }}')" 
@@ -134,7 +134,7 @@
     <i class="bi bi-person-standing"></i> Attachments
     </a>
     @endif
-      @endauth
+      @endauth --}}
       {{-- <a 
       onclick="loadIframe('{{ route('dashboard.analytics') }}')" 
       class="btn mx-2 animated-link" 

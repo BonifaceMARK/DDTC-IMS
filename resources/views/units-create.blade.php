@@ -86,7 +86,37 @@
                         <input type="number" class="form-control" style="font-size: 10px;" id="Quantity" name="qty" required>
                     </th>
                     <th>📤 Allocation
-                        <input type="text" class="form-control" style="font-size: 10px;" id="Allocation" name="allocation">
+                        {{-- <input type="text" class="form-control" style="font-size: 10px;" id="Allocation" name="allocation"> --}}
+                       <select class="form-control" style="font-size: 10px;" name="allocation" id="Allocation">
+                        <option value="" selected></option>
+                        <option value="Louwie Espiritu">Louwie Espiritu</option>
+                        <option value="Dyan Dimaculangan">Dyan Dimaculangan</option>
+                        <option value="Maya Cruz">Maya Cruz</option>
+                        <option value="Andy Salenga">Andy Salenga</option>
+                        <option value="Larry Bernardo">Larry Bernardo</option>
+                        <option value="ICT">ICT</option>
+                        <option value="Rey Plaza">Rey Plaza</option>
+                        <option value="Lincy Flores">Lincy Flores</option>
+                        <option value="Stephanie Machan">Stephanie Machan</option>
+                        <option value="Gae Ann Cunanan">Gae Ann Cunanan</option>
+                        <option value="Run Rate Stocks">Run Rate Stocks</option>
+                        <option value="Cyril Pita">Cyril Pita</option>
+                        <option value="Rexel Tabamo">Rexel Tabamo</option>
+                        <option value="Mark Guererro">Mark Guererro</option>
+                        <option value="Ricky Tamayo">Ricky Tamayo</option>
+                        <option value="Rodel Lozano">Rodel Lozano</option>
+                        <option value="Weynard Fetesio">Weynard Fetesio</option>
+                        <option value="Apple Arcaina">Apple Arcaina</option>
+                        <option value="Sheryl De Guzman">Sheryl De Guzman</option>
+                        <option value="Service Unit/ Demo Unit/">Service Unit/ Demo Unit/</option>
+                        <option value="NONE">NONE</option>
+                        <option value="Earl Nicdao">Earl Nicdao</option>
+                        <option value="Cherry Liwag">Cherry Liwag</option>
+                        <option value="DOSC">DOSC</option>
+                        <option value="Merylle Adelantar">Merylle Adelantar</option>
+                        <option value="Cristen Gabriel">Cristen Gabriel</option>
+                        <option value="AR Lim">AR Lim</option>
+                    </select>
                     </th>
                 </tr>
                 <tr>

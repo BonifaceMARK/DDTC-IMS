@@ -57,7 +57,45 @@
                                     <input type="text" style="font-size: 10px;" class="form-control" id="vendor_com" name="vendor_com" value="{{ $unit->vendor_com }}">
                                 </th>
                                 <th>Allocation
-                                    <input type="text" style="font-size: 10px;" class="form-control" id="allocation" name="allocation" value="{{ $unit->allocation }}">
+                                    {{-- <input type="text" style="font-size: 10px;" class="form-control" id="allocation" name="allocation" value="{{ $unit->allocation }}"> --}}
+                                    <select class="form-control" id="allocation" name="allocation" value="{{ $unit->allocation }}"
+                                        style="font-size: 10px; 
+                                               padding: 5px; 
+                                               border-radius: 5px; 
+                                               border: 1px solid #ced4da; 
+                                               color: #495057; 
+                                               box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);"
+                                        onchange="updateBackgroundColor(this)"
+                                    >
+                                    <option value="" selected></option>
+                                    <option value="Louwie Espiritu" {{ $unit->allocation == 'Louwie Espiritu' ? 'selected' : '' }}>Louwie Espiritu</option>
+                                    <option value="Dyan Dimaculangan" {{ $unit->allocation == 'Dyan Dimaculangan' ? 'selected' : '' }}>Dyan Dimaculangan</option>
+                                    <option value="Maya Cruz" {{ $unit->allocation == 'Maya Cruz' ? 'selected' : '' }}>Maya Cruz</option>
+                                    <option value="Andy Salenga" {{ $unit->allocation == 'Andy Salenga' ? 'selected' : '' }}>Andy Salenga</option>
+                                    <option value="Larry Bernardo" {{ $unit->allocation == 'Larry Bernardo' ? 'selected' : '' }}>Larry Bernardo</option>
+                                    <option value="ICT" {{ $unit->allocation == 'ICT' ? 'selected' : '' }}>ICT</option>
+                                    <option value="Rey Plaza" {{ $unit->allocation == 'Rey Plaza' ? 'selected' : '' }}>Rey Plaza</option>
+                                    <option value="Lincy Flores" {{ $unit->allocation == 'Lincy Flores' ? 'selected' : '' }}>Lincy Flores</option>
+                                    <option value="Stephanie Machan" {{ $unit->allocation == 'Stephanie Machan' ? 'selected' : '' }}>Stephanie Machan</option>
+                                    <option value="Gae Ann Cunanan" {{ $unit->allocation == 'Gae Ann Cunanan' ? 'selected' : '' }}>Gae Ann Cunanan</option>
+                                    <option value="Run Rate Stocks" {{ $unit->allocation == 'Run Rate Stocks' ? 'selected' : '' }}>Run Rate Stocks</option>
+                                    <option value="Cyril Pita" {{ $unit->allocation == 'Cyril Pita' ? 'selected' : '' }}>Cyril Pita</option>
+                                    <option value="Rexel Tabamo" {{ $unit->allocation == 'Rexel Tabamo' ? 'selected' : '' }}>Rexel Tabamo</option>
+                                    <option value="Mark Guererro" {{ $unit->allocation == 'Mark Guererro' ? 'selected' : '' }}>Mark Guererro</option>
+                                    <option value="Ricky Tamayo" {{ $unit->allocation == 'Ricky Tamayo' ? 'selected' : '' }}>Ricky Tamayo</option>
+                                    <option value="Rodel Lozano" {{ $unit->allocation == 'Rodel Lozano' ? 'selected' : '' }}>Rodel Lozano</option>
+                                    <option value="Weynard Fetesio" {{ $unit->allocation == 'Weynard Fetesio' ? 'selected' : '' }}>Weynard Fetesio</option>
+                                    <option value="Apple Arcaina" {{ $unit->allocation == 'Apple Arcaina' ? 'selected' : '' }}>Apple Arcaina</option>
+                                    <option value="Sheryl De Guzman" {{ $unit->allocation == 'Sheryl De Guzman' ? 'selected' : '' }}>Sheryl De Guzman</option>
+                                    <option value="Service Unit/ Demo Unit/" {{ $unit->allocation == 'Service Unit/ Demo Unit/' ? 'selected' : '' }}>Service Unit/ Demo Unit/</option>
+                                    <option value="NONE" {{ $unit->allocation == 'NONE' ? 'selected' : '' }}>NONE</option>
+                                    <option value="Earl Nicdao" {{ $unit->allocation == 'Earl Nicdao' ? 'selected' : '' }}>Earl Nicdao</option>
+                                    <option value="Cherry Liwag" {{ $unit->allocation == 'Cherry Liwag' ? 'selected' : '' }}>Cherry Liwag</option>
+                                    <option value="DOSC" {{ $unit->allocation == 'DOSC' ? 'selected' : '' }}>DOSC</option>
+                                    <option value="Merylle Adelantar" {{ $unit->allocation == 'Merylle Adelantar' ? 'selected' : '' }}>Merylle Adelantar</option>
+                                    <option value="Cristen Gabriel" {{ $unit->allocation == 'Cristen Gabriel' ? 'selected' : '' }}>Cristen Gabriel</option>
+                                    <option value="AR Lim" {{ $unit->allocation == 'AR Lim' ? 'selected' : '' }}>AR Lim</option>
+                                </select>
                                 </th>
                                 <th>Quantity
                                     <input type="number" style="font-size: 10px;" class="form-control" id="qty" name="qty" value="{{ $unit->qty }}">
@@ -252,9 +290,6 @@
     </div>
     
                                     </div>
-                                            
-              
-         
     </div>
                                                   
                                                     

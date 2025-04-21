@@ -353,7 +353,7 @@ class UnitsController extends Controller
 
         // Store the file
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $filePath = $file->storeAs('attachments', $fileName);
+        $filePath = $file->storeAs('attachments', $fileName, 'public');
 
         \Log::info('File stored successfully.', [
             'file_path' => $filePath,
@@ -384,10 +384,18 @@ public function delete($id)
 {
     try {
         $attachment = UnitAttach::findOrFail($id);
-        $filePath = storage_path('app/attachments/' . $attachment->file_name);
 
-        if (file_exists($filePath)) {
-            unlink($filePath);
+        $storagePath = storage_path('app/public/attachments/' . $attachment->file_name);
+        $publicPath = public_path('storage/attachments/' . $attachment->file_name);
+
+        // Delete from storage
+        if (file_exists($storagePath)) {
+            unlink($storagePath);
+        }
+
+        // Delete from public folder (if duplicated for access)
+        if (file_exists($publicPath)) {
+            unlink($publicPath);
         }
 
         $attachment->delete();
@@ -398,6 +406,8 @@ public function delete($id)
         return back()->with('error', 'Failed to delete attachment.');
     }
 }
+
+
 public function loadAttachments($unitId)
 {
     $iframeUrl = route('unit.attachments', $unitId);
@@ -405,21 +415,21 @@ public function loadAttachments($unitId)
 }
 
 
-public function uploadAttachment(Request $request, Unit $unit)
-{
-    $request->validate([
-        'file_att' => 'required|image|mimes:jpeg,png,jpg,gif',
-    ]);
+// public function uploadAttachment(Request $request, Unit $unit)
+// {
+//     $request->validate([
+//         'file_att' => 'required|image|mimes:jpeg,png,jpg,gif',
+//     ]);
 
-    // Store the image in storage/app/public/attachments
-    $path = $request->file('file_att')->store('attachments', 'public');
+//     // Store the image in storage/app/public/attachments
+//     $path = $request->file('file_att')->store('attachments', 'public');
 
-    // Update the unit with the file path
-    $unit->file_att = $path;
-    $unit->save();
+//     // Update the unit with the file path
+//     $unit->file_att = $path;
+//     $unit->save();
 
-    return redirect()->back()->with('success', 'Attachment uploaded successfully!');
-}
+//     return redirect()->back()->with('success', 'Attachment uploaded successfully!');
+// }
 
 // public function destroy($id)
 // {
@@ -441,13 +451,22 @@ public function uploadAttachment(Request $request, Unit $unit)
 // }
 
 
-        public function download($id)
-        {
-            $attachment = UnitAttach::findOrFail($id);
-            $filePath = storage_path('app/attachments/' . $attachment->file_name);
-    
-            return response()->download($filePath);
+public function download($id)
+{
+    try {
+        $attachment = UnitAttach::findOrFail($id);
+        $filePath = storage_path('app/public/attachments/' . $attachment->file_name);
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found.');
         }
+
+        return response()->download($filePath, $attachment->file_name);
+    } catch (\Exception $e) {
+        \Log::error('Download failed: ' . $e->getMessage());
+        return back()->with('error', 'Failed to download attachment.');
+    }
+}
 
 
         /////////////////////// REMARKS ///////////////////////////////

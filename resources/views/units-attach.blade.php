@@ -41,7 +41,17 @@
                         <td style="padding: 10px; border: 1px solid black;">{{ $attachment->uploaded_at }}</td>
                         <td style="padding: 10px; border: 1px solid black;">{{ $attachment->file_remarks ?? 'None' }}</td>
                         <td style="padding: 10px; border: 1px solid black; text-align: center;">
-                            <a href="{{ route('attachments.download', $attachment->attachment_id) }}" style="color: #007bff; text-decoration: none;">Download</a> |
+                            <a style="font-size:10px;" type="btn" class="btn btn-sm btn-light" 
+                            href="{{ asset('storage/attachments/' . $attachment->file_name) }}" 
+                            target="_blank" 
+                            style="color: rgb(10, 10, 10); text-decoration: none;">
+                            <i class="bi bi-binoculars"></i>
+                         </a> |
+                             <a type="button" style="font-size: 10px;" class="btn btn-sm btn-light" href="{{ route('attachments.download', $attachment->attachment_id) }}" 
+                                style="color: #4908f9; text-decoration: none;">
+                                <i class="bi bi-download"></i>
+                             </a> |
+                             
                             <form id="delete-form-{{ $attachment->attachment_id }}" action="{{ route('attachments.delete', $attachment->attachment_id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')

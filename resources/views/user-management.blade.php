@@ -52,7 +52,7 @@
                         @elseif ($user->role == 2)
                             Manager
                         @else
-                            User
+                            Sales
                         @endif
                     </td>
                     <td>{{ $user->email_verified_at ?? 'Not Verified' }}</td>

@@ -51,9 +51,9 @@
                     {{ session('selected_limit') ?? 'Select Limit' }}
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item {{ session('selected_limit') == '10' ? 'active' : '' }}" href="{{ route('view.whitehouse', ['limit' => 10]) }}">10</a></li>
-                    <li><a class="dropdown-item {{ session('selected_limit') == '50' ? 'active' : '' }}" href="{{ route('view.whitehouse', ['limit' => 50]) }}">50</a></li>
-                    <li><a class="dropdown-item {{ session('selected_limit') == 'all' ? 'active' : '' }}" href="{{ route('view.whitehouse', ['limit' => 'All']) }}">All</a></li>
+                    <li><a class="dropdown-item {{ session('selected_limit') == '10' ? 'active' : '' }}" href="{{ route('view.stock', ['limit' => 10]) }}">10</a></li>
+                    <li><a class="dropdown-item {{ session('selected_limit') == '50' ? 'active' : '' }}" href="{{ route('view.stock', ['limit' => 50]) }}">50</a></li>
+                    <li><a class="dropdown-item {{ session('selected_limit') == 'all' ? 'active' : '' }}" href="{{ route('view.stock', ['limit' => 'All']) }}">All</a></li>
                 </ul>
             </div>
 
@@ -93,7 +93,7 @@ onchange="filterByLocation()"
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="monthDropdown">
                     @for ($i = 1; $i <= 12; $i++)
-                        <li><a class="dropdown-item" href="{{ route('view.whitehouse', ['month' => $i, 'year' => request('year'), 'limit' => session('selected_limit') ?? 10]) }}">{{ DateTime::createFromFormat('!m', $i)->format('F') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ route('view.stock', ['month' => $i, 'year' => request('year'), 'limit' => session('selected_limit') ?? 10]) }}">{{ DateTime::createFromFormat('!m', $i)->format('F') }}</a></li>
                     @endfor
                 </ul>
             </div>
@@ -112,7 +112,7 @@ onchange="filterByLocation()"
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="yearDropdown">
                     @for ($year = now()->year; $year >= 2000; $year--)
-                        <li><a class="dropdown-item" href="{{ route('view.whitehouse', ['year' => $year, 'month' => request('month'), 'limit' => session('selected_limit') ?? 10]) }}">{{ $year }}</a></li>
+                        <li><a class="dropdown-item" href="{{ route('view.stock', ['year' => $year, 'month' => request('month'), 'limit' => session('selected_limit') ?? 10]) }}">{{ $year }}</a></li>
                     @endfor
                 </ul>
                 
@@ -325,7 +325,7 @@ onchange="filterByDate(this.value);"
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="attachmentsModalLabel">Attachments</h5>
+                <h5 class="modal-title" id="attachmentsModalLabel"><i class="bi bi-paperclip"></i> Attachments</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -471,6 +471,7 @@ onchange="filterByDate(this.value);"
                            word-wrap: break-word; 
                            white-space: normal; 
                            overflow: hidden;">
+
                     <option value="" selected></option>
                     <option value="Principal" {{ $unit->vendor_type == 'Principal' ? 'selected' : '' }}>⭐ Principal</option>
                     <option value="Distributor" {{ $unit->vendor_type == 'Distributor' ? 'selected' : '' }}>✔️ Distributor</option>
@@ -565,7 +566,8 @@ onchange="filterByDate(this.value);"
                 @if (in_array(auth()->user()->role, [1, 2]))
               <!-- Modal Button -->
 <td 
-onclick="openModal({{ $unit->unit_id }})"
+onclick="openModal('{{ $unit->unit_id }}')"
+
 style="
     cursor: pointer; 
     color: #333; 
@@ -622,7 +624,7 @@ onmouseout="this.style.backgroundColor=''; this.style.boxShadow='0 2px 5px rgba(
 </div>
 
 <script>
-    function openCreateModal(recId) {
+    function openCreateModal() {
         const iframe = document.getElementById('createIframe');
         iframe.src = `/units/create`;
         document.getElementById('createUnitModal').style.display = 'block';
@@ -662,9 +664,9 @@ onmouseout="this.style.backgroundColor=''; this.style.boxShadow='0 2px 5px rgba(
 </div>
 
 <script>
-    function openModal(recId) {
+    function openModal(unit_id) {
         const iframe = document.getElementById('modalIframe');
-        iframe.src = `/whitehouse/edit/${recId}`;
+        iframe.src = `/stock/edit/${unit_id}`;
         document.getElementById('editUnitModal').style.display = 'block';
     }
 
