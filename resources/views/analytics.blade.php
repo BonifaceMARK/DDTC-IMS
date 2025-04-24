@@ -257,8 +257,18 @@
                 const categoryData = data.filter(item => item.company === category);
                 return {
                     name: category,
-                    data: categoryData.map(item => item.total ?? 0)
+                    data: categoryData.map(item => item.total_company ?? 0)
                 };
+            });
+
+            const formattedDates = data.map(item => {
+                const date = new Date(item.created_at);
+                if (!isNaN(date.getTime())) {
+                    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                } else {
+                    console.error("Invalid date format:", item.created_at);
+                    return 'Invalid Date';
+                }
             });
 
             const options = {
@@ -271,7 +281,7 @@
                 },
                 series: series,
                 xaxis: {
-                    categories: data.map(item => item.created_at ?? 'Unknown'),
+                    categories: formattedDates,
                     title: {
                         text: 'Date',
                         style: {
@@ -290,7 +300,7 @@
                     }
                 },
                 title: {
-                    text: 'Unit Category Distribution Over Time',
+                    text: 'Unit Category Distribution',
                     align: 'center',
                     style: {
                         fontSize: '16px',

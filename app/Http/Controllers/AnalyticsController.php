@@ -27,7 +27,7 @@ class AnalyticsController extends Controller
     
     public function getAllocationChart()
     {
-        $data = Unit::select('allocation', DB::raw('SUM(qty) as total_qty'))
+        $data = Unit::select('allocation', DB::raw('COUNT(*) as total_count'))
             ->groupBy('allocation')
             ->get();
     

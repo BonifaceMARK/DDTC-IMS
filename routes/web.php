@@ -72,7 +72,7 @@ Route::get('/api/pmg-chart-data', function () {
 // })->name('api.news');
 
 Route::get('/api/categ-chart-data', function () {
-    $data = \App\Models\Unit::select('company', DB::raw('COUNT(*) as total'))
+    $data = \App\Models\Unit::select('company', DB::raw('COUNT(*) as total_company'))
         ->groupBy('company')
         ->get();
 
