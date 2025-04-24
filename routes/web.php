@@ -48,10 +48,42 @@ Route::get('/stock/edit/{unit_id}', [UnitsIndexController::class, 'edit'])->name
 Route::post('/update-units', [UnitsIndexController::class, 'updateUnits']);
 // Route::post('/file-attachments/store/{unit_id}', [UnitsIndexController::class, 'storeFileAttachment'])->name('file-attachments.store');
 
+// ANALYTICS
+Route::get('/api/allocation-chart-data', [AnalyticsController::class, 'getAllocationChart']);
+Route::get('/Stock/Analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+Route::get('/api/pmg-chart-data', function () {
+    $data = \App\Models\Unit::select('pmg_stats', DB::raw('COUNT(*) as total'))
+        ->groupBy('pmg_stats')
+        ->get();
+
+    return response()->json($data);
+});
+
+// Route::get('/api/news', function () {
+//     $url = 'https://newsapi.org/v2/top-headlines?country=ph&category=business&apiKey=014d72b0e8ae42aeab34e2163a269a83';
+
+//     $response = Http::get($url);
+
+//     if ($response->successful()) {
+//         return response()->json($response->json());
+//     }
+
+//     return response()->json(['error' => 'Unable to fetch news'], 500);
+// })->name('api.news');
+
+Route::get('/api/categ-chart-data', function () {
+    $data = \App\Models\Unit::select('company', DB::raw('COUNT(*) as total'))
+        ->groupBy('company')
+        ->get();
+
+    return response()->json($data);
+});
+
+
 
 // DASHBOARD
-Route::get('/getChartData', [AnalyticsController::class, 'getChartData']);
-Route::get('/dashboard', [AnalyticsController::class, 'dashboard'])->name('dashboard.analytics');
+// Route::get('/getChartData', [AnalyticsController::class, 'getChartData']);
+// Route::get('/dashboard', [AnalyticsController::class, 'dashboard'])->name('dashboard.analytics');
 
 // REMARKS
 Route::get('/units/{unit_id}/remarks', [UnitsController::class, 'remarks'])->name('units.remarks');

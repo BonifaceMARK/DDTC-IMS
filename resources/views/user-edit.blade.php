@@ -62,7 +62,7 @@
                     <td>
                         <select name="role" class="form-select" required>
                             <option value="Admin" {{ old('role', $user->role) == 'Admin' ? 'selected' : '' }}>Admin</option>
-                            <option value="User" {{ old('role', $user->role) == 'User' ? 'selected' : '' }}>User</option>
+                            <option value="Sales" {{ old('role', $user->role) == 'Sales' ? 'selected' : '' }}>Sales</option>
                             <option value="Manager" {{ old('role', $user->role) == 'Manager' ? 'selected' : '' }}>Manager</option>
                             <!-- Add more roles as needed -->
                         </select>

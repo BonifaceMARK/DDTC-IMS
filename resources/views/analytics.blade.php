@@ -1,176 +1,358 @@
 @include('layouts.header')
 
 
-<div class="container-fluid mt-4" style="font-size: 10px;">
-    {{-- <!-- Dashboard Header -->
-    <div class="row mb-4">
-        <div class="col text-center">
-            <h1 class="display-5 text-primary fw-bold">Admin Dashboard</h1>
-            <p class="lead text-muted">Monitor and manage your units effectively</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="card">
+            <div class="card-body" >
+                <div id="barChart" style="height: 100%;"></div>
+            </div>
+            </div>
         </div>
-    </div> --}}
-
-    <!-- Summary Cards -->
-    <div class="row g-4 mb-5">
-        <div class="col-lg-3 col-md-6">
-            <div class="card border-0 shadow">
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Latest News and Updates</h5>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title text-success text-center fw-bold">Total Units</h5>
-                    <p class="card-text text-center fs-1">{{ $totalUnits }}</p>
-                    <i class="bi bi-box-seam d-block text-center fs-2 text-muted"></i>
+                    <ul id="newsList" class="list-group">
+                        <!-- News items will be dynamically loaded here -->
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="card border-0 shadow">
+        <script>
+            fetch('/api/allocation-chart-data')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Chart Data:', data);
+            
+                    const categories = data.map(item => item.allocation ?? 'Unknown');
+                    const seriesData = data.map(item => item.total_count ?? 0);
+                    const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#A133FF', '#33FFF5', '#FFC733', '#FF3333']; // Add unique colors
+            
+                    const options = {
+                        chart: {
+                            type: 'bar',
+                            height: 400,
+                            toolbar: {
+                                show: true
+                            },
+                            animations: {
+                                enabled: true,
+                                easing: 'easeinout',
+                                speed: 800
+                            }
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: true,
+                                barHeight: '70%',
+                                distributed: true // Enable unique colors for each bar
+                            }
+                        },
+                        colors: colors, // Apply the colors array
+                        series: [{
+                            name: 'Quantity',
+                            data: seriesData
+                        }],
+                        xaxis: {
+                            categories: categories,
+                            labels: {
+                                style: {
+                                    fontSize: '10px',
+                                    colors: colors // Match label colors with bars
+                                }
+                            },
+                            title: {
+                                text: 'Allocations',
+                                style: {
+                                    fontSize: '10px',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        yaxis: {
+                            labels: {
+                                style: {
+                                    fontSize: '10px'
+                                }
+                            },
+                            title: {
+                                text: 'Quantity',
+                                style: {
+                                    fontSize: '10px',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        title: {
+                            text: 'Allocation Chart',
+                            align: 'left',
+                            style: {
+                                fontSize: '10px',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        tooltip: {
+                            theme: 'dark',
+                            y: {
+                                formatter: function (val) {
+                                    return val + " units";
+                                }
+                            }
+                        },
+                        legend: {
+                            show: false
+                        }
+                    };
+            
+                    const chart = new ApexCharts(document.querySelector("#barChart"), options);
+                    chart.render();
+                })
+                .catch(error => console.error('Error loading chart data:', error));
+        </script>
+            
+        <div class="col-lg-6 mb-4">
+            <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title text-primary text-center fw-bold">Recent Additions</h5>
-                    <p class="card-text text-center fs-1">{{ $recentAdditions }}</p>
-                    <i class="bi bi-calendar-check d-block text-center fs-2 text-muted"></i>
+                    <div id="categChart"></div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="card border-0 shadow">
+        <div class="col-lg-6 mb-4">
+            <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title text-warning text-center fw-bold">Pulled Units</h5>
-                    <p class="card-text text-center fs-1">{{ $pulledUnits }}</p>
-                    <i class="bi bi-arrow-up-circle d-block text-center fs-2 text-muted"></i>
+                    <div id="pmgChart"></div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="card border-0 shadow">
-                <div class="card-body">
-                    <h5 class="card-title text-danger text-center fw-bold">Critical Issues</h5>
-                    <p class="card-text text-center fs-1">{{ $criticalIssues }}</p>
-                    <i class="bi bi-exclamation-circle d-block text-center fs-2 text-muted"></i>
-                </div>
-            </div>
-        </div>
-    </div>
+  
 
-    {{-- <!-- Recent Units Section -->
-    <div class="row mb-5">
-        <div class="col">
-            <h2 class="text-center">Recent Units</h2>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered shadow rounded">
-                    <thead class="bg-primary text-white">
-                        <tr>
-                            <th>Company</th>
-                            <th>SKU</th>
-                            <th>Category</th>
-                            <th>Serial Number</th>
-                            <th>Date Added</th>
-                            <th>Date Pulled</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($recentUnits as $unit)
-                            <tr>
-                                <td>{{ $unit->company }}</td>
-                                <td>{{ $unit->sku }}</td>
-                                <td>{{ $unit->categ }}</td>
-                                <td>{{ $unit->ser_no }}</td>
-                                <td>{{ $unit->date_add }}</td>
-                                <td>{{ $unit->date_pull }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div> --}}
-
-    <!-- Charts Section -->
-    <div class="row mb-5">
-        {{-- <!-- Bar Chart -->
-        <div class="col-lg-6">
-            <h2 class="text-center">Unit Statistics by Location</h2>
-            <div class="chart-container mx-auto" style="max-width: 100%;">
-                <canvas id="unitChart"></canvas>
-            </div>
-        </div> --}}
-
-        <!-- Pie Chart -->
-        <div class="col-lg-6">
-            {{-- <h2 class="text-center">Unit Distribution by Brand</h2> --}}
-            @if(!empty($chartData['labels']) && !empty($chartData['series']))
-                <div id="pieChart" class="chart-container mx-auto" style="max-width: 100%;"></div>
-            @else
-                <p class="text-center text-muted">No data available to display the chart.</p>
-            @endif
-        </div>
-    </div>
-
-    <!-- Units by Category -->
-    <div class="row mb-5">
-        {{-- <h2 class="text-center mb-4">Units by Category</h2> --}}
-        <div class="row g-4">
-            @foreach($categoryTotals as $category => $total)
-                <div class="col-lg-3 col-md-6">
-                    <div class="card border-0 shadow">
-                        <div class="card-body text-center">
-                            <h5 class="card-title text-primary fw-bold">{{ $category }}</h5>
-                            <p class="card-text">
-                                <span class="badge bg-success">{{ $total }}</span> Units
-                            </p>
-                            <i class="bi bi-box-seam fs-1 text-secondary"></i>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/api/news')
+            .then(response => response.json())
+            .then(data => {
+                const newsList = document.getElementById('newsList');
+                if (newsList) {
+                    data.forEach(newsItem => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'list-group-item';
+                        listItem.textContent = newsItem.title ?? 'No Title Available';
+                        newsList.appendChild(listItem);
+                    });
+                } else {
+                    console.error("News list container not found!");
+                }
+            })
+            .catch(error => console.error('Error loading news data:', error));
+    });
+    </script>
     </div>
 </div>
 
-<script>
-    // Bar Chart for Location Statistics
-    const unitStatistics = @json($unitStatistics);
-    const locationLabels = unitStatistics.map(stat => stat.location);
-    const locationData = unitStatistics.map(stat => stat.total_units);
+   
 
-    const ctx = document.getElementById('unitChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: locationLabels,
-            datasets: [{
-                label: 'Units by Location',
-                data: locationData,
-                backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top'
+    {{-- <!-- Additional Design -->
+    <div id="lineChart" style="flex: 1 1 45%; max-width: 45%; min-width: 300px; margin: auto;"></div>
+    <script>
+        fetch('/api/line-chart-data')
+            .then(response => response.json())
+            .then(data => {
+                const categories = data.map(item => item.date ?? 'Unknown');
+                const seriesData = data.map(item => item.value ?? 0);
+
+                const options = {
+                    chart: {
+                        type: 'line',
+                        height: 400,
+                        toolbar: {
+                            show: true
+                        }
+                    },
+                    series: [{
+                        name: 'Value',
+                        data: seriesData
+                    }],
+                    xaxis: {
+                        categories: categories,
+                        title: {
+                            text: 'Date',
+                            style: {
+                                fontSize: '14px',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'Value',
+                            style: {
+                                fontSize: '14px',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    title: {
+                        text: 'Line Chart Example',
+                        align: 'center',
+                        style: {
+                            fontSize: '16px',
+                            fontWeight: 'bold'
+                        }
+                    }
+                };
+
+                const chart = new ApexCharts(document.querySelector("#lineChart"), options);
+                chart.render();
+            })
+            .catch(error => console.error('Error loading line chart data:', error));
+    </script> --}}
+
+    {{-- <div id="pieChart" style="flex: 1 1 45%; max-width: 45%; min-width: 300px; margin: auto;"></div>
+    <script>
+        fetch('/api/pie-chart-data')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(item => item.label ?? 'Unknown');
+                const seriesData = data.map(item => item.value ?? 0);
+
+                const options = {
+                    chart: {
+                        type: 'pie',
+                        height: 400
+                    },
+                    series: seriesData,
+                    labels: labels,
+                    title: {
+                        text: 'Pie Chart Example',
+                        align: 'center',
+                        style: {
+                            fontSize: '16px',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (val) {
+                                return val + " units";
+                            }
+                        }
+                    }
+                };
+
+                const chart = new ApexCharts(document.querySelector("#pieChart"), options);
+                chart.render();
+            })
+            .catch(error => console.error('Error loading pie chart data:', error));
+    </script> --}}
+    <script>
+    fetch('/api/categ-chart-data')
+        .then(response => response.json())
+        .then(data => {
+            const categories = [...new Set(data.map(item => item.company ?? 'Unknown'))];
+            const series = categories.map(category => {
+                const categoryData = data.filter(item => item.company === category);
+                return {
+                    name: category,
+                    data: categoryData.map(item => item.total ?? 0)
+                };
+            });
+
+            const options = {
+                chart: {
+                    type: 'line',
+                    height: 400,
+                    toolbar: {
+                        show: true
+                    }
+                },
+                series: series,
+                xaxis: {
+                    categories: data.map(item => item.created_at ?? 'Unknown'),
+                    title: {
+                        text: 'Date',
+                        style: {
+                            fontSize: '14px',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Total Units',
+                        style: {
+                            fontSize: '14px',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                title: {
+                    text: 'Unit Category Distribution Over Time',
+                    align: 'center',
+                    style: {
+                        fontSize: '16px',
+                        fontWeight: 'bold'
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            return val + " units";
+                        }
+                    }
                 }
-            }
-        }
-    });
+            };
 
-    // Pie Chart for Brand Distribution
-    document.addEventListener('DOMContentLoaded', function () {
-        const chartData = @json($chartData);
+            const chartElement = document.querySelector("#categChart");
+            if (chartElement) {
+                const chart = new ApexCharts(chartElement, options);
+                chart.render();
+            } else {
+                console.error("Chart container not found!");
+            }
+        })
+        .catch(error => console.error('Error loading Categ chart data:', error));
+    </script>
+
+<script>
+fetch('/api/pmg-chart-data')
+    .then(response => response.json())
+    .then(data => {
+        const labels = data.map(item => item.pmg_stats ?? 'Unknown');
+        const seriesData = data.map(item => item.total ?? 0);
+
         const options = {
             chart: {
-                type: 'pie'
+                type: 'donut',
+                height: 400
             },
-            series: chartData.series.length ? chartData.series : [0],
-            labels: chartData.labels.length ? chartData.labels : ['No Data'],
+            series: seriesData,
+            labels: labels,
             title: {
-                text: 'Unit Distribution by Brand'
+                text: 'PMG Stats Distribution',
+                align: 'center'
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return val + " units";
+                    }
+                }
             }
         };
 
-        new ApexCharts(document.querySelector("#pieChart"), options).render();
-    });
+        const chartElement = document.querySelector("#pmgChart");
+        if (chartElement) {
+            const chart = new ApexCharts(chartElement, options);
+            chart.render();
+        } else {
+            console.error("Chart container not found!");
+        }
+    })
+    .catch(error => console.error('Error loading PMG chart data:', error));
 </script>
-
-@include('layouts.footer')
+    
 @include('layouts.script')

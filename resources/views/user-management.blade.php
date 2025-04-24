@@ -121,7 +121,7 @@
     });
 </script>
 @include('layouts.script')
-@include('layouts.footer')
+{{-- @include('layouts.footer') --}}
 
     
 </body>

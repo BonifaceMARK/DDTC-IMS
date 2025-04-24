@@ -5,28 +5,37 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Unit;
+use Illuminate\Support\Facades\DB;
 class AnalyticsController extends Controller
 {
-    public function getChartData()
+    // public function getChartData()
+    // {
+    //     // Fetching all units and grouping the data
+    //     $units = Unit::select('company', 'input_by', 'pmg_stats', 'sales_stats', 'allocation')->get();
+    
+    //     // Group and count data for charts
+    //     $chartData = [
+    //         'companies' => $units->groupBy('company')->map->count(),
+    //         'unitStatus' => $units->groupBy('input_by')->map->count(),
+    //         'pmgStats' => $units->groupBy('pmg_stats')->map->count(),
+    //         'salesStats' => $units->groupBy('sales_stats')->map->count(),
+    //         'allocations' => $units->groupBy('allocation')->map->count(),
+    //     ];
+    
+    //     return response()->json($chartData);
+    // }
+    
+    public function getAllocationChart()
     {
-        // Fetching all units and grouping the data
-        $units = Unit::select('company', 'input_by', 'pmg_stats', 'sales_stats', 'allocation')->get();
+        $data = Unit::select('allocation', DB::raw('SUM(qty) as total_qty'))
+            ->groupBy('allocation')
+            ->get();
     
-        // Group and count data for charts
-        $chartData = [
-            'companies' => $units->groupBy('company')->map->count(),
-            'unitStatus' => $units->groupBy('input_by')->map->count(),
-            'pmgStats' => $units->groupBy('pmg_stats')->map->count(),
-            'salesStats' => $units->groupBy('sales_stats')->map->count(),
-            'allocations' => $units->groupBy('allocation')->map->count(),
-        ];
-    
-        return response()->json($chartData);
+        return response()->json($data);
     }
     
-
-public function dashboard()
-{
-    return view('dashboard');
-}
+    public function index()
+    {
+        return view('analytics');
+    }
 }
