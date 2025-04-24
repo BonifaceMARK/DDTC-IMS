@@ -135,7 +135,7 @@
     </a>
     @endif
       @endauth --}}
-      <a 
+      {{-- <a 
       onclick="loadIframe('{{ route('analytics.index') }}')" 
       class="btn mx-2 animated-link" 
       style="font-size: 12px; color: black; text-decoration: none; padding: 5px 10px; transition: color 0.3s, background-color 0.3s;"
@@ -143,7 +143,7 @@
       onmouseout="this.style.color='black'; this.style.backgroundColor='transparent';"
     >
     <i class="bi bi-graph-up"></i> Dashboard
-    </a>
+    </a> --}}
     </nav>
   </div>
 </footer>
