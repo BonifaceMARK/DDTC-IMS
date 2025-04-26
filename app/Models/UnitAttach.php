@@ -26,13 +26,13 @@ class UnitAttach extends Model
     {
         return $this->belongsTo(Unit::class, 'unit_id', 'unit_id');
     }
-    protected static function boot()
-{
-    parent::boot();
+//     protected static function boot()
+// {
+//     parent::boot();
 
-    static::creating(function ($unit) {
-        $unit->unit_id = $unit->unit_id ?? 'UID-' . Str::uuid();
-    });
-}
+//     static::creating(function ($unit) {
+//         $unit->unit_id = $unit->unit_id ?? 'UID-' . Str::uuid();
+//     });
+// }
 
 }

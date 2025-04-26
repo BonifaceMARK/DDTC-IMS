@@ -675,7 +675,7 @@ onmouseout="this.style.backgroundColor=''; this.style.boxShadow='0 2px 5px rgba(
     }
 </script>
 @include('layouts.tableScript')
-@include('layouts.filterscript')
+@include('layouts.filterScript')
 @include('layouts.script')
 @include('layouts.scriptStock')
 </body>

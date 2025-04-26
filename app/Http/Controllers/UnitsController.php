@@ -352,7 +352,7 @@ class UnitsController extends Controller
         }
 
         // Store the file
-        $fileName = time() . '_' . $file->getClientOriginalName();
+        $fileName = $unit_id . '_' . now()->format('Y-m-d') . '_' . $file->getClientOriginalName();
         $filePath = $file->storeAs('attachments', $fileName, 'public');
 
         \Log::info('File stored successfully.', [
